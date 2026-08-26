@@ -23,7 +23,7 @@ import java.util.List;
 @SuperBuilder
 public class Reading extends AggregateRoot {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -48,11 +48,11 @@ public class Reading extends AggregateRoot {
     @Builder.Default
     private List<DrawnCard> drawnCards = new ArrayList<>();
 
-    @Setter // ✅ Cho phép cập nhật bài luận giải AI sinh ra mà không cần viết hàm thủ công
+    @Setter
     @Column(name = "initial_reading", columnDefinition = "TEXT")
     private String initialReading;
 
-    @OneToMany(mappedBy = "reading", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "reading", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("createdAt ASC")
     @Builder.Default
     private List<ChatMessage> chatMessages = new ArrayList<>();

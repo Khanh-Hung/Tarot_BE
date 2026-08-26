@@ -14,11 +14,11 @@ import tarot.domain.common.BaseEntity;
 @SuperBuilder
 public class DrawnCard extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "reading_id", nullable = false)
     private Reading reading;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "card_id", nullable = false)
     private Card card;
 

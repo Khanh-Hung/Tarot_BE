@@ -15,7 +15,7 @@ import tarot.domain.enums.MessageSender;
 @SuperBuilder
 public class ChatMessage extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "reading_id", nullable = false)
     private Reading reading;
 

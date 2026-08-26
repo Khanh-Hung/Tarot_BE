@@ -93,3 +93,7 @@ application-local.yml
 application-local.properties
 application-secret.yml
 application-secret.properties
+application-dev.yml
+application-dev.properties
+application-prod.yml
+application-prod.properties

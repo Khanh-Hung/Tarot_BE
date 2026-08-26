@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres?sslmode=require
+    username: YOUR_DATABASE_USERNAME
+    password: YOUR_DATABASE_PASSWORD
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update # Tự động tạo bảng/cột trên Supabase
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# Logging chi tiết khi debug local
+logging:
+  level:
+    tarot: DEBUG
+    org.hibernate.SQL: DEBUG

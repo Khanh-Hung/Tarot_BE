@@ -10,7 +10,7 @@ import tarot.domain.enums.ZodiacSign;
 
 @Entity
 @Table(name = "users")
-@SoftDelete // 🔥 Hibernate 6: Tự động đổi DELETE thành UPDATE is_deleted=true và lọc tự động
+@SoftDelete
 @Getter
 @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -40,4 +40,42 @@ public class User extends BaseEntity {
     @Column(name = "is_active", nullable = false)
     @Builder.Default
     private boolean isActive = true;
+
+    // --- DOMAIN FACTORY METHOD ---
+
+    public static User create(String email, String passwordHash, String fullName, ZodiacSign zodiacSign) {
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email cannot be blank");
+        }
+        if (passwordHash == null || passwordHash.isBlank()) {
+            throw new IllegalArgumentException("Password hash cannot be blank");
+        }
+
+        return User.builder()
+                .email(email.trim().toLowerCase())
+                .passwordHash(passwordHash)
+                .fullName((fullName != null && !fullName.isBlank()) ? fullName.trim() : "Oracle Seeker")
+                .zodiacSign(zodiacSign != null ? zodiacSign : ZodiacSign.UNKNOWN)
+                .role(UserRole.USER)
+                .isActive(true)
+                .build();
+    }
+
+    // --- DOMAIN BUSINESS METHODS ---
+
+    public void updateProfile(String fullName, ZodiacSign zodiacSign) {
+        if (fullName != null && !fullName.isBlank()) {
+            this.fullName = fullName.trim();
+        }
+        if (zodiacSign != null) {
+            this.zodiacSign = zodiacSign;
+        }
+    }
+
+    public void changePassword(String newPasswordHash) {
+        if (newPasswordHash == null || newPasswordHash.isBlank()) {
+            throw new IllegalArgumentException("New password hash cannot be blank");
+        }
+        this.passwordHash = newPasswordHash;
+    }
 }

@@ -44,6 +44,31 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
+        <!-- 3.1 Spring Security (Authentication & Authorization) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- 3.2 JJWT (JSON Web Token 0.12.6) -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.12.6</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.12.6</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.12.6</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- 4. Swagger UI / OpenAPI 3 (Giao diện test web trực quan) -->
         <dependency>
             <groupId>org.springdoc</groupId>

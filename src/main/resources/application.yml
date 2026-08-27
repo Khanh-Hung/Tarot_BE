@@ -5,7 +5,14 @@ spring:
   application:
     name: oracle-tarot-service
   profiles:
-    active: dev # Mặc định kích hoạt profile dev khi chạy local
+    active: dev
+
+# Cấu hình Bảo mật JWT
+application:
+  security:
+    jwt:
+      secret-key: oracle-tarot-super-secret-key-256-bits-minimum-required-for-hmac-sha-algorithm-security
+      expiration-ms: 604800000
 
 # Swagger OpenAPI Documentation
 springdoc:

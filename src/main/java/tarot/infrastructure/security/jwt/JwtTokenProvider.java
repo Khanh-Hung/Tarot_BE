@@ -19,9 +19,16 @@ public class JwtTokenProvider {
     private final long expirationMs;
 
     public JwtTokenProvider(
-            @Value("${application.security.jwt.secret-key:oracle-tarot-super-secret-key-256-bits-minimum-required-for-hmac-sha-algorithm-security}") String secretKey,
-            @Value("${application.security.jwt.expiration-ms:604800000}") long expirationMs // 7 days default
+            @Value("${application.security.jwt.secret-key}") String secretKey,
+            @Value("${application.security.jwt.expiration-ms}") long expirationMs
     ) {
+        if (secretKey == null || secretKey.trim().length() < 32) {
+            throw new IllegalArgumentException("JWT Secret Key must be at least 256 bits (32 characters) long for HMAC-SHA security!");
+        }
+        if (expirationMs <= 0) {
+            throw new IllegalArgumentException("JWT Expiration time must be greater than 0 ms!");
+        }
+
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
         this.expirationMs = expirationMs;
     }
@@ -33,7 +40,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .subject(user.getEmail())
                 .claim("userId", user.getId())
-                .claim("fullName", user.getFullName())
+                .claim("username", user.getUsername())
                 .claim("role", user.getRole().name())
                 .claim("zodiacSign", user.getZodiacSign().name())
                 .issuedAt(now)

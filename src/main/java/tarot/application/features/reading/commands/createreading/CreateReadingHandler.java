@@ -9,6 +9,7 @@ import tarot.domain.entities.Card;
 import tarot.domain.entities.Reading;
 import tarot.domain.entities.User;
 import tarot.domain.enums.DeckCode;
+import tarot.domain.enums.ZodiacSign;
 import tarot.infrastructure.ai.AiConsultationService;
 import tarot.infrastructure.persistence.repositories.CardRepository;
 import tarot.infrastructure.persistence.repositories.ReadingRepository;
@@ -33,7 +34,16 @@ public class CreateReadingHandler {
             return Result.failure(new Error("USER_NOT_FOUND", "User not found with ID: " + command.userId()));
         }
 
-        // 2. Query available cards
+        // 2. Kiểm tra & Tự động lưu Cung hoàng đạo nếu User chưa có
+        if (user.getZodiacSign() == ZodiacSign.UNKNOWN) {
+            if (command.zodiacSign() == null || command.zodiacSign() == ZodiacSign.UNKNOWN) {
+                return Result.failure(new Error("ZODIAC_REQUIRED", "Please select your zodiac sign to enhance reading accuracy."));
+            }
+            user.updateProfile(user.getUsername(), command.zodiacSign());
+            userRepository.save(user);
+        }
+
+        // 3. Query available cards
         DeckCode deckCode = (command.deckCode() != null) ? command.deckCode() : DeckCode.RIDER_WAITE_CLASSIC;
         List<Card> allCards = cardRepository.findByDeckCode(deckCode);
         if (allCards.isEmpty()) {
@@ -43,11 +53,11 @@ public class CreateReadingHandler {
             return Result.failure(new Error("CARDS_EMPTY", "Card repository is empty. Please seed cards data."));
         }
 
-        // 3. Domain Logic: Create Aggregate Root & Draw Cards
+        // 4. Domain Logic: Create Aggregate Root & Draw Cards
         Reading reading = Reading.create(user, command.userQuestion(), command.topic(), command.spreadType(), deckCode);
         reading.drawCards(allCards);
 
-        // 4. Infrastructure: AI Consultation
+        // 5. Infrastructure: AI Consultation
         String aiMarkdown = aiService.generateInitialReading(
             user,
             reading.getUserQuestion(),
@@ -57,7 +67,7 @@ public class CreateReadingHandler {
         );
         reading.attachInitialReading(aiMarkdown);
 
-        // 5. Persistence & Output Mapping
+        // 6. Persistence & Output Mapping
         Reading saved = readingRepository.save(reading);
         return Result.success(CreateReadingResponse.fromEntity(saved));
     }

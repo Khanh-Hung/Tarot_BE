@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import tarot.domain.enums.DeckCode;
 import tarot.domain.enums.SpreadType;
 import tarot.domain.enums.Topic;
+import tarot.domain.enums.ZodiacSign;
 
 public record CreateReadingCommand(
     @NotNull(message = "User ID is required")
@@ -15,6 +16,8 @@ public record CreateReadingCommand(
 
     @NotNull(message = "Topic is required")
     Topic topic,
+
+    ZodiacSign zodiacSign,
 
     SpreadType spreadType,
     DeckCode deckCode

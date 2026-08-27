@@ -11,6 +11,7 @@ import tarot.domain.entities.User;
 import tarot.domain.enums.DeckCode;
 import tarot.domain.enums.ZodiacSign;
 import tarot.infrastructure.ai.AiConsultationService;
+import tarot.infrastructure.ai.core.AiReadingResult;
 import tarot.infrastructure.persistence.repositories.CardRepository;
 import tarot.infrastructure.persistence.repositories.ReadingRepository;
 import tarot.infrastructure.persistence.repositories.UserRepository;
@@ -54,18 +55,19 @@ public class CreateReadingHandler {
         }
 
         // 4. Domain Logic: Create Aggregate Root & Draw Cards
-        Reading reading = Reading.create(user, command.userQuestion(), command.topic(), command.spreadType(), deckCode);
+        Reading reading = Reading.create(user, command.userQuestion(), null, command.spreadType(), deckCode);
         reading.drawCards(allCards);
 
-        // 5. Infrastructure: AI Consultation
-        String aiMarkdown = aiService.generateInitialReading(
+        // 5. Infrastructure: AI Consultation (AI tự phân tích Topic & Sinh bản luận giải)
+        AiReadingResult aiResult = aiService.generateInitialReading(
             user,
             reading.getUserQuestion(),
-            reading.getTopic(),
             reading.getSpreadType(),
             reading.getDrawnCards()
         );
-        reading.attachInitialReading(aiMarkdown);
+
+        reading.updateTopic(aiResult.detectedTopic());
+        reading.attachInitialReading(aiResult.markdownContent());
 
         // 6. Persistence & Output Mapping
         Reading saved = readingRepository.save(reading);

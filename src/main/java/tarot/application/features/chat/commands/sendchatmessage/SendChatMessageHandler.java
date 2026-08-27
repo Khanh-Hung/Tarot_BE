@@ -7,6 +7,7 @@ import tarot.application.common.result.Error;
 import tarot.application.common.result.Result;
 import tarot.domain.entities.ChatMessage;
 import tarot.domain.entities.Reading;
+import tarot.domain.enums.MessageSender;
 import tarot.infrastructure.ai.AiConsultationService;
 import tarot.infrastructure.persistence.repositories.ChatMessageRepository;
 import tarot.infrastructure.persistence.repositories.ReadingRepository;
@@ -28,21 +29,33 @@ public class SendChatMessageHandler {
             return Result.failure(new Error("READING_NOT_FOUND", "Reading session not found with ID: " + readingId));
         }
 
-        reading.addUserMessage(command.message());
+        // 1. Lưu tin nhắn của User
+        ChatMessage userMsg = ChatMessage.builder()
+                .reading(reading)
+                .sender(MessageSender.USER)
+                .content(command.message())
+                .build();
+        chatMessageRepository.save(userMsg);
 
+        // 2. Lấy lịch sử chat hiện tại
+        List<ChatMessage> history = chatMessageRepository.findByReadingIdOrderByCreatedAtAsc(readingId);
+
+        // 3. Gọi AI Reader
         String aiReply = aiService.generateChatReply(
             reading.getUserQuestion(),
             reading.getDrawnCards(),
-            reading.getChatMessages(),
+            history,
             command.message()
         );
 
-        reading.addAiReply(aiReply);
-        readingRepository.save(reading);
+        // 4. Lưu tin nhắn của AI Reader
+        ChatMessage aiMsg = ChatMessage.builder()
+                .reading(reading)
+                .sender(MessageSender.AI_READER)
+                .content(aiReply)
+                .build();
+        ChatMessage savedAiMsg = chatMessageRepository.save(aiMsg);
 
-        List<ChatMessage> messages = chatMessageRepository.findByReadingIdOrderByCreatedAtAsc(readingId);
-        ChatMessage lastAiMsg = messages.isEmpty() ? null : messages.getLast();
-
-        return Result.success(ChatMessageDto.fromEntity(lastAiMsg));
+        return Result.success(ChatMessageDto.fromEntity(savedAiMsg));
     }
 }

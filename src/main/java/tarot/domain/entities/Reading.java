@@ -53,7 +53,7 @@ public class Reading extends AggregateRoot {
     @Column(name = "initial_reading", columnDefinition = "TEXT")
     private String initialReading;
 
-    @OneToMany(mappedBy = "reading", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "reading", cascade = CascadeType.ALL)
     @OrderBy("createdAt ASC")
     @Builder.Default
     private List<ChatMessage> chatMessages = new ArrayList<>();
@@ -77,6 +77,12 @@ public class Reading extends AggregateRoot {
     }
 
     // --- DOMAIN BUSINESS METHODS ---
+
+    public void updateTopic(Topic newTopic) {
+        if (newTopic != null) {
+            this.topic = newTopic;
+        }
+    }
 
     public void drawCards(List<Card> availableCards) {
         int requiredCards = (this.spreadType == SpreadType.DAILY_ORACLE) ? 1 : 3;

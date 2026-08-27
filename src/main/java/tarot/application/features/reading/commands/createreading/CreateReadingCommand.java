@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import tarot.domain.enums.DeckCode;
 import tarot.domain.enums.SpreadType;
-import tarot.domain.enums.Topic;
 import tarot.domain.enums.ZodiacSign;
 
 public record CreateReadingCommand(
@@ -14,11 +13,7 @@ public record CreateReadingCommand(
     @NotBlank(message = "Question cannot be blank")
     String userQuestion,
 
-    @NotNull(message = "Topic is required")
-    Topic topic,
-
     ZodiacSign zodiacSign,
-
     SpreadType spreadType,
     DeckCode deckCode
 ) {}

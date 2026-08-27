@@ -1,0 +1,782 @@
+[
+  {
+    "nameEn": "The Fool",
+    "nameVi": "Chàng Khờ",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Khởi đầu mới, tự do, ngây thơ, phiêu lưu, niềm tin",
+    "imageUrl": "/cards/rws/m00.jpg",
+    "uprightMeaning": "New beginnings, spontaneity, innocence, leap of faith, free spirit.",
+    "reversedMeaning": "Recklessness, hesitation, naivety, poor judgment, fear of change."
+  },
+  {
+    "nameEn": "The Magician",
+    "nameVi": "Nhà Ảo Thuật",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Tập trung, ý chí, nguồn lực, sáng tạo, hành động",
+    "imageUrl": "/cards/rws/m01.jpg",
+    "uprightMeaning": "Manifestation, willpower, resourcefulness, skill, focused action.",
+    "reversedMeaning": "Manipulation, untapped talent, scattered energy, trickery, illusion."
+  },
+  {
+    "nameEn": "The High Priestess",
+    "nameVi": "Nữ Tư Tế",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Trực giác, bí ẩn, tiềm thức, tĩnh lặng, thông thái",
+    "imageUrl": "/cards/rws/m02.jpg",
+    "uprightMeaning": "Intuition, inner wisdom, mystery, the subconscious, stillness.",
+    "reversedMeaning": "Ignored intuition, secrets, disconnection from self, hidden agendas, surface knowledge."
+  },
+  {
+    "nameEn": "The Empress",
+    "nameVi": "Hoàng Hậu",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Nuôi dưỡng, dồi dào, sinh sôi, tình mẫu tử, trù phú",
+    "imageUrl": "/cards/rws/m03.jpg",
+    "uprightMeaning": "Abundance, nurturing, fertility, creativity, sensuality.",
+    "reversedMeaning": "Creative block, smothering, self-neglect, dependence, stagnation."
+  },
+  {
+    "nameEn": "The Emperor",
+    "nameVi": "Hoàng Đế",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Quyền lực, kỷ luật, cấu trúc, vững chãi, lãnh đạo",
+    "imageUrl": "/cards/rws/m04.jpg",
+    "uprightMeaning": "Structure, authority, stability, leadership, discipline.",
+    "reversedMeaning": "Rigidity, control issues, domination, lack of discipline, abuse of power."
+  },
+  {
+    "nameEn": "The Hierophant",
+    "nameVi": "Giáo Hoàng",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Truyền thống, học vấn, tâm linh, cố vấn, niềm tin",
+    "imageUrl": "/cards/rws/m05.jpg",
+    "uprightMeaning": "Tradition, guidance, shared values, institutions, mentorship.",
+    "reversedMeaning": "Rebellion, questioning convention, restriction, dogma, breaking rules."
+  },
+  {
+    "nameEn": "The Lovers",
+    "nameVi": "Đôi Tình Nhân",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Tình yêu, hòa hợp, lựa chọn từ con tim, đồng điệu",
+    "imageUrl": "/cards/rws/m06.jpg",
+    "uprightMeaning": "Love, union, alignment, meaningful choice, harmony.",
+    "reversedMeaning": "Disharmony, misalignment, avoidance of choice, temptation, imbalance."
+  },
+  {
+    "nameEn": "The Chariot",
+    "nameVi": "Cỗ Xe Chiến Thắng",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Quyết tâm, ý chí, vượt qua thử thách, chiến thắng",
+    "imageUrl": "/cards/rws/m07.jpg",
+    "uprightMeaning": "Determination, victory, willpower, self-control, momentum.",
+    "reversedMeaning": "Lack of direction, aggression, obstacles, scattered forces, loss of control."
+  },
+  {
+    "nameEn": "Strength",
+    "nameVi": "Sức Mạnh",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Lòng can đảm, kiên nhẫn, lòng trắc ẩn, nội lực mềm",
+    "imageUrl": "/cards/rws/m08.jpg",
+    "uprightMeaning": "Courage, inner strength, patience, compassion, gentle power.",
+    "reversedMeaning": "Self-doubt, raw emotion, impatience, insecurity, forcing."
+  },
+  {
+    "nameEn": "The Hermit",
+    "nameVi": "Ẩn Sĩ",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Tự vấn, chiêm nghiệm, soi sáng, tìm kiếm chân lý",
+    "imageUrl": "/cards/rws/m09.jpg",
+    "uprightMeaning": "Introspection, solitude, inner guidance, wisdom, searching.",
+    "reversedMeaning": "Isolation, loneliness, withdrawal, lost direction, avoidance."
+  },
+  {
+    "nameEn": "Wheel of Fortune",
+    "nameVi": "Vòng Xoay Vận Mệnh",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Vận may, chu kỳ, định mệnh, bước ngoặt thay đổi",
+    "imageUrl": "/cards/rws/m10.jpg",
+    "uprightMeaning": "Change, cycles, destiny, turning point, luck.",
+    "reversedMeaning": "Resistance to change, bad luck, repeating cycles, setbacks, clinging."
+  },
+  {
+    "nameEn": "Justice",
+    "nameVi": "Công Lý",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Công bằng, sự thật, nhân quả, quyết định minh bạch",
+    "imageUrl": "/cards/rws/m11.jpg",
+    "uprightMeaning": "Fairness, truth, accountability, cause and effect, clarity.",
+    "reversedMeaning": "Unfairness, dishonesty, avoiding accountability, bias, imbalance."
+  },
+  {
+    "nameEn": "The Hanged Man",
+    "nameVi": "Kẻ Bị Treo",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Góc nhìn mới, buông bỏ, dừng lại, kiên nhẫn",
+    "imageUrl": "/cards/rws/m12.jpg",
+    "uprightMeaning": "Surrender, new perspective, pause, letting go, suspension.",
+    "reversedMeaning": "Stalling, resistance, martyrdom, indecision, wasted sacrifice."
+  },
+  {
+    "nameEn": "Death",
+    "nameVi": "Cái Chết (Tái Sinh)",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Kết thúc, biến đổi, tái sinh, buông bỏ quá khứ",
+    "imageUrl": "/cards/rws/m13.jpg",
+    "uprightMeaning": "Endings, transformation, transition, release, renewal.",
+    "reversedMeaning": "Resistance to endings, stagnation, fear of change, holding on, incomplete closure."
+  },
+  {
+    "nameEn": "Temperance",
+    "nameVi": "Điều Độ",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Cân bằng, hòa hợp, kiên nhẫn, chữa lành, dung hòa",
+    "imageUrl": "/cards/rws/m14.jpg",
+    "uprightMeaning": "Balance, moderation, patience, blending, healing.",
+    "reversedMeaning": "Excess, imbalance, impatience, friction, overcorrection."
+  },
+  {
+    "nameEn": "The Devil",
+    "nameVi": "Ác Quỷ",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Ràng buộc, cám dỗ, vật chất, ảo tưởng, chấp niệm",
+    "imageUrl": "/cards/rws/m15.jpg",
+    "uprightMeaning": "Attachment, temptation, unhealthy patterns, materialism, feeling trapped.",
+    "reversedMeaning": "Breaking free, reclaiming power, awareness, release, recovery."
+  },
+  {
+    "nameEn": "The Tower",
+    "nameVi": "Tòa Tháp",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Sụp đổ bất ngờ, thức tỉnh, phá vỡ ảo tưởng, tái thiết",
+    "imageUrl": "/cards/rws/m16.jpg",
+    "uprightMeaning": "Sudden upheaval, revelation, collapse of the false, disruption, awakening.",
+    "reversedMeaning": "Averted disaster, fear of change, delayed collapse, resisting the inevitable, internal upheaval."
+  },
+  {
+    "nameEn": "The Star",
+    "nameVi": "Ngôi Sao Hy Vọng",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Hy vọng, niềm tin, cảm hứng, chữa lành, bình an",
+    "imageUrl": "/cards/rws/m17.jpg",
+    "uprightMeaning": "Hope, renewal, healing, inspiration, faith.",
+    "reversedMeaning": "Discouragement, lost faith, disconnection, self-doubt, dimmed hope."
+  },
+  {
+    "nameEn": "The Moon",
+    "nameVi": "Mặt Trăng",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Ảo tưởng, nỗi sợ tiềm thức, bí ẩn, trực giác mơ hồ",
+    "imageUrl": "/cards/rws/m18.jpg",
+    "uprightMeaning": "Illusion, intuition, uncertainty, the subconscious, dreams.",
+    "reversedMeaning": "Clarity emerging, released fear, truth surfacing, confusion lifting, self-deception ending."
+  },
+  {
+    "nameEn": "The Sun",
+    "nameVi": "Mặt Trời",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Niềm vui, thành công, rực rỡ, sức sống, tích cực",
+    "imageUrl": "/cards/rws/m19.jpg",
+    "uprightMeaning": "Joy, success, vitality, clarity, confidence.",
+    "reversedMeaning": "Dimmed joy, temporary setbacks, pessimism, burnout, delayed success."
+  },
+  {
+    "nameEn": "Judgement",
+    "nameVi": "Sự Phán Xét",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Thức tỉnh, tiếng gọi định mệnh, tha thứ, bước ngoặt",
+    "imageUrl": "/cards/rws/m20.jpg",
+    "uprightMeaning": "Awakening, reckoning, renewal, calling, self-evaluation.",
+    "reversedMeaning": "Self-criticism, ignoring the call, stuck in the past, harsh judgment, avoidance."
+  },
+  {
+    "nameEn": "The World",
+    "nameVi": "Thế Giới",
+    "arcanaType": "MAJOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Viên mãn, hoàn thành, trọn vẹn, thành tựu lớn",
+    "imageUrl": "/cards/rws/m21.jpg",
+    "uprightMeaning": "Completion, fulfillment, wholeness, achievement, integration.",
+    "reversedMeaning": "Incompletion, loose ends, delayed closure, shortcuts, unfinished business."
+  },
+  {
+    "nameEn": "Ace of Cups",
+    "nameVi": "Ách Ly (Ace of Cups)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Tình yêu đong đầy, cảm xúc dâng trào, trực giác sâu sắc, lòng trắc ẩn",
+    "imageUrl": "/cards/rws/c01.jpg",
+    "uprightMeaning": "New love, emotional beginning, compassion, overflowing heart, spiritual opening.",
+    "reversedMeaning": "Blocked emotions, emptiness, repressed feelings, emotional loss, self-love needed."
+  },
+  {
+    "nameEn": "Two of Cups",
+    "nameVi": "2 Ly",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Đồng điệu tâm hồn, tình yêu đôi lứa, hợp tác hòa hợp, kết nối chân thành",
+    "imageUrl": "/cards/rws/c02.jpg",
+    "uprightMeaning": "Partnership, mutual attraction, connection, harmony, union of equals.",
+    "reversedMeaning": "Imbalance, broken connection, tension, miscommunication, self-partnership needed."
+  },
+  {
+    "nameEn": "Three of Cups",
+    "nameVi": "3 Ly",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Tình bạn, tiệc tùng, chung vui, gắn kết hội nhóm thân thiết",
+    "imageUrl": "/cards/rws/c03.jpg",
+    "uprightMeaning": "Celebration, friendship, community, joy shared, creative collaboration.",
+    "reversedMeaning": "Overindulgence, third-party interference, isolation from friends, gossip, excess."
+  },
+  {
+    "nameEn": "Four of Cups",
+    "nameVi": "4 Ly",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Chán chường, thờ ơ, bỏ lỡ cơ hội, thu mình vào nội tâm",
+    "imageUrl": "/cards/rws/c04.jpg",
+    "uprightMeaning": "Apathy, contemplation, disconnection, missed offer, reevaluation.",
+    "reversedMeaning": "Renewed interest, accepting the offer, emerging from withdrawal, new motivation, openness."
+  },
+  {
+    "nameEn": "Five of Cups",
+    "nameVi": "5 Ly",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Nuối tiếc, đau buồn vì mất mát, vẫn còn cơ hội phía trước",
+    "imageUrl": "/cards/rws/c05.jpg",
+    "uprightMeaning": "Loss, grief, regret, focusing on what's gone, disappointment.",
+    "reversedMeaning": "Acceptance, moving on, forgiveness, seeing what remains, healing."
+  },
+  {
+    "nameEn": "Six of Cups",
+    "nameVi": "6 Ly",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Kỷ niệm xưa, sự hồn nhiên, tương phùng người cũ, hoài niệm ấm áp",
+    "imageUrl": "/cards/rws/c06.jpg",
+    "uprightMeaning": "Nostalgia, childhood, innocence, reunion, simple kindness.",
+    "reversedMeaning": "Stuck in the past, rose-tinted memory, leaving home, growing up, releasing old ties."
+  },
+  {
+    "nameEn": "Seven of Cups",
+    "nameVi": "7 Ly",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Nhiều lựa chọn, mộng tưởng, ảo ảnh, cần thực tế tỉnh táo",
+    "imageUrl": "/cards/rws/c07.jpg",
+    "uprightMeaning": "Choices, fantasy, illusion, wishful thinking, options.",
+    "reversedMeaning": "Clarity, decision made, cutting through illusion, overwhelm ending, realism."
+  },
+  {
+    "nameEn": "Eight of Cups",
+    "nameVi": "8 Ly",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Rời bỏ cái cũ, hành trình đi tìm ý nghĩa sâu sắc hơn, buông bỏ",
+    "imageUrl": "/cards/rws/c08.jpg",
+    "uprightMeaning": "Walking away, seeking deeper meaning, leaving behind, disillusionment, quest.",
+    "reversedMeaning": "Fear of leaving, returning, avoidance, staying too long, unfinished departure."
+  },
+  {
+    "nameEn": "Nine of Cups",
+    "nameVi": "9 Ly",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Lá bài ước nguyện, thỏa mãn cảm xúc, sung túc, toại nguyện",
+    "imageUrl": "/cards/rws/c09.jpg",
+    "uprightMeaning": "Wishes fulfilled, contentment, satisfaction, pleasure, gratitude.",
+    "reversedMeaning": "Superficial happiness, greed, unfulfilled wishes, smugness, inner lack."
+  },
+  {
+    "nameEn": "Ten of Cups",
+    "nameVi": "10 Ly",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Hạnh phúc trọn vẹn, gia đình êm ấm, tình cảm viên mãn lâu dài",
+    "imageUrl": "/cards/rws/c10.jpg",
+    "uprightMeaning": "Lasting happiness, family harmony, emotional fulfillment, love realized, belonging.",
+    "reversedMeaning": "Family discord, broken harmony, unrealistic ideals, disconnection at home, strained bonds."
+  },
+  {
+    "nameEn": "Page of Cups",
+    "nameVi": "Tiểu Đồng Ly (Page of Cups)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Thông điệp cảm xúc, sự nhạy cảm, ngây thơ, trực giác chớm nở",
+    "imageUrl": "/cards/rws/c11.jpg",
+    "uprightMeaning": "Emotional openness, creative message, intuition budding, sensitivity, sweet surprise.",
+    "reversedMeaning": "Emotional immaturity, moodiness, blocked creativity, escapism, oversensitivity."
+  },
+  {
+    "nameEn": "Knight of Cups",
+    "nameVi": "Hiệp Sĩ Ly (Knight of Cups)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Lãng mạn, chàng bạch mã hoàng tử, lời tỏ tình, theo đuổi đam mê",
+    "imageUrl": "/cards/rws/c12.jpg",
+    "uprightMeaning": "Romance, charm, invitation, following the heart, idealism.",
+    "reversedMeaning": "Unrealistic promises, moodiness, disillusionment, flattery, heart over head gone wrong."
+  },
+  {
+    "nameEn": "Queen of Cups",
+    "nameVi": "Nữ Hoàng Ly (Queen of Cups)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Thấu cảm sâu sắc, dịu dàng, lắng nghe trực giác, yêu thương vô điều kiện",
+    "imageUrl": "/cards/rws/c13.jpg",
+    "uprightMeaning": "Compassion, emotional depth, intuition, nurturing presence, empathy.",
+    "reversedMeaning": "Emotional overwhelm, codependency, martyrdom, boundaries dissolved, manipulation through feeling."
+  },
+  {
+    "nameEn": "King of Cups",
+    "nameVi": "Vua Ly (King of Cups)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Nước",
+    "keywords": "Làm chủ cảm xúc, điềm tĩnh, vị tha, cố vấn tâm lý thông thái",
+    "imageUrl": "/cards/rws/c14.jpg",
+    "uprightMeaning": "Emotional mastery, calm authority, diplomacy, balance of heart and head, wise counsel.",
+    "reversedMeaning": "Repressed emotion, coldness, manipulation, moodiness in power, emotional volatility."
+  },
+  {
+    "nameEn": "Ace of Swords",
+    "nameVi": "Ách Kiếm (Ace of Swords)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Sự thật sáng tỏ, tư duy đột phá, minh triết, cắt đứt rào cản",
+    "imageUrl": "/cards/rws/s01.jpg",
+    "uprightMeaning": "Clarity, breakthrough, truth, new idea, mental sharpness.",
+    "reversedMeaning": "Confusion, clouded judgment, misused intellect, harsh words, false clarity."
+  },
+  {
+    "nameEn": "Two of Swords",
+    "nameVi": "2 Kiếm",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Lưỡng lự, nhắm mắt trốn tránh quyết định, thế giằng co",
+    "imageUrl": "/cards/rws/s02.jpg",
+    "uprightMeaning": "Stalemate, difficult choice, avoidance, blocked feelings, truce.",
+    "reversedMeaning": "Decision forced, information revealed, stalemate breaking, anxiety, release of denial."
+  },
+  {
+    "nameEn": "Three of Swords",
+    "nameVi": "3 Kiếm",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Tổn thương tình cảm, tan vỡ, đau đớn tâm hồn, giai đoạn thanh lọc",
+    "imageUrl": "/cards/rws/s03.jpg",
+    "uprightMeaning": "Heartbreak, painful truth, grief, sorrow, separation.",
+    "reversedMeaning": "Healing heartbreak, forgiveness, releasing pain, recovery, old wounds resurfacing."
+  },
+  {
+    "nameEn": "Four of Swords",
+    "nameVi": "4 Kiếm",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Nghỉ ngơi, hồi phục năng lượng, tĩnh tâm, tạm ngưng tranh đấu",
+    "imageUrl": "/cards/rws/s04.jpg",
+    "uprightMeaning": "Rest, recovery, retreat, stillness, recharging.",
+    "reversedMeaning": "Burnout, restlessness, forced rest, returning to action, exhaustion ignored."
+  },
+  {
+    "nameEn": "Five of Swords",
+    "nameVi": "5 Kiếm",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Thắng lợi cay đắng, bất đồng sâu sắc, tổn thương lòng tự trọng",
+    "imageUrl": "/cards/rws/s05.jpg",
+    "uprightMeaning": "Hollow victory, conflict, winning at all costs, discord, self-interest.",
+    "reversedMeaning": "Reconciliation, making amends, releasing resentment, lingering grudges, lesson learned."
+  },
+  {
+    "nameEn": "Six of Swords",
+    "nameVi": "6 Kiếm",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Vượt qua sóng gió, chuyển tiếp sang vùng nước êm dịu, chữa lành",
+    "imageUrl": "/cards/rws/s06.jpg",
+    "uprightMeaning": "Transition, moving on, calmer waters, passage, gradual healing.",
+    "reversedMeaning": "Resisting transition, unfinished business, rough crossing, returning to trouble, stuck baggage."
+  },
+  {
+    "nameEn": "Seven of Swords",
+    "nameVi": "7 Kiếm",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Chiến thuật khéo léo, bí mật, lén lút, hành động thận trọng",
+    "imageUrl": "/cards/rws/s07.jpg",
+    "uprightMeaning": "Deception, strategy, acting alone, getting away with it, cunning.",
+    "reversedMeaning": "Confession, conscience, exposure, coming clean, self-deception revealed."
+  },
+  {
+    "nameEn": "Eight of Swords",
+    "nameVi": "8 Kiếm",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Cảm giác bế tắc do tự trói buộc tâm trí, nỗi sợ vô hình",
+    "imageUrl": "/cards/rws/s08.jpg",
+    "uprightMeaning": "Feeling trapped, self-restriction, victim mindset, mental prison, paralysis.",
+    "reversedMeaning": "Liberation, new perspective, self-empowerment, blindfold removed, taking responsibility."
+  },
+  {
+    "nameEn": "Nine of Swords",
+    "nameVi": "9 Kiếm",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Lo âu, mất ngủ, áp lực tâm lý quá mức, ác mộng tạm thời",
+    "imageUrl": "/cards/rws/s09.jpg",
+    "uprightMeaning": "Anxiety, sleepless nights, worry, dread, mental anguish.",
+    "reversedMeaning": "Easing anxiety, facing fears, seeking help, perspective returning, recovery from despair."
+  },
+  {
+    "nameEn": "Ten of Swords",
+    "nameVi": "10 Kiếm",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Chạm đáy nỗi đau, sự chấm dứt dứt khoát, bình minh sắp hé rạng",
+    "imageUrl": "/cards/rws/s10.jpg",
+    "uprightMeaning": "Painful ending, rock bottom, betrayal, collapse, the worst is over.",
+    "reversedMeaning": "Recovery, rising again, surviving the ending, old wounds closing, refusing the final lesson."
+  },
+  {
+    "nameEn": "Page of Swords",
+    "nameVi": "Tiểu Đồng Kiếm (Page of Swords)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Tò mò, ham học hỏi, cảnh giác, tìm kiếm thông tin",
+    "imageUrl": "/cards/rws/s11.jpg",
+    "uprightMeaning": "Curiosity, vigilance, new ideas, mental energy, truth-seeking.",
+    "reversedMeaning": "Gossip, hasty words, scattered thinking, spying, all talk."
+  },
+  {
+    "nameEn": "Knight of Swords",
+    "nameVi": "Hiệp Sĩ Kiếm (Knight of Swords)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Quyết liệt, thẳng thắn, xông pha, tốc độ, không ngại va chạm",
+    "imageUrl": "/cards/rws/s12.jpg",
+    "uprightMeaning": "Decisive action, ambition, directness, charging ahead, intellectual drive.",
+    "reversedMeaning": "Recklessness, aggression, rushing past details, burnout sprint, verbal attacks."
+  },
+  {
+    "nameEn": "Queen of Swords",
+    "nameVi": "Nữ Hoàng Kiếm (Queen of Swords)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Sắc sảo, lý trí, ranh giới rõ ràng, trung thực, độc lập",
+    "imageUrl": "/cards/rws/s13.jpg",
+    "uprightMeaning": "Clear judgment, independence, honest communication, boundaries, experienced wisdom.",
+    "reversedMeaning": "Coldness, bitterness, harsh criticism, isolation, cynicism."
+  },
+  {
+    "nameEn": "King of Swords",
+    "nameVi": "Vua Kiếm (King of Swords)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Khí",
+    "keywords": "Trí tuệ đỉnh cao, công minh, lý trí sắc bén, nguyên tắc",
+    "imageUrl": "/cards/rws/s14.jpg",
+    "uprightMeaning": "Intellectual authority, truth, impartial judgment, strategy, ethical clarity.",
+    "reversedMeaning": "Abuse of intellect, cold ruthlessness, manipulation, rigid logic, unjust judgment."
+  },
+  {
+    "nameEn": "Ace of Wands",
+    "nameVi": "Ách Gậy (Ace of Wands)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Cảm hứng mới, ngọn lửa đam mê, sáng tạo, cơ hội nghề nghiệp",
+    "imageUrl": "/cards/rws/w01.jpg",
+    "uprightMeaning": "Inspiration, new opportunity, creative spark, enthusiasm, potential.",
+    "reversedMeaning": "Delays, false start, lack of motivation, blocked creativity, hesitation."
+  },
+  {
+    "nameEn": "Two of Wands",
+    "nameVi": "2 Gậy",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Lập kế hoạch, tầm nhìn xa, đứng trước quyết định mở rộng",
+    "imageUrl": "/cards/rws/w02.jpg",
+    "uprightMeaning": "Planning, future vision, decision, expansion, the world in hand.",
+    "reversedMeaning": "Fear of the unknown, playing it safe, poor planning, restlessness, indecision."
+  },
+  {
+    "nameEn": "Three of Wands",
+    "nameVi": "3 Gậy",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Mở rộng cơ hội, chờ đợi thành quả, vươn ra biển lớn",
+    "imageUrl": "/cards/rws/w03.jpg",
+    "uprightMeaning": "Progress, expansion, foresight, ships coming in, momentum.",
+    "reversedMeaning": "Delays, obstacles to plans, limited vision, setbacks, impatience."
+  },
+  {
+    "nameEn": "Four of Wands",
+    "nameVi": "4 Gậy",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Ăn mừng, hôn nhân, đoàn tụ, mái ấm bình yên, thành công bước đầu",
+    "imageUrl": "/cards/rws/w04.jpg",
+    "uprightMeaning": "Celebration, homecoming, milestone, community, stability.",
+    "reversedMeaning": "Instability at home, postponed celebration, transition, lack of support, shaky foundations."
+  },
+  {
+    "nameEn": "Five of Wands",
+    "nameVi": "5 Gậy",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Cạnh tranh, xung đột ý kiến, bất đồng quan điểm, cạnh tranh lành mạnh",
+    "imageUrl": "/cards/rws/w05.jpg",
+    "uprightMeaning": "Conflict, competition, friction, clashing egos, scattered effort.",
+    "reversedMeaning": "Avoiding conflict, resolution, inner conflict, release of tension, picking battles."
+  },
+  {
+    "nameEn": "Six of Wands",
+    "nameVi": "6 Gậy",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Chiến thắng, được vinh danh, công nhận thành quả, tự hào",
+    "imageUrl": "/cards/rws/w06.jpg",
+    "uprightMeaning": "Victory, recognition, success, confidence, public acclaim.",
+    "reversedMeaning": "Private victory, fall from grace, self-doubt, lack of recognition, ego inflation."
+  },
+  {
+    "nameEn": "Seven of Wands",
+    "nameVi": "7 Gậy",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Bảo vệ lập trường, kiên định, chống lại áp lực xung quanh",
+    "imageUrl": "/cards/rws/w07.jpg",
+    "uprightMeaning": "Defense, standing your ground, perseverance, conviction, holding advantage.",
+    "reversedMeaning": "Overwhelm, giving up ground, exhaustion, defensiveness, yielding."
+  },
+  {
+    "nameEn": "Eight of Wands",
+    "nameVi": "8 Gậy",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Tiến triển nhanh, tin tức bất ngờ, hành động mau lẹ, hành trình mới",
+    "imageUrl": "/cards/rws/w08.jpg",
+    "uprightMeaning": "Swift movement, momentum, news arriving, alignment, rapid progress.",
+    "reversedMeaning": "Delays, frustration, scattered energy, missed timing, slowdown."
+  },
+  {
+    "nameEn": "Nine of Wands",
+    "nameVi": "9 Gậy",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Phòng thủ, kiên trì đến phút cuối, vượt qua ngưỡng mệt mỏi",
+    "imageUrl": "/cards/rws/w09.jpg",
+    "uprightMeaning": "Resilience, last stand, persistence, guardedness, nearly there.",
+    "reversedMeaning": "Burnout, paranoia, giving up at the end, rigid defenses, battle fatigue."
+  },
+  {
+    "nameEn": "Ten of Wands",
+    "nameVi": "10 Gậy",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Gánh nặng, áp lực quá tải, trách nhiệm lớn, cần san sẻ",
+    "imageUrl": "/cards/rws/w10.jpg",
+    "uprightMeaning": "Burden, overload, responsibility, carrying too much, final effort.",
+    "reversedMeaning": "Release, delegation, putting burdens down, collapse, learning to say no."
+  },
+  {
+    "nameEn": "Page of Wands",
+    "nameVi": "Tiểu Đồng Gậy (Page of Wands)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Nhiệt huyết trẻ, tin tức hứng khởi, khám phá ý tưởng mới",
+    "imageUrl": "/cards/rws/w11.jpg",
+    "uprightMeaning": "Enthusiasm, exploration, free spirit, exciting news, curiosity.",
+    "reversedMeaning": "Scattered energy, hasty starts, boredom, unreliable news, restlessness."
+  },
+  {
+    "nameEn": "Knight of Wands",
+    "nameVi": "Hiệp Sĩ Gậy (Knight of Wands)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Hăng hái, phiêu lưu, hành động quyết liệt, bùng cháy",
+    "imageUrl": "/cards/rws/w12.jpg",
+    "uprightMeaning": "Action, adventure, passion, bold pursuit, charisma.",
+    "reversedMeaning": "Impulsiveness, recklessness, scattered passion, delays in action, hot temper."
+  },
+  {
+    "nameEn": "Queen of Wands",
+    "nameVi": "Nữ Hoàng Gậy (Queen of Wands)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Tự tin, lôi cuốn, độc lập, ấm áp, truyền cảm hứng",
+    "imageUrl": "/cards/rws/w13.jpg",
+    "uprightMeaning": "Confidence, warmth, determination, magnetism, independence.",
+    "reversedMeaning": "Insecurity, jealousy, demanding nature, burnout, dimmed confidence."
+  },
+  {
+    "nameEn": "King of Wands",
+    "nameVi": "Vua Gậy (King of Wands)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Lửa",
+    "keywords": "Nhà lãnh đạo có tầm nhìn, bản lĩnh, truyền lửa, quyết đoán",
+    "imageUrl": "/cards/rws/w14.jpg",
+    "uprightMeaning": "Visionary leadership, boldness, entrepreneurship, mastery of fire, inspiration.",
+    "reversedMeaning": "Arrogance, tyranny, impulsive leadership, unfulfilled vision, domineering."
+  },
+  {
+    "nameEn": "Ace of Pentacles",
+    "nameVi": "Ách Tiền (Ace of Pentacles)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Cơ hội tài chính mới, sự thịnh vượng, khởi đầu vững chắc, may mắn",
+    "imageUrl": "/cards/rws/p01.jpg",
+    "uprightMeaning": "New opportunity, prosperity, manifestation, solid start, material gift.",
+    "reversedMeaning": "Missed opportunity, shaky foundation, scarcity thinking, delayed reward, poor investment."
+  },
+  {
+    "nameEn": "Two of Pentacles",
+    "nameVi": "2 Tiền",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Cân bằng tài chính, xoay xở linh hoạt, thích ứng với biến động",
+    "imageUrl": "/cards/rws/p02.jpg",
+    "uprightMeaning": "Juggling priorities, adaptability, balance in motion, flexibility, managing change.",
+    "reversedMeaning": "Overcommitment, dropped balls, disorganization, financial strain, overwhelm."
+  },
+  {
+    "nameEn": "Three of Pentacles",
+    "nameVi": "3 Tiền",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Làm việc nhóm, hợp tác chuyên môn, nâng cao kỹ năng, được khen ngợi",
+    "imageUrl": "/cards/rws/p03.jpg",
+    "uprightMeaning": "Teamwork, craftsmanship, skill recognized, collaboration, building together.",
+    "reversedMeaning": "Poor teamwork, mediocrity, lack of recognition, misaligned goals, working alone."
+  },
+  {
+    "nameEn": "Four of Pentacles",
+    "nameVi": "4 Tiền",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Tiết kiệm, giữ chặt tài sản, kiểm soát an toàn, đề phòng mất mát",
+    "imageUrl": "/cards/rws/p04.jpg",
+    "uprightMeaning": "Security, holding on, control, saving, possessiveness.",
+    "reversedMeaning": "Letting go, generosity, loosening control, financial release, spending."
+  },
+  {
+    "nameEn": "Five of Pentacles",
+    "nameVi": "5 Tiền",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Khó khăn tài chính tạm thời, cảm giác cô độc, cần mở lòng tìm trợ giúp",
+    "imageUrl": "/cards/rws/p05.jpg",
+    "uprightMeaning": "Hardship, scarcity, feeling left out in the cold, financial loss, isolation.",
+    "reversedMeaning": "Recovery, help accepted, hardship ending, finding shelter, renewed hope."
+  },
+  {
+    "nameEn": "Six of Pentacles",
+    "nameVi": "6 Tiền",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Sự hào phóng, cho và nhận công bằng, được quý nhân giúp đỡ",
+    "imageUrl": "/cards/rws/p06.jpg",
+    "uprightMeaning": "Generosity, giving and receiving, support, fairness, charity.",
+    "reversedMeaning": "Strings attached, power imbalance, one-sided giving, debt, self-neglect in giving."
+  },
+  {
+    "nameEn": "Seven of Pentacles",
+    "nameVi": "7 Tiền",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Đánh giá tiến độ, kiên nhẫn chờ quả ngọt, đầu tư dài hạn",
+    "imageUrl": "/cards/rws/p07.jpg",
+    "uprightMeaning": "Patience, assessment, long-term view, slow growth, waiting for harvest.",
+    "reversedMeaning": "Impatience, wasted effort, poor returns, giving up early, misdirected work."
+  },
+  {
+    "nameEn": "Eight of Pentacles",
+    "nameVi": "8 Tiền",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Chăm chỉ, rèn luyện tay nghề, tập trung chi tiết, xây dựng nền tảng",
+    "imageUrl": "/cards/rws/p08.jpg",
+    "uprightMeaning": "Diligence, skill-building, craftsmanship, dedication, mastery through repetition.",
+    "reversedMeaning": "Perfectionism, tedium, cut corners, misplaced effort, burnout from grind."
+  },
+  {
+    "nameEn": "Nine of Pentacles",
+    "nameVi": "9 Tiền",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Độc lập tài chính, tận hưởng thành quả, sung túc, quý phái",
+    "imageUrl": "/cards/rws/p09.jpg",
+    "uprightMeaning": "Self-sufficiency, earned luxury, independence, refinement, enjoying success.",
+    "reversedMeaning": "Overdependence, hollow success, overwork without enjoyment, financial insecurity, self-worth tied to wealth."
+  },
+  {
+    "nameEn": "Ten of Pentacles",
+    "nameVi": "10 Tiền",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Tài sản bền vững, gia tộc hưng thịnh, di sản lâu dài, an cư lạc nghiệp",
+    "imageUrl": "/cards/rws/p10.jpg",
+    "uprightMeaning": "Legacy, lasting wealth, family security, inheritance, long-term foundations.",
+    "reversedMeaning": "Family disputes over resources, unstable foundations, short-term thinking, lost inheritance, wealth without belonging."
+  },
+  {
+    "nameEn": "Page of Pentacles",
+    "nameVi": "Tiểu Đồng Tiền (Page of Pentacles)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Cơ hội học tập, tham vọng thực tế, tin tức công việc mới",
+    "imageUrl": "/cards/rws/p11.jpg",
+    "uprightMeaning": "Studiousness, new practical skill, opportunity to learn, grounded ambition, diligent beginnings.",
+    "reversedMeaning": "Procrastination, lack of progress, daydreaming without doing, short-lived focus, missed lessons."
+  },
+  {
+    "nameEn": "Knight of Pentacles",
+    "nameVi": "Hiệp Sĩ Tiền (Knight of Pentacles)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Kiên trì, đáng tin cậy, tỉ mỉ, trách nhiệm, tiến bước chậm mà chắc",
+    "imageUrl": "/cards/rws/p12.jpg",
+    "uprightMeaning": "Reliability, methodical progress, hard work, patience, commitment to routine.",
+    "reversedMeaning": "Stagnation, boredom, stubbornness, workaholism, stuck in a rut."
+  },
+  {
+    "nameEn": "Queen of Pentacles",
+    "nameVi": "Nữ Hoàng Tiền (Queen of Pentacles)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Tháo vát, chăm sóc gia đình, thực tế, tạo dựng cuộc sống no ấm",
+    "imageUrl": "/cards/rws/p13.jpg",
+    "uprightMeaning": "Nurturing practicality, resourcefulness, warmth and security, working provider, down-to-earth care.",
+    "reversedMeaning": "Self-neglect, work-home imbalance, smothering through providing, financial codependence, depleted caregiver."
+  },
+  {
+    "nameEn": "King of Pentacles",
+    "nameVi": "Vua Tiền (King of Pentacles)",
+    "arcanaType": "MINOR_ARCANA",
+    "element": "Đất",
+    "keywords": "Đại gia tài chính, thành đạt vững bền, hào phóng, bảo trợ đáng tin",
+    "imageUrl": "/cards/rws/p14.jpg",
+    "uprightMeaning": "Material mastery, abundance, steady leadership, business acumen, reliable provider.",
+    "reversedMeaning": "Greed, materialism, rigid control of resources, status obsession, corruption of comfort."
+  }
+]

@@ -9,7 +9,7 @@ import tarot.domain.enums.DeckCode;
 @Entity
 @Table(name = "decks")
 @Getter
-@Setter(AccessLevel.PROTECTED)
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @SuperBuilder

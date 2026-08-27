@@ -6,6 +6,8 @@ import tarot.domain.enums.DeckCode;
 import tarot.domain.enums.SpreadType;
 import tarot.domain.enums.ZodiacSign;
 
+import java.util.List;
+
 public record CreateReadingCommand(
     @NotNull(message = "User ID is required")
     Long userId,
@@ -15,5 +17,7 @@ public record CreateReadingCommand(
 
     ZodiacSign zodiacSign,
     SpreadType spreadType,
-    DeckCode deckCode
+    DeckCode deckCode,
+    List<Long> selectedCardIds,
+    List<Boolean> isReversedList
 ) {}

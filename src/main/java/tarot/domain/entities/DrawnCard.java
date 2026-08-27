@@ -14,12 +14,13 @@ import tarot.domain.common.BaseEntity;
 @SuperBuilder
 public class DrawnCard extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "reading_id", nullable = false)
     private Reading reading;
 
     @ManyToOne
-    @JoinColumn(name = "card_id", nullable = false)
+    @JoinColumn(name = "card_id", nullable = true)
+    @org.hibernate.annotations.NotFound(action = org.hibernate.annotations.NotFoundAction.IGNORE)
     private Card card;
 
     @Column(name = "position_index", nullable = false)

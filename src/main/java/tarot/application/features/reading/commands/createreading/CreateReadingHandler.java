@@ -56,7 +56,22 @@ public class CreateReadingHandler {
 
         // 4. Domain Logic: Create Aggregate Root & Draw Cards
         Reading reading = Reading.create(user, command.userQuestion(), null, command.spreadType(), deckCode);
-        reading.drawCards(allCards);
+
+        if (command.selectedCardIds() != null && !command.selectedCardIds().isEmpty()) {
+            // Lấy đúng các lá bài mà người dùng đã tự tay bốc từ giao diện
+            List<Card> selected = command.selectedCardIds().stream()
+                    .map(id -> cardRepository.findById(id).orElse(null))
+                    .filter(c -> c != null)
+                    .toList();
+            if (!selected.isEmpty()) {
+                reading.drawSelectedCards(selected, command.isReversedList());
+            } else {
+                reading.drawCards(allCards);
+            }
+        } else {
+            // Tự động xáo ngẫu nhiên
+            reading.drawCards(allCards);
+        }
 
         // 5. Infrastructure: AI Consultation (AI tự phân tích Topic & Sinh bản luận giải)
         AiReadingResult aiResult = aiService.generateInitialReading(

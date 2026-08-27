@@ -46,7 +46,7 @@ public class Reading extends AggregateRoot {
     @Builder.Default
     private DeckCode deckCode = DeckCode.RIDER_WAITE_CLASSIC;
 
-    @OneToMany(mappedBy = "reading", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "reading", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<DrawnCard> drawnCards = new ArrayList<>();
 
@@ -104,6 +104,31 @@ public class Reading extends AggregateRoot {
             this.addDrawnCard(deck.get(0), 1, "Past & Foundations", random.nextBoolean());
             this.addDrawnCard(deck.get(1), 2, "Present Situation", random.nextBoolean());
             this.addDrawnCard(deck.get(2), 3, "Future & Destiny Trends", random.nextBoolean());
+        }
+    }
+
+    public void drawSelectedCards(List<Card> selectedCards, List<Boolean> isReversedList) {
+        if (selectedCards == null || selectedCards.isEmpty()) {
+            throw new IllegalArgumentException("Selected cards cannot be empty");
+        }
+
+        String[] positionNames;
+        if (this.spreadType == SpreadType.DAILY_ORACLE) {
+            positionNames = new String[]{"Daily Guidance"};
+        } else if (this.spreadType == SpreadType.TWO_PATHS_CHOICE) {
+            positionNames = new String[]{"Current Reality", "Path A Outcome", "Path B Outcome"};
+        } else {
+            positionNames = new String[]{"Past & Foundations", "Present Situation", "Future & Destiny Trends"};
+        }
+
+        Random random = new Random();
+        for (int i = 0; i < selectedCards.size(); i++) {
+            Card card = selectedCards.get(i);
+            String posName = (i < positionNames.length) ? positionNames[i] : "Position " + (i + 1);
+            boolean reversed = (isReversedList != null && i < isReversedList.size() && isReversedList.get(i) != null)
+                    ? isReversedList.get(i)
+                    : random.nextBoolean();
+            this.addDrawnCard(card, i + 1, posName, reversed);
         }
     }
 

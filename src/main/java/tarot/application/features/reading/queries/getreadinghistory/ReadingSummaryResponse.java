@@ -18,9 +18,9 @@ public record ReadingSummaryResponse(
         return new ReadingSummaryResponse(
             r.getId(),
             r.getUserQuestion(),
-            r.getTopic().name(),
-            r.getSpreadType().name(),
-            r.getDeckCode().name(),
+            (r.getTopic() != null) ? r.getTopic().name() : "GENERAL_GUIDANCE",
+            (r.getSpreadType() != null) ? r.getSpreadType().name() : "PAST_PRESENT_FUTURE",
+            (r.getDeckCode() != null) ? r.getDeckCode().name() : "RIDER_WAITE_CLASSIC",
             (r.getDrawnCards() != null) ? r.getDrawnCards().size() : 0,
             (r.getChatMessages() != null) ? r.getChatMessages().size() : 0,
             r.getCreatedAt()

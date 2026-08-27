@@ -22,7 +22,7 @@ public class AiConsultationService {
      * Sinh bản luận giải ban đầu chuẩn Markdown (Hỗ trợ Streaming / Markdown rendering)
      */
     public String generateInitialReading(User user, String userQuestion, Topic topic, SpreadType spreadType, List<DrawnCard> drawnCards) {
-        String userName = (user != null && user.getFullName() != null) ? user.getFullName() : "Bạn";
+        String userName = (user != null && user.getUsername() != null) ? user.getUsername() : "Bạn";
         String zodiac = (user != null && user.getZodiacSign() != null) ? user.getZodiacSign().name() : "Chưa xác định";
 
         StringBuilder sb = new StringBuilder();

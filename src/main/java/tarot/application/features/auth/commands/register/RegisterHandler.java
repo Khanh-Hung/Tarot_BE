@@ -28,7 +28,7 @@ public class RegisterHandler {
         }
 
         String passwordHash = passwordEncoder.encode(command.password());
-        User user = User.create(normalizedEmail, passwordHash, command.fullName(), command.zodiacSign());
+        User user = User.create(normalizedEmail, passwordHash);
 
         User saved = userRepository.save(user);
         String token = jwtTokenProvider.generateToken(saved);

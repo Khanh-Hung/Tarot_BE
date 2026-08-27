@@ -24,8 +24,8 @@ public class User extends BaseEntity {
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
-    @Column(name = "full_name", length = 100)
-    private String fullName;
+    @Column(name = "username", length = 100)
+    private String username;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "zodiac_sign", nullable = false, length = 30)
@@ -41,9 +41,13 @@ public class User extends BaseEntity {
     @Builder.Default
     private boolean isActive = true;
 
-    // --- DOMAIN FACTORY METHOD ---
+    // --- DOMAIN FACTORY METHODS ---
 
-    public static User create(String email, String passwordHash, String fullName, ZodiacSign zodiacSign) {
+    public static User create(String email, String passwordHash) {
+        return create(email, passwordHash, null, ZodiacSign.UNKNOWN);
+    }
+
+    public static User create(String email, String passwordHash, String username, ZodiacSign zodiacSign) {
         if (email == null || email.isBlank()) {
             throw new IllegalArgumentException("Email cannot be blank");
         }
@@ -51,10 +55,14 @@ public class User extends BaseEntity {
             throw new IllegalArgumentException("Password hash cannot be blank");
         }
 
+        String defaultUsername = (username != null && !username.isBlank()) 
+                ? username.trim() 
+                : email.split("@")[0]; // Lấy phần trước @ làm username mặc định (VD: khanhhung@gmail.com -> khanhhung)
+
         return User.builder()
                 .email(email.trim().toLowerCase())
                 .passwordHash(passwordHash)
-                .fullName((fullName != null && !fullName.isBlank()) ? fullName.trim() : "Oracle Seeker")
+                .username(defaultUsername)
                 .zodiacSign(zodiacSign != null ? zodiacSign : ZodiacSign.UNKNOWN)
                 .role(UserRole.USER)
                 .isActive(true)
@@ -63,9 +71,9 @@ public class User extends BaseEntity {
 
     // --- DOMAIN BUSINESS METHODS ---
 
-    public void updateProfile(String fullName, ZodiacSign zodiacSign) {
-        if (fullName != null && !fullName.isBlank()) {
-            this.fullName = fullName.trim();
+    public void updateProfile(String username, ZodiacSign zodiacSign) {
+        if (username != null && !username.isBlank()) {
+            this.username = username.trim();
         }
         if (zodiacSign != null) {
             this.zodiacSign = zodiacSign;

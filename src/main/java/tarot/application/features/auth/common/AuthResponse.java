@@ -6,7 +6,7 @@ public record AuthResponse(
     String token,
     Long userId,
     String email,
-    String fullName,
+    String username,
     String zodiacSign,
     String role
 ) {
@@ -16,7 +16,7 @@ public record AuthResponse(
             token,
             user.getId(),
             user.getEmail(),
-            user.getFullName(),
+            user.getUsername(),
             user.getZodiacSign().name(),
             user.getRole().name()
         );

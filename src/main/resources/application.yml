@@ -7,6 +7,11 @@ spring:
   profiles:
     active: dev
 
+# Cấu hình Google Gemini AI
+gemini:
+  api-key: ${GEMINI_API_KEY:}
+  model: gemini-2.0-flash
+
 # Cấu hình Bảo mật JWT
 application:
   security:

@@ -6,6 +6,8 @@ import lombok.experimental.SuperBuilder;
 import tarot.domain.common.BaseEntity;
 import tarot.domain.enums.ZodiacSign;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "user_profiles")
 @Getter
@@ -16,18 +18,18 @@ import tarot.domain.enums.ZodiacSign;
 public class UserProfile extends BaseEntity {
 
     @Column(name = "user_id", nullable = false, unique = true)
-    private Long userId;
+    private UUID userId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "zodiac_sign", length = 30)
     private ZodiacSign zodiacSign;
 
     @Column(name = "favorite_deck_id")
-    private Long favoriteDeckId;
+    private UUID favoriteDeckId;
 
     // --- DOMAIN FACTORY METHOD ---
 
-    public static UserProfile createDefault(Long userId, ZodiacSign zodiacSign) {
+    public static UserProfile createDefault(UUID userId, ZodiacSign zodiacSign) {
         if (userId == null) {
             throw new IllegalArgumentException("User ID cannot be null");
         }
@@ -45,7 +47,7 @@ public class UserProfile extends BaseEntity {
         }
     }
 
-    public void updatePreferences(ZodiacSign zodiacSign, Long favoriteDeckId) {
+    public void updatePreferences(ZodiacSign zodiacSign, UUID favoriteDeckId) {
         if (zodiacSign != null) {
             this.zodiacSign = zodiacSign;
         }

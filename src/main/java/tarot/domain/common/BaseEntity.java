@@ -1,5 +1,6 @@
 package tarot.domain.common;
 
+import com.github.f4b6a3.uuid.UuidCreator;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -11,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -22,9 +24,16 @@ import java.util.Objects;
 public abstract class BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "id", nullable = false, updatable = false)
+    @Builder.Default
+    private UUID id = UuidCreator.getTimeOrderedEpoch();
+
+    @PrePersist
+    protected void ensureId() {
+        if (this.id == null) {
+            this.id = UuidCreator.getTimeOrderedEpoch();
+        }
+    }
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

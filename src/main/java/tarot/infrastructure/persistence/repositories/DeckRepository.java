@@ -6,8 +6,9 @@ import tarot.domain.entities.Deck;
 import tarot.domain.enums.DeckCode;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface DeckRepository extends JpaRepository<Deck, Long> {
+public interface DeckRepository extends JpaRepository<Deck, UUID> {
     Optional<Deck> findByCode(DeckCode code);
 }

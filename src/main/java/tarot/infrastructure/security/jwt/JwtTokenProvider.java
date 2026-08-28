@@ -11,6 +11,7 @@ import tarot.domain.entities.User;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtTokenProvider {
@@ -39,7 +40,7 @@ public class JwtTokenProvider {
 
         return Jwts.builder()
                 .subject(user.getEmail())
-                .claim("userId", user.getId())
+                .claim("userId", user.getId() != null ? user.getId().toString() : null)
                 .claim("username", user.getUsername())
                 .claim("role", user.getRole().name())
                 .issuedAt(now)
@@ -61,10 +62,10 @@ public class JwtTokenProvider {
         return extractClaims(token).getSubject();
     }
 
-    public Long extractUserId(String token) {
+    public UUID extractUserId(String token) {
         Object userIdObj = extractClaims(token).get("userId");
-        if (userIdObj instanceof Number num) {
-            return num.longValue();
+        if (userIdObj != null) {
+            return UUID.fromString(userIdObj.toString());
         }
         return null;
     }

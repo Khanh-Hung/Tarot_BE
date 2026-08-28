@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import tarot.domain.entities.Card;
 import tarot.domain.entities.DrawnCard;
 import tarot.domain.entities.User;
+import tarot.domain.enums.DeckCode;
 import tarot.domain.enums.SpreadType;
 import tarot.domain.enums.Topic;
 
@@ -32,10 +33,21 @@ public class InitialReadingPromptBuilder {
         String userName = (user != null && user.getUsername() != null) ? user.getUsername() : "Bạn";
         String zodiac = (user != null && user.getZodiacSign() != null) ? user.getZodiacSign().name() : "Chưa xác định";
 
+        DeckCode deck = (drawnCards != null && !drawnCards.isEmpty() && drawnCards.get(0).getCard() != null)
+                ? drawnCards.get(0).getCard().getDeckCode()
+                : DeckCode.RIDER_WAITE_CLASSIC;
+
+        String deckDescription = switch (deck) {
+            case THOTH_ALEISTER -> "Thoth Tarot (Aleister Crowley 1944 - Trường phái Huyền học Hermetic, Chiêm Tinh & Giả Kim Thuật)";
+            case MARSEILLE_HERMETIC -> "Tarot de Marseille (Thế kỷ 17 - Trường phái Cổ điển Pháp thời Phục Hưng, Trực giác nguyên bản)";
+            default -> "Rider-Waite-Smith 1909 (Trường phái Biểu tượng học Kinh điển & Tâm lý học thường nhật)";
+        };
+
         StringBuilder sb = new StringBuilder();
         sb.append("THÔNG TIN QUẺ BÓI:\n");
         sb.append("- Người hỏi: ").append(userName).append("\n");
         sb.append("- Cung hoàng đạo: ").append(zodiac).append("\n");
+        sb.append("- Bộ bài Tarot: ").append(deckDescription).append("\n");
         sb.append("- Câu hỏi: ").append(userQuestion).append("\n");
         sb.append("- Chủ đề: ").append(topic.name()).append("\n");
         sb.append("- Kiểu trải bài: ").append(spreadType.name()).append("\n\n");

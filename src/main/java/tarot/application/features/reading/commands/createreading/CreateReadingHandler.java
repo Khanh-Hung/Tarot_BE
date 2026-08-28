@@ -60,6 +60,7 @@ public class CreateReadingHandler {
         if (command.selectedCardIds() != null && !command.selectedCardIds().isEmpty()) {
             // Lấy đúng các lá bài mà người dùng đã tự tay bốc từ giao diện
             List<Card> selected = command.selectedCardIds().stream()
+                    .filter(id -> id != null)
                     .map(id -> cardRepository.findById(id).orElse(null))
                     .filter(c -> c != null)
                     .toList();

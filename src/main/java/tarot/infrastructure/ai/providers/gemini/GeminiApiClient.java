@@ -40,11 +40,10 @@ public class GeminiApiClient implements AiModelClient {
 
         // Danh sách các model thử nghiệm theo thứ tự ưu tiên
         List<String> modelsToTry = List.of(
-            model,
-            "gemini-2.0-flash",
-            "gemini-2.5-flash",
             "gemini-1.5-flash",
-            "gemini-1.5-pro"
+            "gemini-2.5-flash",
+            "gemini-1.5-pro",
+            model
         ).stream().distinct().toList();
 
         Exception lastException = null;

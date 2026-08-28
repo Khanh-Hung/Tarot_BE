@@ -27,12 +27,9 @@ public class UpdateMyProfileHandler {
             return Result.failure(new Error("USER_NOT_FOUND", "User not found with ID: " + userId));
         }
 
-        // 1. Cập nhật thông tin dùng chung vào bảng users
-        user.updatePersonalInfo(
-                command.username(),
-                command.birthDate(),
-                command.birthTime(),
-                command.bio(),
+        // 1. Cập nhật thông tin dùng chung vào bảng Users
+        user.updateProfile(
+                command.displayName(),
                 command.avatarUrl()
         );
         User savedUser = userRepository.save(user);

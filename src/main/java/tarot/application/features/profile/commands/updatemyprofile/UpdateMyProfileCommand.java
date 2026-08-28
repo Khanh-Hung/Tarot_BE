@@ -7,10 +7,7 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 public record UpdateMyProfileCommand(
-        String username,
-        LocalDate birthDate,
-        LocalTime birthTime,
-        String bio,
+        String displayName,
         String avatarUrl,
         ZodiacSign zodiacSign,
         UUID favoriteDeckId

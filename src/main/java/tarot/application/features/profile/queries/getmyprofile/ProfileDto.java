@@ -11,11 +11,8 @@ import java.util.UUID;
 public record ProfileDto(
         UUID userId,
         String email,
-        String username,
-        String role,
-        LocalDate birthDate,
-        LocalTime birthTime,
-        String bio,
+        String userName,
+        String displayName,
         String avatarUrl,
         ZodiacSign zodiacSign,
         UUID favoriteDeckId
@@ -25,11 +22,8 @@ public record ProfileDto(
         return new ProfileDto(
                 user.getId(),
                 user.getEmail(),
-                user.getUsername(),
-                user.getRole().name(),
-                user.getBirthDate(),
-                user.getBirthTime(),
-                user.getBio(),
+                user.getUserName(),
+                user.getDisplayName(),
                 user.getAvatarUrl(),
                 profile != null ? profile.getZodiacSign() : null,
                 profile != null ? profile.getFavoriteDeckId() : null

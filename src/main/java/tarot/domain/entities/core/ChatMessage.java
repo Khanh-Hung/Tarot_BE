@@ -7,7 +7,7 @@ import tarot.domain.common.BaseEntity;
 import tarot.domain.enums.MessageSender;
 
 @Entity
-@Table(name = "reading_chat_messages")
+@Table(name = "\"ReadingChatMessages\"")
 @Getter
 @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,13 +16,13 @@ import tarot.domain.enums.MessageSender;
 public class ChatMessage extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "reading_id", nullable = false)
+    @JoinColumn(name = "\"ReadingId\"", nullable = false)
     private Reading reading;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "sender", nullable = false, length = 20)
+    @Column(name = "\"Sender\"", nullable = false, length = 20)
     private MessageSender sender;
 
-    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "\"Content\"", nullable = false, columnDefinition = "TEXT")
     private String content;
 }

@@ -11,8 +11,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "users")
-@SoftDelete
+@Table(name = "\"Users\"")
+@org.hibernate.annotations.SQLRestriction("\"Deleted\" = false")
 @Getter
 @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,35 +20,23 @@ import java.time.LocalTime;
 @SuperBuilder
 public class User extends BaseEntity {
 
-    @Column(name = "email", nullable = false, unique = true, length = 150)
+    @Column(name = "\"Email\"", nullable = false, unique = true, length = 150)
     private String email;
 
-    @Column(name = "password_hash", nullable = false, length = 255)
+    @Column(name = "\"PasswordHash\"", nullable = false, length = 255)
     private String passwordHash;
 
-    @Column(name = "username", length = 100)
-    private String username;
+    @Column(name = "\"UserName\"", length = 100)
+    private String userName;
 
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
+    @Column(name = "\"DisplayName\"", length = 100)
+    private String displayName;
 
-    @Column(name = "birth_time")
-    private LocalTime birthTime;
-
-    @Column(name = "bio", length = 500)
-    private String bio;
-
-    @Column(name = "avatar_url", length = 500)
+    @Column(name = "\"AvatarUrl\"", length = 500)
     private String avatarUrl;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false, length = 20)
-    @Builder.Default
-    private UserRole role = UserRole.USER;
-
-    @Column(name = "is_active", nullable = false)
-    @Builder.Default
-    private boolean isActive = true;
+    @Column(name = "\"LastUserNameChangedAt\"")
+    private java.time.LocalDateTime lastUserNameChangedAt;
 
     // --- DOMAIN FACTORY METHODS ---
 
@@ -64,33 +52,24 @@ public class User extends BaseEntity {
             throw new IllegalArgumentException("Password hash cannot be blank");
         }
 
-        String defaultUsername = (username != null && !username.isBlank()) 
+        String defaultUserName = (username != null && !username.isBlank()) 
                 ? username.trim() 
-                : email.split("@")[0]; // Lấy phần trước @ làm username mặc định
+                : email.split("@")[0];
 
         return User.builder()
                 .email(email.trim().toLowerCase())
                 .passwordHash(passwordHash)
-                .username(defaultUsername)
-                .role(UserRole.USER)
-                .isActive(true)
+                .userName(defaultUserName)
+                .displayName(defaultUserName)
+                .avatarUrl("")
                 .build();
     }
 
     // --- DOMAIN BUSINESS METHODS ---
 
-    public void updatePersonalInfo(String username, LocalDate birthDate, LocalTime birthTime, String bio, String avatarUrl) {
-        if (username != null && !username.isBlank()) {
-            this.username = username.trim();
-        }
-        if (birthDate != null) {
-            this.birthDate = birthDate;
-        }
-        if (birthTime != null) {
-            this.birthTime = birthTime;
-        }
-        if (bio != null) {
-            this.bio = bio.trim();
+    public void updateProfile(String displayName, String avatarUrl) {
+        if (displayName != null) {
+            this.displayName = displayName.trim();
         }
         if (avatarUrl != null) {
             this.avatarUrl = avatarUrl.trim();
@@ -102,5 +81,29 @@ public class User extends BaseEntity {
             throw new IllegalArgumentException("New password hash cannot be blank");
         }
         this.passwordHash = newPasswordHash;
+    }
+
+    public String getUserName() {
+        return userName != null && !userName.isBlank() ? userName : email;
+    }
+
+    public String getUsername() {
+        return getUserName();
+    }
+
+    public String getDisplayName() {
+        return displayName != null && !displayName.isBlank() ? displayName : getUsername();
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl != null ? avatarUrl : "";
+    }
+
+    public UserRole getRole() {
+        return UserRole.USER;
+    }
+
+    public boolean isActive() {
+        return true;
     }
 }

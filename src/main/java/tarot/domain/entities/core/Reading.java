@@ -17,8 +17,8 @@ import java.util.Random;
 import java.util.UUID;
 
 @Entity
-@Table(name = "readings")
-@SoftDelete
+@Table(name = "\"Readings\"")
+@org.hibernate.annotations.SQLRestriction("\"Deleted\" = false")
 @Getter
 @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,23 +26,23 @@ import java.util.UUID;
 @SuperBuilder
 public class Reading extends AggregateRoot {
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "\"UserId\"", nullable = false)
     private UUID userId;
 
-    @Column(name = "user_question", nullable = false, length = 500)
+    @Column(name = "\"UserQuestion\"", nullable = false, length = 500)
     private String userQuestion;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "topic", nullable = false, length = 50)
+    @Column(name = "\"Topic\"", nullable = false, length = 50)
     private Topic topic;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "spread_type", nullable = false, length = 50)
+    @Column(name = "\"SpreadType\"", nullable = false, length = 50)
     @Builder.Default
     private SpreadType spreadType = SpreadType.PAST_PRESENT_FUTURE;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "deck_code", nullable = false, length = 50)
+    @Column(name = "\"DeckCode\"", nullable = false, length = 50)
     @Builder.Default
     private DeckCode deckCode = DeckCode.RIDER_WAITE_CLASSIC;
 
@@ -50,7 +50,7 @@ public class Reading extends AggregateRoot {
     @Builder.Default
     private List<DrawnCard> drawnCards = new ArrayList<>();
 
-    @Column(name = "initial_reading", columnDefinition = "TEXT")
+    @Column(name = "\"InitialReading\"", columnDefinition = "TEXT")
     private String initialReading;
 
     @OneToMany(mappedBy = "reading", cascade = CascadeType.ALL)

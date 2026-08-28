@@ -7,7 +7,7 @@ import tarot.domain.common.BaseEntity;
 import tarot.domain.enums.DeckCode;
 
 @Entity
-@Table(name = "decks")
+@Table(name = "\"Decks\"")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,18 +16,18 @@ import tarot.domain.enums.DeckCode;
 public class Deck extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "code", nullable = false, unique = true, length = 50)
+    @Column(name = "\"Code\"", nullable = false, unique = true, length = 50)
     private DeckCode code;
 
-    @Column(name = "name_vi", nullable = false, length = 100)
+    @Column(name = "\"NameVi\"", nullable = false, length = 100)
     private String nameVi;
 
-    @Column(name = "name_en", nullable = false, length = 100)
+    @Column(name = "\"NameEn\"", nullable = false, length = 100)
     private String nameEn;
 
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = "\"Description\"", columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "cover_image_url", length = 500)
+    @Column(name = "\"CoverImageUrl\"", length = 500)
     private String coverImageUrl;
 }

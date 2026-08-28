@@ -9,8 +9,8 @@ import tarot.domain.enums.ArcanaType;
 import tarot.domain.enums.DeckCode;
 
 @Entity
-@Table(name = "cards")
-@SoftDelete // 🔥 Xóa mềm tự động
+@Table(name = "\"Cards\"")
+@org.hibernate.annotations.SQLRestriction("\"Deleted\" = false")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,41 +19,41 @@ import tarot.domain.enums.DeckCode;
 public class Card extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "deck_code", nullable = false, length = 50)
+    @Column(name = "\"DeckCode\"", nullable = false, length = 50)
     @Builder.Default
     private DeckCode deckCode = DeckCode.RIDER_WAITE_CLASSIC;
 
-    @Column(name = "name_en", nullable = false, length = 100)
+    @Column(name = "\"NameEn\"", nullable = false, length = 100)
     private String nameEn;
 
-    @Column(name = "name_vi", nullable = false, length = 100)
+    @Column(name = "\"NameVi\"", nullable = false, length = 100)
     private String nameVi;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "arcana_type", nullable = false, length = 30)
+    @Column(name = "\"ArcanaType\"", nullable = false, length = 30)
     private ArcanaType arcanaType;
 
-    @Column(name = "element", nullable = false, length = 50)
+    @Column(name = "\"Element\"", nullable = false, length = 50)
     private String element;
 
-    @Column(name = "keywords", nullable = false, length = 255)
+    @Column(name = "\"Keywords\"", nullable = false, length = 255)
     private String keywords;
 
-    @Column(name = "keywords_en", length = 255)
+    @Column(name = "\"KeywordsEn\"", length = 255)
     private String keywordsEn;
 
-    @Column(name = "image_url", length = 500)
+    @Column(name = "\"ImageUrl\"", length = 500)
     private String imageUrl;
 
-    @Column(name = "upright_meaning", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "\"UprightMeaning\"", nullable = false, columnDefinition = "TEXT")
     private String uprightMeaning;
 
-    @Column(name = "reversed_meaning", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "\"ReversedMeaning\"", nullable = false, columnDefinition = "TEXT")
     private String reversedMeaning;
 
-    @Column(name = "upright_meaning_en", columnDefinition = "TEXT")
+    @Column(name = "\"UprightMeaningEn\"", columnDefinition = "TEXT")
     private String uprightMeaningEn;
 
-    @Column(name = "reversed_meaning_en", columnDefinition = "TEXT")
+    @Column(name = "\"ReversedMeaningEn\"", columnDefinition = "TEXT")
     private String reversedMeaningEn;
 }

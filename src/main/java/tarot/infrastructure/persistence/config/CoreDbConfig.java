@@ -48,6 +48,7 @@ public class CoreDbConfig {
 
         Map<String, Object> properties = new HashMap<>();
         properties.put("hibernate.hbm2ddl.auto", "update");
+        properties.put("hibernate.physical_naming_strategy", PascalCaseNamingStrategy.class.getName());
         properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 
         return builder

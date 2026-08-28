@@ -9,7 +9,7 @@ import tarot.domain.enums.ZodiacSign;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user_profiles")
+@Table(name = "\"UserProfiles\"")
 @Getter
 @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,14 +17,14 @@ import java.util.UUID;
 @SuperBuilder
 public class UserProfile extends BaseEntity {
 
-    @Column(name = "user_id", nullable = false, unique = true)
+    @Column(name = "\"UserId\"", nullable = false, unique = true)
     private UUID userId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "zodiac_sign", length = 30)
+    @Column(name = "\"ZodiacSign\"", length = 30)
     private ZodiacSign zodiacSign;
 
-    @Column(name = "favorite_deck_id")
+    @Column(name = "\"FavoriteDeckId\"")
     private UUID favoriteDeckId;
 
     // --- DOMAIN FACTORY METHOD ---

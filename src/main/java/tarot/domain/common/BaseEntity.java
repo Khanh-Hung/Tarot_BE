@@ -24,7 +24,7 @@ import java.util.UUID;
 public abstract class BaseEntity {
 
     @Id
-    @Column(name = "id", nullable = false, updatable = false)
+    @Column(name = "\"Id\"", nullable = false, updatable = false)
     @Builder.Default
     private UUID id = UuidCreator.getTimeOrderedEpoch();
 
@@ -36,20 +36,24 @@ public abstract class BaseEntity {
     }
 
     @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "\"CreatedAt\"", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column(name = "created_by", length = 100)
+    @Column(name = "\"CreatedBy\"", length = 100)
     private String createdBy;
 
     @LastModifiedDate
-    @Column(name = "updated_at")
+    @Column(name = "\"UpdatedAt\"")
     private LocalDateTime updatedAt;
 
     @LastModifiedBy
-    @Column(name = "updated_by", length = 100)
+    @Column(name = "\"UpdatedBy\"", length = 100)
     private String updatedBy;
+
+    @Column(name = "\"Deleted\"", nullable = false)
+    @Builder.Default
+    private boolean deleted = false;
 
     @Override
     public boolean equals(Object o) {

@@ -1,4 +1,4 @@
-package tarot.domain.entities;
+package tarot.domain.entities.core;
 
 import jakarta.persistence.*;
 import lombok.*;

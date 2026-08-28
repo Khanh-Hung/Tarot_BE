@@ -1,4 +1,4 @@
-package tarot.domain.entities;
+package tarot.domain.entities.core;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Entity
 @Table(name = "readings")
@@ -25,9 +26,8 @@ import java.util.Random;
 @SuperBuilder
 public class Reading extends AggregateRoot {
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
 
     @Column(name = "user_question", nullable = false, length = 500)
     private String userQuestion;
@@ -60,15 +60,15 @@ public class Reading extends AggregateRoot {
 
     // --- DOMAIN FACTORY METHOD ---
 
-    public static Reading create(User user, String question, Topic topic, SpreadType spreadType, DeckCode deckCode) {
-        if (user == null) {
-            throw new IllegalArgumentException("User cannot be null when creating a reading");
+    public static Reading create(UUID userId, String question, Topic topic, SpreadType spreadType, DeckCode deckCode) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID cannot be null when creating a reading");
         }
         if (question == null || question.isBlank()) {
             throw new IllegalArgumentException("User question cannot be blank");
         }
         return Reading.builder()
-                .user(user)
+                .userId(userId)
                 .userQuestion(question)
                 .topic(topic != null ? topic : Topic.GENERAL_GUIDANCE)
                 .spreadType(spreadType != null ? spreadType : SpreadType.PAST_PRESENT_FUTURE)

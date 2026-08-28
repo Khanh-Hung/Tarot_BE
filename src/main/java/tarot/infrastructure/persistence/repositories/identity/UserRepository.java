@@ -1,8 +1,8 @@
-package tarot.infrastructure.persistence.repositories;
+package tarot.infrastructure.persistence.repositories.identity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import tarot.domain.entities.User;
+import tarot.domain.entities.identity.User;
 
 import java.util.Optional;
 import java.util.UUID;

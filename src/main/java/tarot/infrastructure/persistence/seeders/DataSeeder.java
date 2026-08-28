@@ -9,12 +9,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import tarot.domain.entities.Card;
-import tarot.domain.entities.Deck;
+import tarot.domain.entities.core.Card;
+import tarot.domain.entities.core.Deck;
 import tarot.domain.enums.ArcanaType;
 import tarot.domain.enums.DeckCode;
-import tarot.infrastructure.persistence.repositories.CardRepository;
-import tarot.infrastructure.persistence.repositories.DeckRepository;
+import tarot.infrastructure.persistence.repositories.core.CardRepository;
+import tarot.infrastructure.persistence.repositories.core.DeckRepository;
 
 import java.io.InputStream;
 import java.util.ArrayList;

@@ -1,9 +1,9 @@
 package tarot.infrastructure.ai.prompts;
 
 import org.springframework.stereotype.Component;
-import tarot.domain.entities.Card;
-import tarot.domain.entities.DrawnCard;
-import tarot.domain.entities.User;
+import tarot.domain.entities.core.Card;
+import tarot.domain.entities.core.DrawnCard;
+import tarot.domain.entities.identity.User;
 import tarot.domain.enums.DeckCode;
 import tarot.domain.enums.SpreadType;
 import tarot.domain.enums.Topic;

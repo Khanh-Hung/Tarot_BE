@@ -5,12 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tarot.application.common.result.Error;
 import tarot.application.common.result.Result;
-import tarot.domain.entities.ChatMessage;
-import tarot.domain.entities.Reading;
+import tarot.domain.entities.core.ChatMessage;
+import tarot.domain.entities.core.Reading;
 import tarot.domain.enums.MessageSender;
 import tarot.infrastructure.ai.AiConsultationService;
-import tarot.infrastructure.persistence.repositories.ChatMessageRepository;
-import tarot.infrastructure.persistence.repositories.ReadingRepository;
+import tarot.infrastructure.persistence.repositories.core.ChatMessageRepository;
+import tarot.infrastructure.persistence.repositories.core.ReadingRepository;
 
 import java.util.List;
 import java.util.UUID;

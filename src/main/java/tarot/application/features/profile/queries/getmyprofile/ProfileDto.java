@@ -1,7 +1,7 @@
 package tarot.application.features.profile.queries.getmyprofile;
 
-import tarot.domain.entities.User;
-import tarot.domain.entities.UserProfile;
+import tarot.domain.entities.identity.User;
+import tarot.domain.entities.core.UserProfile;
 import tarot.domain.enums.ZodiacSign;
 
 import java.time.LocalDate;

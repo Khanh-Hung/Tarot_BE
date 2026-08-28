@@ -6,7 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import tarot.domain.entities.User;
+import tarot.domain.entities.identity.User;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;

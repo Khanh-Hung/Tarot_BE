@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tarot.application.common.result.Error;
 import tarot.application.common.result.Result;
-import tarot.domain.entities.Reading;
-import tarot.infrastructure.persistence.repositories.ReadingRepository;
+import tarot.domain.entities.core.Reading;
+import tarot.infrastructure.persistence.repositories.core.ReadingRepository;
 
 import java.util.UUID;
 

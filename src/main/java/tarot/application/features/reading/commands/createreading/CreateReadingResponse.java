@@ -1,7 +1,7 @@
 package tarot.application.features.reading.commands.createreading;
 
 import tarot.application.features.drawncard.dtos.DrawnCardDto;
-import tarot.domain.entities.Reading;
+import tarot.domain.entities.core.Reading;
 
 import java.time.LocalDateTime;
 import java.util.List;

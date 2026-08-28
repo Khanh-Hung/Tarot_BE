@@ -1,8 +1,8 @@
 package tarot.infrastructure.ai.prompts;
 
 import org.springframework.stereotype.Component;
-import tarot.domain.entities.ChatMessage;
-import tarot.domain.entities.DrawnCard;
+import tarot.domain.entities.core.ChatMessage;
+import tarot.domain.entities.core.DrawnCard;
 
 import java.util.List;
 

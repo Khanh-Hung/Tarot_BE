@@ -1,6 +1,6 @@
 package tarot.application.features.reading.queries.getreadinghistory;
 
-import tarot.domain.entities.Reading;
+import tarot.domain.entities.core.Reading;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

@@ -1,6 +1,6 @@
 package tarot.application.features.card.queries.getcardsbydeck;
 
-import tarot.domain.entities.Card;
+import tarot.domain.entities.core.Card;
 
 import java.util.UUID;
 

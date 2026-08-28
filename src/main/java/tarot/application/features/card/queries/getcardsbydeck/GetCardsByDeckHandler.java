@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tarot.application.common.result.Result;
 import tarot.domain.enums.DeckCode;
-import tarot.infrastructure.persistence.repositories.CardRepository;
+import tarot.infrastructure.persistence.repositories.core.CardRepository;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package tarot.application.features.auth.common;
 
-import tarot.domain.entities.User;
+import tarot.domain.entities.identity.User;
 
 import java.util.UUID;
 

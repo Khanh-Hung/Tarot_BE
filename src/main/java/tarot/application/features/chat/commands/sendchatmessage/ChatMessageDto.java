@@ -1,6 +1,6 @@
 package tarot.application.features.chat.commands.sendchatmessage;
 
-import tarot.domain.entities.ChatMessage;
+import tarot.domain.entities.core.ChatMessage;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

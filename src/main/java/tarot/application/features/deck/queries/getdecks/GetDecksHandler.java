@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tarot.application.common.result.Result;
-import tarot.infrastructure.persistence.repositories.DeckRepository;
+import tarot.infrastructure.persistence.repositories.core.DeckRepository;
 
 import java.util.List;
 

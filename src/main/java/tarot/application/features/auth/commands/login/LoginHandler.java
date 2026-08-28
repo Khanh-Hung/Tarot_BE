@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import tarot.application.common.result.Error;
 import tarot.application.common.result.Result;
 import tarot.application.features.auth.common.AuthResponse;
-import tarot.domain.entities.User;
-import tarot.infrastructure.persistence.repositories.UserRepository;
+import tarot.domain.entities.identity.User;
+import tarot.infrastructure.persistence.repositories.identity.UserRepository;
 import tarot.infrastructure.security.jwt.JwtTokenProvider;
 
 @Service

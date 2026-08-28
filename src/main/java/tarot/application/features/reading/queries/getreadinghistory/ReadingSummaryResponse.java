@@ -2,9 +2,10 @@ package tarot.application.features.reading.queries.getreadinghistory;
 
 import tarot.domain.entities.Reading;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record ReadingSummaryResponse(
-    Long id,
+    UUID id,
     String userQuestion,
     String topic,
     String spreadType,

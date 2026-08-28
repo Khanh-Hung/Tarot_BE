@@ -6,10 +6,11 @@ import tarot.domain.entities.Reading;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public record ReadingDetailResponse(
-    Long id,
-    Long userId,
+    UUID id,
+    UUID userId,
     String userQuestion,
     String topic,
     String spreadType,
@@ -30,7 +31,7 @@ public record ReadingDetailResponse(
             ? r.getChatMessages().stream().map(ChatMessageDto::fromEntity).toList()
             : List.of();
 
-        Long uid = (r.getUser() != null) ? r.getUser().getId() : null;
+        UUID uid = (r.getUser() != null) ? r.getUser().getId() : null;
 
         return new ReadingDetailResponse(
             r.getId(),

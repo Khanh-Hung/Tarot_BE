@@ -11,6 +11,8 @@ import tarot.domain.entities.UserProfile;
 import tarot.infrastructure.persistence.repositories.UserProfileRepository;
 import tarot.infrastructure.persistence.repositories.UserRepository;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class UpdateMyProfileHandler {
@@ -19,7 +21,7 @@ public class UpdateMyProfileHandler {
     private final UserProfileRepository profileRepository;
 
     @Transactional
-    public Result<ProfileDto> handle(Long userId, UpdateMyProfileCommand command) {
+    public Result<ProfileDto> handle(UUID userId, UpdateMyProfileCommand command) {
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) {
             return Result.failure(new Error("USER_NOT_FOUND", "User not found with ID: " + userId));

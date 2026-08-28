@@ -2,9 +2,11 @@ package tarot.application.features.auth.common;
 
 import tarot.domain.entities.User;
 
+import java.util.UUID;
+
 public record AuthResponse(
     String token,
-    Long userId,
+    UUID userId,
     String email,
     String username,
     String role

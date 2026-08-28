@@ -13,6 +13,7 @@ import tarot.infrastructure.persistence.repositories.ChatMessageRepository;
 import tarot.infrastructure.persistence.repositories.ReadingRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class SendChatMessageHandler {
     private final AiConsultationService aiService;
 
     @Transactional
-    public Result<ChatMessageDto> handle(Long readingId, SendChatMessageCommand command) {
+    public Result<ChatMessageDto> handle(UUID readingId, SendChatMessageCommand command) {
         Reading reading = readingRepository.findById(readingId).orElse(null);
         if (reading == null) {
             return Result.failure(new Error("READING_NOT_FOUND", "Reading session not found with ID: " + readingId));

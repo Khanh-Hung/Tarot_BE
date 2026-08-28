@@ -4,6 +4,7 @@ import tarot.domain.enums.ZodiacSign;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 public record UpdateMyProfileCommand(
         String username,
@@ -12,5 +13,6 @@ public record UpdateMyProfileCommand(
         String bio,
         String avatarUrl,
         ZodiacSign zodiacSign,
-        Long favoriteDeckId
+        UUID favoriteDeckId
 ) {}
+

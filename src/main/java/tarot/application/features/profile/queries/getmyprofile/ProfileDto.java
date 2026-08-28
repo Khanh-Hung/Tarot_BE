@@ -6,9 +6,10 @@ import tarot.domain.enums.ZodiacSign;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 public record ProfileDto(
-        Long userId,
+        UUID userId,
         String email,
         String username,
         String role,
@@ -17,7 +18,7 @@ public record ProfileDto(
         String bio,
         String avatarUrl,
         ZodiacSign zodiacSign,
-        Long favoriteDeckId
+        UUID favoriteDeckId
 ) {
     public static ProfileDto fromEntity(User user, UserProfile profile) {
         if (user == null) return null;
@@ -35,3 +36,4 @@ public record ProfileDto(
         );
     }
 }
+

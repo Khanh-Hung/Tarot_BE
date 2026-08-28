@@ -10,6 +10,8 @@ import tarot.domain.entities.UserProfile;
 import tarot.infrastructure.persistence.repositories.UserProfileRepository;
 import tarot.infrastructure.persistence.repositories.UserRepository;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -18,7 +20,7 @@ public class GetMyProfileHandler {
     private final UserRepository userRepository;
     private final UserProfileRepository profileRepository;
 
-    public Result<ProfileDto> handle(Long userId) {
+    public Result<ProfileDto> handle(UUID userId) {
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) {
             return Result.failure(new Error("USER_NOT_FOUND", "User not found with ID: " + userId));

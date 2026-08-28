@@ -2,8 +2,10 @@ package tarot.application.features.deck.queries.getdecks;
 
 import tarot.domain.entities.Deck;
 
+import java.util.UUID;
+
 public record DeckDto(
-    Long id,
+    UUID id,
     String code,
     String nameVi,
     String nameEn,

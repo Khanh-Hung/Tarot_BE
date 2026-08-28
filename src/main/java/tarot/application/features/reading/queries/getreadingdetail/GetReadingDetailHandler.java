@@ -8,6 +8,8 @@ import tarot.application.common.result.Result;
 import tarot.domain.entities.Reading;
 import tarot.infrastructure.persistence.repositories.ReadingRepository;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -15,7 +17,7 @@ public class GetReadingDetailHandler {
 
     private final ReadingRepository readingRepository;
 
-    public Result<ReadingDetailResponse> handle(Long readingId) {
+    public Result<ReadingDetailResponse> handle(UUID readingId) {
         Reading reading = readingRepository.findById(readingId).orElse(null);
         if (reading == null) {
             return Result.failure(new Error("READING_NOT_FOUND", "Reading session not found with ID: " + readingId));

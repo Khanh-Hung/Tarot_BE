@@ -15,6 +15,8 @@ import tarot.application.features.reading.queries.getreadingdetail.GetReadingDet
 import tarot.application.features.reading.queries.getreadinghistory.GetReadingHistoryHandler;
 import tarot.presentation.common.ActionResult;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/readings")
 @Tag(name = "2. Reading & AI Consultation", description = "Endpoints for creating readings, getting AI synthesis, and chat interactions")
@@ -35,14 +37,14 @@ public class ReadingController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get reading session by ID", description = "Retrieves reading details, drawn cards, and full chat history")
-    public ResponseEntity<?> getReadingById(@PathVariable Long id) {
+    public ResponseEntity<?> getReadingById(@PathVariable UUID id) {
         return ActionResult.from(getReadingDetailHandler.handle(id));
     }
 
     @GetMapping("/user/{userId}")
     @Operation(summary = "Get reading history for a user", description = "Retrieves paginated reading history")
     public ResponseEntity<?> getReadingHistory(
-            @PathVariable Long userId,
+            @PathVariable UUID userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
@@ -52,7 +54,7 @@ public class ReadingController {
     @PostMapping("/{id}/messages")
     @Operation(summary = "Send chat message to AI Reader", description = "Sends a follow-up question grounded in the cards on the table")
     public ResponseEntity<?> sendChatMessage(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @Valid @RequestBody SendChatMessageCommand command
     ) {
         return ActionResult.from(sendChatMessageHandler.handle(id, command));

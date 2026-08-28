@@ -2,9 +2,10 @@ package tarot.application.features.chat.commands.sendchatmessage;
 
 import tarot.domain.entities.ChatMessage;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record ChatMessageDto(
-    Long id,
+    UUID id,
     String sender,
     String content,
     LocalDateTime createdAt

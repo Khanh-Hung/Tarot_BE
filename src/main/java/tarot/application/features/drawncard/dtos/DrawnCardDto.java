@@ -3,8 +3,10 @@ package tarot.application.features.drawncard.dtos;
 import tarot.application.features.card.queries.getcardsbydeck.CardDto;
 import tarot.domain.entities.DrawnCard;
 
+import java.util.UUID;
+
 public record DrawnCardDto(
-    Long id,
+    UUID id,
     int positionIndex,
     String positionName,
     boolean isReversed,

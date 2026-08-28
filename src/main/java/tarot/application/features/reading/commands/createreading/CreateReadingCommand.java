@@ -7,10 +7,11 @@ import tarot.domain.enums.SpreadType;
 import tarot.domain.enums.ZodiacSign;
 
 import java.util.List;
+import java.util.UUID;
 
 public record CreateReadingCommand(
     @NotNull(message = "User ID is required")
-    Long userId,
+    UUID userId,
 
     @NotBlank(message = "Question cannot be blank")
     String userQuestion,
@@ -18,6 +19,6 @@ public record CreateReadingCommand(
     ZodiacSign zodiacSign,
     SpreadType spreadType,
     DeckCode deckCode,
-    List<Long> selectedCardIds,
+    List<UUID> selectedCardIds,
     List<Boolean> isReversedList
 ) {}

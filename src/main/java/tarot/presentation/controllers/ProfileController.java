@@ -11,6 +11,8 @@ import tarot.application.features.profile.queries.getmyprofile.GetMyProfileHandl
 import tarot.infrastructure.security.jwt.JwtTokenProvider;
 import tarot.presentation.common.ActionResult;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/profile")
 @Tag(name = "1. User Profile Management", description = "Endpoints for viewing and updating personal profile information")
@@ -26,7 +28,7 @@ public class ProfileController {
     @Operation(summary = "Get current user profile", description = "Returns combined account information and domain profile details")
     public ResponseEntity<?> getMyProfile(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "").trim();
-        Long userId = jwtTokenProvider.extractUserId(token);
+        UUID userId = jwtTokenProvider.extractUserId(token);
         return ActionResult.from(getMyProfileHandler.handle(userId));
     }
 
@@ -37,7 +39,7 @@ public class ProfileController {
             @RequestBody UpdateMyProfileCommand command
     ) {
         String token = authHeader.replace("Bearer ", "").trim();
-        Long userId = jwtTokenProvider.extractUserId(token);
+        UUID userId = jwtTokenProvider.extractUserId(token);
         return ActionResult.from(updateMyProfileHandler.handle(userId, command));
     }
 }

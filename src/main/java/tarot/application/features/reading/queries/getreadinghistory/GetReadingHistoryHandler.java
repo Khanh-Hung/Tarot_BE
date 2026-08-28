@@ -11,6 +11,8 @@ import tarot.application.common.result.Result;
 import tarot.domain.entities.Reading;
 import tarot.infrastructure.persistence.repositories.ReadingRepository;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -18,7 +20,7 @@ public class GetReadingHistoryHandler {
 
     private final ReadingRepository readingRepository;
 
-    public Result<PagedResponse<ReadingSummaryResponse>> handle(Long userId, int page, int size) {
+    public Result<PagedResponse<ReadingSummaryResponse>> handle(UUID userId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Reading> paged = readingRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
 

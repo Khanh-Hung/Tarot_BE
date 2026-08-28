@@ -10,9 +10,12 @@ public record CardDto(
     String arcanaType,
     String element,
     String keywords,
+    String keywordsEn,
     String imageUrl,
     String uprightMeaning,
-    String reversedMeaning
+    String reversedMeaning,
+    String uprightMeaningEn,
+    String reversedMeaningEn
 ) {
     public static CardDto fromEntity(Card c) {
         if (c == null) return null;
@@ -24,9 +27,12 @@ public record CardDto(
             c.getArcanaType().name(),
             c.getElement(),
             c.getKeywords(),
+            c.getKeywordsEn(),
             c.getImageUrl(),
             c.getUprightMeaning(),
-            c.getReversedMeaning()
+            c.getReversedMeaning(),
+            c.getUprightMeaningEn(),
+            c.getReversedMeaningEn()
         );
     }
 }

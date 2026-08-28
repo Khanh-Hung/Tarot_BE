@@ -12,7 +12,7 @@ import tarot.domain.enums.DeckCode;
 @Table(name = "cards")
 @SoftDelete // 🔥 Xóa mềm tự động
 @Getter
-@Setter(AccessLevel.PROTECTED)
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @SuperBuilder
@@ -39,6 +39,9 @@ public class Card extends BaseEntity {
     @Column(name = "keywords", nullable = false, length = 255)
     private String keywords;
 
+    @Column(name = "keywords_en", length = 255)
+    private String keywordsEn;
+
     @Column(name = "image_url", length = 500)
     private String imageUrl;
 
@@ -47,4 +50,10 @@ public class Card extends BaseEntity {
 
     @Column(name = "reversed_meaning", nullable = false, columnDefinition = "TEXT")
     private String reversedMeaning;
+
+    @Column(name = "upright_meaning_en", columnDefinition = "TEXT")
+    private String uprightMeaningEn;
+
+    @Column(name = "reversed_meaning_en", columnDefinition = "TEXT")
+    private String reversedMeaningEn;
 }

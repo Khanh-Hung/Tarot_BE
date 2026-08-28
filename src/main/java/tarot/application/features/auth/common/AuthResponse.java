@@ -7,7 +7,6 @@ public record AuthResponse(
     Long userId,
     String email,
     String username,
-    String zodiacSign,
     String role
 ) {
     public static AuthResponse fromEntity(User user, String token) {
@@ -17,7 +16,6 @@ public record AuthResponse(
             user.getId(),
             user.getEmail(),
             user.getUsername(),
-            user.getZodiacSign().name(),
             user.getRole().name()
         );
     }

@@ -42,7 +42,6 @@ public class JwtTokenProvider {
                 .claim("userId", user.getId())
                 .claim("username", user.getUsername())
                 .claim("role", user.getRole().name())
-                .claim("zodiacSign", user.getZodiacSign().name())
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(key)

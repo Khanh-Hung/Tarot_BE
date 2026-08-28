@@ -103,6 +103,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- 9. UUID Creator (Sinh UUID v7 chuẩn RFC 9562 - Khớp 100% .NET 9/10 Guid.CreateVersion7) -->
+        <dependency>
+            <groupId>com.github.f4b6a3</groupId>
+            <artifactId>uuid-creator</artifactId>
+            <version>5.3.7</version>
+        </dependency>
     </dependencies>
 
     <build>

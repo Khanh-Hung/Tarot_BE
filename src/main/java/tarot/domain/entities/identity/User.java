@@ -3,12 +3,8 @@ package tarot.domain.entities.identity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.SoftDelete;
 import tarot.domain.common.BaseEntity;
 import tarot.domain.enums.UserRole;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
 @Table(name = "\"Users\"")
@@ -35,6 +31,13 @@ public class User extends BaseEntity {
     @Column(name = "\"AvatarUrl\"", length = 500)
     private String avatarUrl;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "\"Role\"", length = 50, nullable = false)
+    private UserRole role;
+
+    @Column(name = "\"IsEmailVerified\"", nullable = false)
+    private boolean isEmailVerified;
+
     @Column(name = "\"LastUserNameChangedAt\"")
     private java.time.LocalDateTime lastUserNameChangedAt;
 
@@ -45,6 +48,10 @@ public class User extends BaseEntity {
     }
 
     public static User create(String email, String passwordHash, String username) {
+        return create(email, passwordHash, username, UserRole.USER, false);
+    }
+
+    public static User create(String email, String passwordHash, String username, UserRole role, boolean isEmailVerified) {
         if (email == null || email.isBlank()) {
             throw new IllegalArgumentException("Email cannot be blank");
         }
@@ -62,6 +69,8 @@ public class User extends BaseEntity {
                 .userName(defaultUserName)
                 .displayName(defaultUserName)
                 .avatarUrl("")
+                .role(role != null ? role : UserRole.USER)
+                .isEmailVerified(isEmailVerified)
                 .build();
     }
 
@@ -73,6 +82,16 @@ public class User extends BaseEntity {
         }
         if (avatarUrl != null) {
             this.avatarUrl = avatarUrl.trim();
+        }
+    }
+
+    public void verifyEmail() {
+        this.isEmailVerified = true;
+    }
+
+    public void updateRole(UserRole newRole) {
+        if (newRole != null) {
+            this.role = newRole;
         }
     }
 
@@ -97,10 +116,6 @@ public class User extends BaseEntity {
 
     public String getAvatarUrl() {
         return avatarUrl != null ? avatarUrl : "";
-    }
-
-    public UserRole getRole() {
-        return UserRole.USER;
     }
 
     public boolean isActive() {

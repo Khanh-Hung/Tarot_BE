@@ -7,6 +7,7 @@ import tarot.domain.entities.User;
 import tarot.domain.enums.DeckCode;
 import tarot.domain.enums.SpreadType;
 import tarot.domain.enums.Topic;
+import tarot.domain.enums.ZodiacSign;
 
 import java.util.List;
 
@@ -29,9 +30,9 @@ public class InitialReadingPromptBuilder {
             """;
     }
 
-    public String buildUserPrompt(User user, String userQuestion, Topic topic, SpreadType spreadType, List<DrawnCard> drawnCards) {
+    public String buildUserPrompt(User user, ZodiacSign zodiacSign, String userQuestion, Topic topic, SpreadType spreadType, List<DrawnCard> drawnCards) {
         String userName = (user != null && user.getUsername() != null) ? user.getUsername() : "Bạn";
-        String zodiac = (user != null && user.getZodiacSign() != null) ? user.getZodiacSign().name() : "Chưa xác định";
+        String zodiac = (zodiacSign != null) ? zodiacSign.name() : "Chưa xác định";
 
         DeckCode deck = (drawnCards != null && !drawnCards.isEmpty() && drawnCards.get(0).getCard() != null)
                 ? drawnCards.get(0).getCard().getDeckCode()

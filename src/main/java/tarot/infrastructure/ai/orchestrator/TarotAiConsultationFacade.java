@@ -8,6 +8,7 @@ import tarot.domain.entities.DrawnCard;
 import tarot.domain.entities.User;
 import tarot.domain.enums.SpreadType;
 import tarot.domain.enums.Topic;
+import tarot.domain.enums.ZodiacSign;
 import tarot.infrastructure.ai.AiConsultationService;
 import tarot.infrastructure.ai.core.AiModelClient;
 import tarot.infrastructure.ai.core.AiReadingResult;
@@ -30,6 +31,7 @@ public class TarotAiConsultationFacade implements AiConsultationService {
     @Override
     public AiReadingResult generateInitialReading(
             User user,
+            ZodiacSign zodiacSign,
             String userQuestion,
             SpreadType spreadType,
             List<DrawnCard> drawnCards
@@ -39,7 +41,7 @@ public class TarotAiConsultationFacade implements AiConsultationService {
 
         // 2. Dựng Prompt chi tiết cho các lá bài
         String sysInstruction = initialPromptBuilder.buildSystemInstruction();
-        String userPrompt = initialPromptBuilder.buildUserPrompt(user, userQuestion, detectedTopic, spreadType, drawnCards);
+        String userPrompt = initialPromptBuilder.buildUserPrompt(user, zodiacSign, userQuestion, detectedTopic, spreadType, drawnCards);
 
         // 3. AI sinh bản luận giải 4 phần
         String aiMarkdown = aiModelClient.generateContent(sysInstruction, userPrompt);

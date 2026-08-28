@@ -8,12 +8,14 @@ import tarot.application.common.result.Result;
 import tarot.domain.entities.Card;
 import tarot.domain.entities.Reading;
 import tarot.domain.entities.User;
+import tarot.domain.entities.UserProfile;
 import tarot.domain.enums.DeckCode;
 import tarot.domain.enums.ZodiacSign;
 import tarot.infrastructure.ai.AiConsultationService;
 import tarot.infrastructure.ai.core.AiReadingResult;
 import tarot.infrastructure.persistence.repositories.CardRepository;
 import tarot.infrastructure.persistence.repositories.ReadingRepository;
+import tarot.infrastructure.persistence.repositories.UserProfileRepository;
 import tarot.infrastructure.persistence.repositories.UserRepository;
 
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.List;
 public class CreateReadingHandler {
 
     private final UserRepository userRepository;
+    private final UserProfileRepository profileRepository;
     private final CardRepository cardRepository;
     private final ReadingRepository readingRepository;
     private final AiConsultationService aiService;
@@ -35,13 +38,14 @@ public class CreateReadingHandler {
             return Result.failure(new Error("USER_NOT_FOUND", "User not found with ID: " + command.userId()));
         }
 
-        // 2. Kiểm tra & Tự động lưu Cung hoàng đạo nếu User chưa có
-        if (user.getZodiacSign() == ZodiacSign.UNKNOWN) {
-            if (command.zodiacSign() == null || command.zodiacSign() == ZodiacSign.UNKNOWN) {
-                return Result.failure(new Error("ZODIAC_REQUIRED", "Please select your zodiac sign to enhance reading accuracy."));
-            }
-            user.updateProfile(user.getUsername(), command.zodiacSign());
-            userRepository.save(user);
+        // 2. Kiểm tra Cung hoàng đạo (Không tạo side-effect lưu Profile)
+        UserProfile profile = profileRepository.findByUserId(user.getId()).orElse(null);
+        ZodiacSign zodiac = (profile != null && profile.getZodiacSign() != null)
+                ? profile.getZodiacSign()
+                : command.zodiacSign();
+
+        if (zodiac == null) {
+            return Result.failure(new Error("ZODIAC_REQUIRED", "Please select your zodiac sign to enhance reading accuracy."));
         }
 
         // 3. Query available cards
@@ -77,6 +81,7 @@ public class CreateReadingHandler {
         // 5. Infrastructure: AI Consultation (AI tự phân tích Topic & Sinh bản luận giải)
         AiReadingResult aiResult = aiService.generateInitialReading(
             user,
+            zodiac,
             reading.getUserQuestion(),
             reading.getSpreadType(),
             reading.getDrawnCards()

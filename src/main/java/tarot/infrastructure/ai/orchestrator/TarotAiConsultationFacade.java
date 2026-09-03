@@ -27,6 +27,7 @@ public class TarotAiConsultationFacade implements AiConsultationService {
     private final TopicClassifier topicClassifier;
     private final InitialReadingPromptBuilder initialPromptBuilder;
     private final ChatConsultationPromptBuilder chatPromptBuilder;
+    private final tarot.infrastructure.ai.sanitizer.ReadingSanitizer readingSanitizer;
 
     @Override
     public AiReadingResult generateInitialReading(
@@ -50,7 +51,10 @@ public class TarotAiConsultationFacade implements AiConsultationService {
             throw new IllegalStateException("AI Service không thể sinh bản luận giải. Vui lòng kiểm tra lại kết nối API của mô hình AI.");
         }
 
-        return new AiReadingResult(detectedTopic, aiMarkdown);
+        // 4. Lọc và chuẩn hóa văn bản (Sanitizer) trước khi trả về
+        String cleanedMarkdown = readingSanitizer.sanitize(aiMarkdown, user);
+
+        return new AiReadingResult(detectedTopic, cleanedMarkdown);
     }
 
     @Override

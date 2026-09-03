@@ -21,6 +21,10 @@ public record ReadingDetailResponse(
     LocalDateTime createdAt
 ) {
     public static ReadingDetailResponse fromEntity(Reading r) {
+        return fromEntity(r, (r != null) ? r.getInitialReading() : null);
+    }
+
+    public static ReadingDetailResponse fromEntity(Reading r, String initialReading) {
         if (r == null) return null;
 
         List<DrawnCardDto> cards = (r.getDrawnCards() != null)
@@ -41,7 +45,7 @@ public record ReadingDetailResponse(
             (r.getSpreadType() != null) ? r.getSpreadType().name() : "PAST_PRESENT_FUTURE",
             (r.getDeckCode() != null) ? r.getDeckCode().name() : "RIDER_WAITE_CLASSIC",
             cards,
-            r.getInitialReading(),
+            initialReading,
             messages,
             r.getCreatedAt()
         );

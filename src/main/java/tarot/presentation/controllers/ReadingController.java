@@ -28,6 +28,18 @@ public class ReadingController {
     private final GetReadingDetailHandler getReadingDetailHandler;
     private final GetReadingHistoryHandler getReadingHistoryHandler;
     private final SendChatMessageHandler sendChatMessageHandler;
+    private final tarot.application.features.reading.queries.getsuggestedquestions.GetSuggestedQuestionsHandler getSuggestedQuestionsHandler;
+
+    @GetMapping("/suggestions")
+    @Operation(summary = "Generate AI question suggestions", description = "Generates 3 diverse, insightful Tarot inquiry suggestions using AI")
+    public ResponseEntity<?> getSuggestedQuestions(
+            @RequestParam(required = false) String topic,
+            @RequestParam(required = false) String zodiac
+    ) {
+        return ActionResult.from(getSuggestedQuestionsHandler.handle(
+                new tarot.application.features.reading.queries.getsuggestedquestions.GetSuggestedQuestionsQuery(topic, zodiac)
+        ));
+    }
 
     @PostMapping
     @Operation(summary = "Create reading & AI synthesis", description = "Draws cards, saves reading session, and generates initial AI interpretation")

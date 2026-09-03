@@ -8,7 +8,8 @@ import tarot.domain.enums.UserRole;
 
 @Entity
 @Table(name = "\"Users\"")
-@org.hibernate.annotations.SQLRestriction("\"Deleted\" = false")
+@AttributeOverride(name = "deleted", column = @Column(name = "\"IsSoftDeleted\"", nullable = false))
+@org.hibernate.annotations.SQLRestriction("\"IsSoftDeleted\" = false")
 @Getter
 @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,7 +32,7 @@ public class User extends BaseEntity {
     @Column(name = "\"AvatarUrl\"", length = 500)
     private String avatarUrl;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = tarot.infrastructure.persistence.converters.UserRoleConverter.class)
     @Column(name = "\"Role\"", length = 50, nullable = false)
     private UserRole role;
 

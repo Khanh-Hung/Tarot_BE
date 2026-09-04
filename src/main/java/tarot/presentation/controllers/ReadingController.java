@@ -27,6 +27,7 @@ public class ReadingController {
     private final CreateReadingHandler createReadingHandler;
     private final GetReadingDetailHandler getReadingDetailHandler;
     private final GetReadingHistoryHandler getReadingHistoryHandler;
+    private final tarot.application.features.reading.queries.getenergyinsights.GetEnergyInsightsHandler getEnergyInsightsHandler;
     private final SendChatMessageHandler sendChatMessageHandler;
     private final tarot.application.features.reading.queries.getsuggestedquestions.GetSuggestedQuestionsHandler getSuggestedQuestionsHandler;
 
@@ -61,6 +62,12 @@ public class ReadingController {
             @RequestParam(defaultValue = "10") int size
     ) {
         return ActionResult.from(getReadingHistoryHandler.handle(userId, page, size));
+    }
+
+    @GetMapping("/user/{userId}/insights")
+    @Operation(summary = "Get Tarot energy insights and statistics for a user", description = "Calculates elemental balance, most frequent cards, and spiritual energy trends")
+    public ResponseEntity<?> getEnergyInsights(@PathVariable UUID userId) {
+        return ActionResult.from(getEnergyInsightsHandler.handle(userId));
     }
 
     @PostMapping("/{id}/messages")

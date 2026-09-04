@@ -47,14 +47,14 @@ public class DataSeeder implements CommandLineRunner {
             entityManager.createNativeQuery("ALTER TABLE IF EXISTS decks DROP CONSTRAINT IF EXISTS decks_code_check").executeUpdate();
             entityManager.createNativeQuery("ALTER TABLE IF EXISTS cards DROP CONSTRAINT IF EXISTS cards_deck_code_check").executeUpdate();
             entityManager.createNativeQuery("ALTER TABLE IF EXISTS readings DROP CONSTRAINT IF EXISTS readings_deck_code_check").executeUpdate();
-            log.info("✅ Đã cập nhật xong cấu trúc Check Constraint cho 3 bộ bài mới!");
+            log.info("Successfully updated check constraints for the 3 international decks!");
         } catch (Exception e) {
-            log.warn("Lưu ý khi drop constraint (có thể chưa tồn tại): {}", e.getMessage());
+            log.warn("Notice when dropping constraint (it may not exist): {}", e.getMessage());
         }
     }
 
     private void seedDecks() {
-        log.info("🌟 Đang khởi tạo 3 Bộ Bài Tarot Chuẩn Quốc Tế (The Big Three)...");
+        log.info("Initializing The Big Three international Tarot decks...");
 
         saveOrUpdateDeck(
                 DeckCode.RIDER_WAITE_CLASSIC,
@@ -101,7 +101,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedAuthenticCards() {
-        log.info("🎴 Đang đồng bộ và cập nhật dữ liệu 78 lá bài song ngữ cho cả 3 bộ bài quốc tế...");
+        log.info("Synchronizing bilingual data for 78 cards across all 3 international decks...");
 
         try {
             ClassPathResource resource = new ClassPathResource("cards-rws-78.json");
@@ -117,10 +117,10 @@ public class DataSeeder implements CommandLineRunner {
                 // 3. Đồng bộ bộ bài Tarot de Marseille
                 syncDeckCards(DeckCode.MARSEILLE_HERMETIC, rawCards, false, true);
 
-                log.info("✅ Hoàn tất đồng bộ 234 lá bài với 3 bộ hình ảnh chuyên biệt (RWS, Thoth, Marseille)!");
+                log.info("Completed synchronization of 234 cards across specialized decks (RWS, Thoth, Marseille)!");
             }
         } catch (Exception e) {
-            log.error("❌ Lỗi khi nạp dữ liệu 3 bộ bài Tarot: {}", e.getMessage(), e);
+            log.error("Failed to seed 3 Tarot decks data: {}", e.getMessage(), e);
         }
     }
 

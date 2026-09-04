@@ -87,7 +87,7 @@ public class GetSuggestedQuestionsHandler {
                 }
             }
         } catch (Exception e) {
-            log.warn("Không thể parse gợi ý câu hỏi từ Gemini AI, sử dụng fallback: {}", e.getMessage());
+            log.warn("Failed to parse suggested questions from Gemini AI, using fallback: {}", e.getMessage());
         }
 
         var shuffled = new ArrayList<>(FALLBACK_QUESTIONS);

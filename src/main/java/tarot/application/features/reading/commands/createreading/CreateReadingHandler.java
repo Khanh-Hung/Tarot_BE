@@ -10,6 +10,7 @@ import tarot.domain.entities.core.Reading;
 import tarot.domain.entities.identity.User;
 import tarot.domain.entities.core.UserProfile;
 import tarot.domain.enums.DeckCode;
+import tarot.domain.enums.SpreadType;
 import tarot.domain.enums.ZodiacSign;
 import tarot.infrastructure.ai.AiConsultationService;
 import tarot.infrastructure.ai.core.AiReadingResult;
@@ -18,6 +19,8 @@ import tarot.infrastructure.persistence.repositories.core.ReadingRepository;
 import tarot.infrastructure.persistence.repositories.core.UserProfileRepository;
 import tarot.infrastructure.persistence.repositories.identity.UserRepository;
 
+import tarot.domain.common.datetime.Clock;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -38,15 +41,40 @@ public class CreateReadingHandler {
             return Result.failure(new Error("USER_NOT_FOUND", "User not found with ID: " + command.userId()));
         }
 
-        // 2. Kiểm tra Cung hoàng đạo (Không tạo side-effect lưu Profile)
+        // 2. Kiểm tra Cung hoàng đạo và Hạn mức lượt bói (Quota)
         UserProfile profile = profileRepository.findByUserId(user.getId()).orElse(null);
-        ZodiacSign zodiac = (profile != null && profile.getZodiacSign() != null)
+        LocalDate today = Clock.today();
+
+        if (profile == null) {
+            profile = UserProfile.createDefault(user.getId(), command.zodiacSign());
+        } else {
+            profile.checkAndResetDailyQuota(today);
+        }
+
+        ZodiacSign zodiac = (profile.getZodiacSign() != null)
                 ? profile.getZodiacSign()
                 : command.zodiacSign();
 
         if (zodiac == null) {
             return Result.failure(new Error("ZODIAC_REQUIRED", "Please select your zodiac sign to enhance reading accuracy."));
         }
+
+        if (!profile.canPerformReading(today, command.spreadType())) {
+            if (command.spreadType() != SpreadType.DAILY_ORACLE && profile.getBonusReadings() <= 0) {
+                return Result.failure(new Error(
+                        "AD_REQUIRED_FOR_SPREAD",
+                        "Watching a rewarded ad is required to unlock this spread. Please watch an ad to earn energy."
+                ));
+            }
+            return Result.failure(new Error(
+                    "DAILY_QUOTA_EXCEEDED",
+                    "Daily reading quota exceeded. Please watch a rewarded video to earn extra readings."
+            ));
+        }
+
+        // Trừ 1 lượt đọc bài theo loại trải bài
+        profile.consumeReading(today, command.spreadType());
+        profileRepository.save(profile);
 
         // 3. Query available cards
         DeckCode deckCode = (command.deckCode() != null) ? command.deckCode() : DeckCode.RIDER_WAITE_CLASSIC;

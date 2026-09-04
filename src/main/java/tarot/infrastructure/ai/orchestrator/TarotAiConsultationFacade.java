@@ -48,7 +48,7 @@ public class TarotAiConsultationFacade implements AiConsultationService {
         String aiMarkdown = aiModelClient.generateContent(sysInstruction, userPrompt);
 
         if (aiMarkdown == null || aiMarkdown.isBlank()) {
-            throw new IllegalStateException("AI Service không thể sinh bản luận giải. Vui lòng kiểm tra lại kết nối API của mô hình AI.");
+            throw new IllegalStateException("AI Service failed to generate consultation. Please check the AI model connection.");
         }
 
         // 4. Lọc và chuẩn hóa văn bản (Sanitizer) trước khi trả về
@@ -69,7 +69,7 @@ public class TarotAiConsultationFacade implements AiConsultationService {
 
         String aiReply = aiModelClient.generateContent(sysInstruction, userPrompt);
         if (aiReply == null || aiReply.isBlank()) {
-            throw new IllegalStateException("AI Reader tạm thời không thể hồi đáp. Vui lòng thử lại.");
+            throw new IllegalStateException("AI Reader is temporarily unavailable. Please try again.");
         }
 
         return aiReply;

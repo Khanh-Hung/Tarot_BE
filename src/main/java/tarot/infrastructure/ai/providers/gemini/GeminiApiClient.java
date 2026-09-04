@@ -35,7 +35,7 @@ public class GeminiApiClient implements AiModelClient {
     @Override
     public String generateContent(String systemInstruction, String userPrompt) {
         if (apiKey == null || apiKey.isBlank()) {
-            throw new IllegalStateException("GEMINI_API_KEY chưa được cấu hình! Vui lòng cung cấp API Key trong application.yml hoặc biến môi trường.");
+            throw new IllegalStateException("GEMINI_API_KEY is not configured! Please provide the API key in application.yml or environment variables.");
         }
 
         // Danh sách các model hoạt động theo thứ tự ưu tiên (Gemini 2.x & 3.x)
@@ -67,12 +67,12 @@ public class GeminiApiClient implements AiModelClient {
                 }
             } catch (Exception e) {
                 lastException = e;
-                log.warn("Gọi model {} thất bại ({}), đang thử model dự phòng tiếp theo...", currentModel, e.getMessage());
+                log.warn("Model {} call failed ({}), attempting fallback model...", currentModel, e.getMessage());
             }
         }
 
-        log.error("Tất cả các model Gemini đều thất bại: {}", lastException != null ? lastException.getMessage() : "Unknown");
-        throw new RuntimeException("Không thể kết nối đến Google Gemini AI: " + (lastException != null ? lastException.getMessage() : "All models unavailable"), lastException);
+        log.error("All Gemini models failed: {}", lastException != null ? lastException.getMessage() : "Unknown");
+        throw new RuntimeException("Failed to connect to Google Gemini AI: " + (lastException != null ? lastException.getMessage() : "All models unavailable"), lastException);
     }
 
     // =========================================================================

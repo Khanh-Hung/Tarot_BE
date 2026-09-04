@@ -32,13 +32,13 @@ public class LlmTopicClassifier implements TopicClassifier {
             String cleaned = aiRawOutput.trim().toUpperCase();
             for (Topic t : Topic.values()) {
                 if (cleaned.contains(t.name())) {
-                    log.info("🎯 LLM Classifier đã phân loại thành công câu hỏi sang Topic: {}", t);
+                    log.info("LLM Classifier successfully classified question into Topic: {}", t);
                     return t;
                 }
             }
         }
 
-        log.warn("Không thể phân loại bằng AI cho câu hỏi '{}', áp dụng mặc định GENERAL_GUIDANCE", userQuestion);
+        log.warn("Failed to classify question '{}' with AI, defaulting to GENERAL_GUIDANCE", userQuestion);
         return Topic.GENERAL_GUIDANCE;
     }
 }

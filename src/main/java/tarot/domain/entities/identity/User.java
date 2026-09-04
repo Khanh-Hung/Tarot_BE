@@ -77,6 +77,18 @@ public class User extends BaseEntity {
 
     // --- DOMAIN BUSINESS METHODS ---
 
+    public void updateDisplayName(String displayName) {
+        if (displayName != null) {
+            this.displayName = displayName.trim();
+        }
+    }
+
+    public void updateAvatar(String avatarUrl) {
+        if (avatarUrl != null) {
+            this.avatarUrl = avatarUrl.trim();
+        }
+    }
+
     public void updateProfile(String displayName, String avatarUrl) {
         if (displayName != null) {
             this.displayName = displayName.trim();

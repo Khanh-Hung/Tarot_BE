@@ -185,11 +185,11 @@ public class GetEnergyInsightsHandler {
                         if (profileToUpdate != null) {
                             profileToUpdate.updateEnergyAdvice(cleanAdvice, lastReadingId);
                             userProfileRepository.save(profileToUpdate);
-                            log.info("✅ Đã cập nhật xong Lời khuyên năng lượng AI ngầm cho User: {}", finalUserId);
+                            log.info("Successfully updated background AI energy insights for user: {}", finalUserId);
                         }
                     }
                 } catch (Exception ex) {
-                    log.warn("Không thể sinh lời khuyên năng lượng AI ngầm: {}", ex.getMessage());
+                    log.warn("Failed to generate background AI energy insights: {}", ex.getMessage());
                 }
             });
         }

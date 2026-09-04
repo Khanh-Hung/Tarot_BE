@@ -51,6 +51,8 @@ public class SecurityConfig {
                     "/api/v1/decks/**",
                     "/api/v1/cards/**",
                     "/api/v1/readings/**",
+                    "/api/v1/profile/**",
+                    "/uploads/**",
                     "/error",
                     "/swagger-ui/**",
                     "/swagger-ui.html",

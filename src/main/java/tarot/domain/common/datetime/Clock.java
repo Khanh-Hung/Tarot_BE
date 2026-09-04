@@ -3,7 +3,9 @@ package tarot.domain.common.datetime;
 import lombok.Setter;
 import lombok.experimental.UtilityClass;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 /**
  * @UtilityClass: Tương đương "public static class" bên C#.
@@ -16,5 +18,13 @@ public class Clock {
 
     public static LocalDateTime now() {
         return provider.utcNow();
+    }
+
+    public static LocalDate today() {
+        return provider.today();
+    }
+
+    public static LocalDate today(ZoneId zoneId) {
+        return provider.today(zoneId);
     }
 }

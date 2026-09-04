@@ -84,6 +84,9 @@ public class ReadingSanitizer {
         // 3. Loại bỏ tên tiếng Anh trong ngoặc đơn (như "(The High Priestess)")
         text = ENGLISH_PARENS_PATTERN.matcher(text).replaceAll("");
 
+        // 3.1. Chuẩn hóa biểu tượng mục 2 thành cuộn thư 📜 để tránh trùng lặp 🎴 với lá bài con
+        text = text.replaceAll("(?m)^##\\s*🎴\\s*2\\.", "## 📜 2.");
+
         // 4. Cá nhân hóa danh xưng bằng DisplayName
         String displayName = "Bạn";
         if (user != null) {
@@ -113,21 +116,18 @@ public class ReadingSanitizer {
     }
 
     private String deAnonymizeAllCaps(String text) {
-        Matcher boldAllCapsMatcher = Pattern.compile("\\*\\*([A-ZÀ-Ỹ\\s]{3,})\\*\\*").matcher(text);
-        text = boldAllCapsMatcher.replaceAll(m -> "**" + m.group(1).toLowerCase() + "**");
-
-        Pattern allCapsPhrase = Pattern.compile("(?<![#>*_\\w])([A-ZÀ-Ỹ]{2,}(?:\\s+[A-ZÀ-Ỹ]{2,})+)(?![*_\\w])");
-        Matcher m = allCapsPhrase.matcher(text);
+        Matcher boldMatcher = BOLD_PATTERN.matcher(text);
         StringBuilder sb = new StringBuilder();
-        while (m.find()) {
-            String phrase = m.group(1);
-            if (phrase.contains("THÔNG ĐIỆP") || phrase.contains("VŨ TRỤ") || phrase.contains("CHI TIẾT") || phrase.contains("LỜI KHUYÊN")) {
-                m.appendReplacement(sb, Matcher.quoteReplacement(phrase));
+        while (boldMatcher.find()) {
+            String inner = boldMatcher.group(1);
+            // Nếu cụm từ in đậm bị viết hoa toàn bộ (ALL CAPS), chuyển về chữ thường để tránh cảm giác gào thét
+            if (inner.length() >= 3 && inner.equals(inner.toUpperCase()) && !inner.equals(inner.toLowerCase())) {
+                boldMatcher.appendReplacement(sb, Matcher.quoteReplacement("**" + inner.toLowerCase() + "**"));
             } else {
-                m.appendReplacement(sb, Matcher.quoteReplacement("**" + phrase.toLowerCase() + "**"));
+                boldMatcher.appendReplacement(sb, Matcher.quoteReplacement("**" + inner + "**"));
             }
         }
-        m.appendTail(sb);
+        boldMatcher.appendTail(sb);
         return sb.toString();
     }
 
@@ -136,9 +136,7 @@ public class ReadingSanitizer {
         StringBuilder sb = new StringBuilder();
         while (matcher.find()) {
             String inner = matcher.group(1);
-            String[] words = inner.trim().split("\\s+");
-            // Chỉ áp dụng cho tiêu đề/đầu mục ngắn (dưới 60 ký tự và tối đa 7 từ), không áp dụng cho cả câu văn dài
-            if (inner.length() < 60 && words.length <= 7 && Pattern.compile("[A-ZÀ-Ỹ][a-zà-ỹ]+.*[A-ZÀ-Ỹ][a-zà-ỹ]+").matcher(inner).find()) {
+            if (isTitleCasedHeading(inner)) {
                 inner = inner.replaceAll("(?<=^|\\s)và(?=\\s|[.,:;!?]|$)", "Và")
                         .replaceAll("(?<=^|\\s)của(?=\\s|[.,:;!?]|$)", "Của")
                         .replaceAll("(?<=^|\\s)cho(?=\\s|[.,:;!?]|$)", "Cho")
@@ -152,5 +150,18 @@ public class ReadingSanitizer {
         }
         matcher.appendTail(sb);
         return sb.toString();
+    }
+
+    private boolean isTitleCasedHeading(String inner) {
+        if (inner.length() > 60) return false;
+        String[] words = inner.trim().split("\\s+");
+        if (words.length < 2 || words.length > 8) return false;
+        int upperFirstCount = 0;
+        for (String w : words) {
+            if (!w.isEmpty() && Character.isUpperCase(w.codePointAt(0))) {
+                upperFirstCount++;
+            }
+        }
+        return upperFirstCount >= 2;
     }
 }

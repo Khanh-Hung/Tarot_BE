@@ -38,13 +38,13 @@ public class GeminiApiClient implements AiModelClient {
             throw new IllegalStateException("GEMINI_API_KEY chưa được cấu hình! Vui lòng cung cấp API Key trong application.yml hoặc biến môi trường.");
         }
 
-        // Danh sách các model thử nghiệm theo thứ tự ưu tiên (Gemini 2.x)
+        // Danh sách các model hoạt động theo thứ tự ưu tiên (Gemini 2.x & 3.x)
         List<String> modelsToTry = List.of(
             model,
-            "gemini-2.5-flash",
-            "gemini-2.0-flash",
-            "gemini-2.5-pro",
-            "gemini-1.5-flash-latest"
+            "gemini-flash-lite-latest",
+            "gemini-3.5-flash",
+            "gemini-3.6-flash",
+            "gemini-2.5-flash"
         ).stream().filter(m -> m != null && !m.isBlank()).distinct().toList();
 
         Exception lastException = null;

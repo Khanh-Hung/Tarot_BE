@@ -27,6 +27,12 @@ public class UserProfile extends BaseEntity {
     @Column(name = "\"FavoriteDeckId\"")
     private UUID favoriteDeckId;
 
+    @Column(name = "\"CachedEnergyAdvice\"", columnDefinition = "TEXT")
+    private String cachedEnergyAdvice;
+
+    @Column(name = "\"CachedLastReadingId\"")
+    private UUID cachedLastReadingId;
+
     // --- DOMAIN FACTORY METHOD ---
 
     public static UserProfile createDefault(UUID userId, ZodiacSign zodiacSign) {
@@ -54,6 +60,11 @@ public class UserProfile extends BaseEntity {
         if (favoriteDeckId != null) {
             this.favoriteDeckId = favoriteDeckId;
         }
+    }
+
+    public void updateEnergyAdvice(String advice, UUID lastReadingId) {
+        this.cachedEnergyAdvice = advice;
+        this.cachedLastReadingId = lastReadingId;
     }
 }
 

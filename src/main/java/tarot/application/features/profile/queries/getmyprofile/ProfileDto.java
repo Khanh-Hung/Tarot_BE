@@ -14,6 +14,7 @@ public record ProfileDto(
         String userName,
         String displayName,
         String avatarUrl,
+        boolean isEmailVerified,
         ZodiacSign zodiacSign,
         UUID favoriteDeckId
 ) {
@@ -25,6 +26,7 @@ public record ProfileDto(
                 user.getUserName(),
                 user.getDisplayName(),
                 user.getAvatarUrl(),
+                user.isEmailVerified(),
                 profile != null ? profile.getZodiacSign() : null,
                 profile != null ? profile.getFavoriteDeckId() : null
         );

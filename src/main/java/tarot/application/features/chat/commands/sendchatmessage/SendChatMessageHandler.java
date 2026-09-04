@@ -7,10 +7,12 @@ import tarot.application.common.result.Error;
 import tarot.application.common.result.Result;
 import tarot.domain.entities.core.ChatMessage;
 import tarot.domain.entities.core.Reading;
+import tarot.domain.entities.identity.User;
 import tarot.domain.enums.MessageSender;
 import tarot.infrastructure.ai.AiConsultationService;
 import tarot.infrastructure.persistence.repositories.core.ChatMessageRepository;
 import tarot.infrastructure.persistence.repositories.core.ReadingRepository;
+import tarot.infrastructure.persistence.repositories.identity.UserRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +23,7 @@ public class SendChatMessageHandler {
 
     private final ReadingRepository readingRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final UserRepository userRepository;
     private final AiConsultationService aiService;
 
     @Transactional
@@ -28,6 +31,14 @@ public class SendChatMessageHandler {
         Reading reading = readingRepository.findById(readingId).orElse(null);
         if (reading == null) {
             return Result.failure(new Error("READING_NOT_FOUND", "Reading session not found with ID: " + readingId));
+        }
+
+        // Enforce Email Verification requirement for AI Chat
+        if (reading.getUserId() != null) {
+            User user = userRepository.findById(reading.getUserId()).orElse(null);
+            if (user != null && !user.isEmailVerified()) {
+                return Result.failure(new Error("EMAIL_NOT_VERIFIED", "Please verify your email address to unlock chat consultation with AI Reader."));
+            }
         }
 
         // 1. Lưu tin nhắn của User

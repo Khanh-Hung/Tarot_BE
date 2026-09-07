@@ -37,7 +37,13 @@ public class CoreDbConfig {
     @Primary
     @Bean(name = "coreDataSource")
     public DataSource coreDataSource() {
-        return coreDataSourceProperties().initializeDataSourceBuilder().build();
+        com.zaxxer.hikari.HikariDataSource ds = coreDataSourceProperties()
+                .initializeDataSourceBuilder()
+                .type(com.zaxxer.hikari.HikariDataSource.class)
+                .build();
+        ds.setMaximumPoolSize(3);
+        ds.setMinimumIdle(1);
+        return ds;
     }
 
     @Primary

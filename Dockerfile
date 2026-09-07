@@ -1,4 +1,4 @@
-﻿# Stage 1: Build the Spring Boot application using Maven & Eclipse Temurin 21
+# Stage 1: Build the Spring Boot application using Maven & Eclipse Temurin 21
 FROM maven:3.9.9-eclipse-temurin-21-alpine AS builder
 WORKDIR /app
 
@@ -21,4 +21,4 @@ COPY --from=builder /app/target/*.jar app.jar
 ENV PORT=8080
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-Dserver.port=", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]

@@ -34,7 +34,13 @@ public class IdentityDbConfig {
 
     @Bean(name = "identityDataSource")
     public DataSource identityDataSource() {
-        return identityDataSourceProperties().initializeDataSourceBuilder().build();
+        com.zaxxer.hikari.HikariDataSource ds = identityDataSourceProperties()
+                .initializeDataSourceBuilder()
+                .type(com.zaxxer.hikari.HikariDataSource.class)
+                .build();
+        ds.setMaximumPoolSize(2);
+        ds.setMinimumIdle(1);
+        return ds;
     }
 
     @Bean(name = "identityEntityManagerFactory")

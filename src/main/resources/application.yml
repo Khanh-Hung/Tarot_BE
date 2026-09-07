@@ -27,8 +27,8 @@ gemini:
 application:
   security:
     jwt:
-      secret-key: oracle-tarot-super-secret-key-256-bits-minimum-required-for-hmac-sha-algorithm-security
-      expiration-ms: 604800000
+      secret-key: ${JWT_SECRET:}
+      expiration-ms: ${JWT_EXPIRATION_MS:604800000}
 
 # Swagger OpenAPI Documentation
 springdoc:

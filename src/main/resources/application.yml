@@ -28,7 +28,7 @@ application:
   security:
     jwt:
       secret-key: ${JWT_SECRET:}
-      expiration-ms: ${JWT_EXPIRATION_MS:604800000}
+      expiration-ms: ${JWT_EXPIRATION_MS:}
 
 # Swagger OpenAPI Documentation
 springdoc:

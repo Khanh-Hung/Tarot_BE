@@ -87,18 +87,33 @@ public class ReadingSanitizer {
         // 3.1. Chuẩn hóa biểu tượng mục 2 thành cuộn thư 📜 để tránh trùng lặp 🎴 với lá bài con
         text = text.replaceAll("(?m)^##\\s*🎴\\s*2\\.", "## 📜 2.");
 
-        // 4. Cá nhân hóa danh xưng bằng DisplayName
-        String displayName = "Bạn";
+        // 4. Cá nhân hóa danh xưng bằng DisplayName sạch
+        String displayName = "bạn";
         if (user != null) {
-            if (user.getDisplayName() != null && !user.getDisplayName().isBlank()) {
-                displayName = user.getDisplayName().trim();
-            } else if (user.getUserName() != null && !user.getUserName().isBlank()) {
-                displayName = user.getUserName().trim();
+            String candidate = user.getDisplayName();
+            if (candidate == null || candidate.isBlank()) {
+                candidate = user.getUserName();
+            }
+            if (candidate != null && !candidate.isBlank()) {
+                candidate = candidate.trim();
+                // Chỉ dùng tên nếu là tên người thật (không chứa số, ký tự đặc biệt)
+                if (!candidate.matches(".*\\d.*") && !candidate.contains("@") && !candidate.contains("_") && !candidate.contains(".")) {
+                    displayName = candidate;
+                }
             }
         }
         text = text.replaceAll("(?i)Chào\\s+[Bb]ạn\\s+thân\\s+mến", "Chào " + displayName + " thân mến");
         text = text.replaceAll("(?i)hỡi\\s+[a-zA-Z0-9_-]+,\\s*", displayName + ", ");
         text = text.replaceAll("(?i)hỡi\\s+bạn,\\s*", displayName + ", ");
+
+        // Xóa bỏ username kỹ thuật (ví dụ "tranminhphuong251") nếu bị AI lặp lại trong văn bản
+        if (user != null && user.getUserName() != null && !user.getUserName().isBlank()) {
+            String uname = user.getUserName().trim();
+            if (uname.matches(".*\\d.*") || uname.contains("@") || uname.length() > 10) {
+                text = text.replaceAll("(?i)Chào\\s+\\*?\\*?" + Pattern.quote(uname) + "\\*?\\*?[,\\s]*", "");
+                text = text.replaceAll("(?i)\\*?\\*?" + Pattern.quote(uname) + "\\*?\\*?", "bạn");
+            }
+        }
 
         // 5. Dịch các vị trí tiếng Anh trong ngoặc vuông
         for (Map.Entry<String, String> entry : POSITION_TRANSLATIONS.entrySet()) {

@@ -25,4 +25,10 @@ public interface AiConsultationService {
         List<ChatMessage> history,
         String userNewMessage
     );
+
+    String generateConclusionQuote(
+        String userQuestion,
+        List<DrawnCard> drawnCards,
+        String initialReading
+    );
 }

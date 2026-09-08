@@ -30,6 +30,7 @@ public class ReadingController {
     private final tarot.application.features.reading.queries.getenergyinsights.GetEnergyInsightsHandler getEnergyInsightsHandler;
     private final SendChatMessageHandler sendChatMessageHandler;
     private final tarot.application.features.reading.queries.getsuggestedquestions.GetSuggestedQuestionsHandler getSuggestedQuestionsHandler;
+    private final tarot.application.features.reading.commands.generateconclusion.GenerateConclusionHandler generateConclusionHandler;
 
     @GetMapping("/suggestions")
     @Operation(summary = "Generate AI question suggestions", description = "Generates 3 diverse, insightful Tarot inquiry suggestions using AI")
@@ -77,5 +78,11 @@ public class ReadingController {
             @Valid @RequestBody SendChatMessageCommand command
     ) {
         return ActionResult.from(sendChatMessageHandler.handle(id, command));
+    }
+
+    @PostMapping("/{id}/conclude")
+    @Operation(summary = "Generate 1-sentence AI conclusion for story sharing", description = "Synthesizes reading into 1 punchy conclusion quote")
+    public ResponseEntity<?> generateConclusion(@PathVariable UUID id) {
+        return ActionResult.from(generateConclusionHandler.handle(id));
     }
 }

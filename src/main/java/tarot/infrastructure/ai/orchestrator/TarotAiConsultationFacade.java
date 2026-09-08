@@ -74,4 +74,57 @@ public class TarotAiConsultationFacade implements AiConsultationService {
 
         return aiReply;
     }
+
+    @Override
+    public String generateConclusionQuote(
+            String userQuestion,
+            List<DrawnCard> drawnCards,
+            String initialReading
+    ) {
+        String sysInstruction = """
+            Bạn là Master Tarot Reader. Nhiệm vụ của bạn là đúc kết toàn bộ quẻ bài Tarot thành ĐÚNG 1 CÂU KẾT LUẬN sâu sắc, cô đọng, giàu cảm xúc, có sức nặng chữa lành và truyền cảm hứng mạnh mẽ để người dùng đưa lên ảnh Story chia sẻ.
+            Quy tắc bắt buộc:
+            - Độ dài: từ 20 đến 35 từ.
+            - Đúng 1 câu duy nhất bằng tiếng Việt thanh lịch, sâu sắc, không lan man.
+            - Viết câu hoàn chỉnh thuần túy trong dấu ngoặc kép "...", TUYỆT ĐỐI KHÔNG giải thích, KHÔNG chào hỏi, KHÔNG dùng gạch đầu dòng.
+            """;
+
+        StringBuilder cardNames = new StringBuilder();
+        if (drawnCards != null) {
+            for (DrawnCard dc : drawnCards) {
+                if (dc.getCard() != null) {
+                    cardNames.append(dc.getCard().getNameVi())
+                            .append(dc.isReversed() ? " (Ngược)" : " (Xuôi)")
+                            .append(", ");
+                }
+            }
+        }
+
+        String userPrompt = String.format("""
+            Câu hỏi của người hỏi: "%s"
+            Các lá bài trên bàn: %s
+            Bản luận giải tóm lược:
+            %s
+            
+            Hãy đúc kết thành đúng 1 câu kết luận sâu sắc nhất cho người này.
+            """,
+            userQuestion != null ? userQuestion : "Tổng quan năng lượng",
+            cardNames.toString(),
+            (initialReading != null && initialReading.length() > 800)
+                    ? initialReading.substring(0, 800)
+                    : (initialReading != null ? initialReading : "")
+        );
+
+        String raw = aiModelClient.generateContent(sysInstruction, userPrompt);
+        if (raw == null || raw.isBlank()) {
+            return "Vũ trụ luôn gửi tín hiệu đến những ai biết lắng nghe trực giác của chính mình.";
+        }
+
+        String cleaned = raw.replaceAll("[*#_`>]", "").trim();
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("[\"“](.+?)[\"”]").matcher(cleaned);
+        if (m.find()) {
+            return m.group(1).trim();
+        }
+        return cleaned.replaceAll("^[\"“]|[\"”]$", "").trim();
+    }
 }

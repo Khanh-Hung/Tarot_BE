@@ -8,7 +8,9 @@ import tarot.application.common.result.Result;
 import tarot.application.features.profile.queries.getmyprofile.ProfileDto;
 import tarot.domain.entities.identity.User;
 import tarot.domain.entities.core.UserProfile;
+import tarot.domain.entities.core.UserStreak;
 import tarot.infrastructure.persistence.repositories.core.UserProfileRepository;
+import tarot.infrastructure.persistence.repositories.core.UserStreakRepository;
 import tarot.infrastructure.persistence.repositories.identity.UserRepository;
 
 import java.util.UUID;
@@ -19,6 +21,7 @@ public class UpdateMyProfileHandler {
 
     private final UserRepository userRepository;
     private final UserProfileRepository profileRepository;
+    private final UserStreakRepository streakRepository;
 
     @Transactional
     public Result<ProfileDto> handle(UUID userId, UpdateMyProfileCommand command) {
@@ -31,7 +34,7 @@ public class UpdateMyProfileHandler {
         user.updateDisplayName(command.displayName());
         User savedUser = userRepository.save(user);
 
-        // 2. Cập nhật cài đặt riêng vào bảng user_profiles
+        // 2. Cập nhật cài đặt riêng vào bảng UserProfiles
         UserProfile profile = profileRepository.findByUserId(userId)
                 .orElseGet(() -> UserProfile.createDefault(userId, null));
 
@@ -40,7 +43,8 @@ public class UpdateMyProfileHandler {
                 command.favoriteDeckId()
         );
         UserProfile savedProfile = profileRepository.save(profile);
+        UserStreak streak = streakRepository.findByUserId(userId).orElse(null);
 
-        return Result.success(ProfileDto.fromEntity(savedUser, savedProfile));
+        return Result.success(ProfileDto.fromEntity(savedUser, savedProfile, streak));
     }
 }

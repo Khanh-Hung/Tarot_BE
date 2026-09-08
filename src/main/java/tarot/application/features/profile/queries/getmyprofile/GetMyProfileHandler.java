@@ -7,7 +7,9 @@ import tarot.application.common.result.Error;
 import tarot.application.common.result.Result;
 import tarot.domain.entities.identity.User;
 import tarot.domain.entities.core.UserProfile;
+import tarot.domain.entities.core.UserStreak;
 import tarot.infrastructure.persistence.repositories.core.UserProfileRepository;
+import tarot.infrastructure.persistence.repositories.core.UserStreakRepository;
 import tarot.infrastructure.persistence.repositories.identity.UserRepository;
 
 import java.util.UUID;
@@ -19,6 +21,7 @@ public class GetMyProfileHandler {
 
     private final UserRepository userRepository;
     private final UserProfileRepository profileRepository;
+    private final UserStreakRepository streakRepository;
 
     public Result<ProfileDto> handle(UUID userId) {
         User user = userRepository.findById(userId).orElse(null);
@@ -27,6 +30,7 @@ public class GetMyProfileHandler {
         }
 
         UserProfile profile = profileRepository.findByUserId(userId).orElse(null);
-        return Result.success(ProfileDto.fromEntity(user, profile));
+        UserStreak streak = streakRepository.findByUserId(userId).orElse(null);
+        return Result.success(ProfileDto.fromEntity(user, profile, streak));
     }
 }

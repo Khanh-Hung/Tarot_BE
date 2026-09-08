@@ -9,6 +9,8 @@ import tarot.domain.entities.core.Card;
 import tarot.domain.entities.core.Reading;
 import tarot.domain.entities.identity.User;
 import tarot.domain.entities.core.UserProfile;
+import tarot.domain.entities.core.UserQuota;
+import tarot.domain.entities.core.UserStreak;
 import tarot.domain.enums.DeckCode;
 import tarot.domain.enums.SpreadType;
 import tarot.domain.enums.ZodiacSign;
@@ -17,6 +19,8 @@ import tarot.infrastructure.ai.core.AiReadingResult;
 import tarot.infrastructure.persistence.repositories.core.CardRepository;
 import tarot.infrastructure.persistence.repositories.core.ReadingRepository;
 import tarot.infrastructure.persistence.repositories.core.UserProfileRepository;
+import tarot.infrastructure.persistence.repositories.core.UserQuotaRepository;
+import tarot.infrastructure.persistence.repositories.core.UserStreakRepository;
 import tarot.infrastructure.persistence.repositories.identity.UserRepository;
 
 import tarot.domain.common.datetime.Clock;
@@ -29,6 +33,8 @@ public class CreateReadingHandler {
 
     private final UserRepository userRepository;
     private final UserProfileRepository profileRepository;
+    private final UserQuotaRepository quotaRepository;
+    private final UserStreakRepository streakRepository;
     private final CardRepository cardRepository;
     private final ReadingRepository readingRepository;
     private final AiConsultationService aiService;
@@ -41,14 +47,13 @@ public class CreateReadingHandler {
             return Result.failure(new Error("USER_NOT_FOUND", "User not found with ID: " + command.userId()));
         }
 
-        // 2. Kiểm tra Cung hoàng đạo và Hạn mức lượt bói (Quota)
+        // 2. Kiểm tra Cung hoàng đạo
         UserProfile profile = profileRepository.findByUserId(user.getId()).orElse(null);
         LocalDate today = Clock.today();
 
         if (profile == null) {
             profile = UserProfile.createDefault(user.getId(), command.zodiacSign());
-        } else {
-            profile.checkAndResetDailyQuota(today);
+            profileRepository.save(profile);
         }
 
         ZodiacSign zodiac = (profile.getZodiacSign() != null)
@@ -59,8 +64,16 @@ public class CreateReadingHandler {
             return Result.failure(new Error("ZODIAC_REQUIRED", "Please select your zodiac sign to enhance reading accuracy."));
         }
 
-        if (!profile.canPerformReading(today, command.spreadType())) {
-            if (command.spreadType() != SpreadType.DAILY_ORACLE && profile.getBonusReadings() <= 0) {
+        // 3. Kiểm tra và trừ Hạn mức lượt bói (UserQuota)
+        UserQuota quota = quotaRepository.findByUserId(user.getId()).orElse(null);
+        if (quota == null) {
+            quota = UserQuota.createDefault(user.getId());
+        } else {
+            quota.checkAndResetDailyQuota(today);
+        }
+
+        if (!quota.canPerformReading(today, command.spreadType())) {
+            if (command.spreadType() != SpreadType.DAILY_ORACLE && quota.getBonusReadings() <= 0) {
                 return Result.failure(new Error(
                         "AD_REQUIRED_FOR_SPREAD",
                         "Watching a rewarded ad is required to unlock this spread. Please watch an ad to earn energy."
@@ -72,11 +85,23 @@ public class CreateReadingHandler {
             ));
         }
 
-        // Trừ 1 lượt đọc bài theo loại trải bài
-        profile.consumeReading(today, command.spreadType());
-        profileRepository.save(profile);
+        quota.consumeReading(today, command.spreadType());
 
-        // 3. Query available cards
+        // 4. Ghi nhận chuỗi bốc bài hàng ngày (UserStreak)
+        UserStreak streak = streakRepository.findByUserId(user.getId()).orElse(null);
+        if (streak == null) {
+            streak = UserStreak.createDefault(user.getId());
+        }
+        int bonusAwarded = streak.recordDailyStreak(today);
+        streakRepository.save(streak);
+
+        // Nếu chạm mốc thưởng chuỗi ngày -> Cộng thêm bonus readings vào Quota
+        if (bonusAwarded > 0) {
+            quota.addBonusReadings(bonusAwarded);
+        }
+        quotaRepository.save(quota);
+
+        // 5. Query available cards
         DeckCode deckCode = (command.deckCode() != null) ? command.deckCode() : DeckCode.RIDER_WAITE_CLASSIC;
         List<Card> allCards = cardRepository.findByDeckCode(deckCode);
         if (allCards.isEmpty()) {

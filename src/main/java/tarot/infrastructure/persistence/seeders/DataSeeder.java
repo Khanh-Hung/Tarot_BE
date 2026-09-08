@@ -27,6 +27,7 @@ import jakarta.persistence.EntityManager;
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@SuppressWarnings({"SqlNoDataSourceInspection", "SqlDialectInspection", "SqlResolve"})
 public class DataSeeder implements CommandLineRunner {
 
     private final DeckRepository deckRepository;

@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import tarot.domain.common.BaseEntity;
+import tarot.domain.enums.Gender;
 import tarot.domain.enums.UserRole;
+import tarot.infrastructure.persistence.converters.GenderConverter;
+import tarot.infrastructure.persistence.converters.UserRoleConverter;
 
 @Entity
 @Table(name = "\"Users\"")
@@ -32,12 +35,19 @@ public class User extends BaseEntity {
     @Column(name = "\"AvatarUrl\"", length = 500)
     private String avatarUrl;
 
-    @Convert(converter = tarot.infrastructure.persistence.converters.UserRoleConverter.class)
+    @Convert(converter = UserRoleConverter.class)
     @Column(name = "\"Role\"", length = 50, nullable = false)
     private UserRole role;
 
     @Column(name = "\"IsEmailVerified\"", nullable = false)
     private boolean isEmailVerified;
+
+    @Column(name = "\"DateOfBirth\"")
+    private java.time.LocalDate dateOfBirth;
+
+    @Convert(converter = GenderConverter.class)
+    @Column(name = "\"Gender\"", length = 20)
+    private Gender gender;
 
     @Column(name = "\"LastUserNameChangedAt\"")
     private java.time.LocalDateTime lastUserNameChangedAt;
@@ -129,6 +139,27 @@ public class User extends BaseEntity {
 
     public String getAvatarUrl() {
         return avatarUrl != null ? avatarUrl : "";
+    }
+
+    public boolean isEmailVerified() {
+        return isEmailVerified;
+    }
+
+    public java.time.LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void updateDemographics(java.time.LocalDate dateOfBirth, Gender gender) {
+        if (dateOfBirth != null) {
+            this.dateOfBirth = dateOfBirth;
+        }
+        if (gender != null) {
+            this.gender = gender;
+        }
     }
 
     public boolean isActive() {

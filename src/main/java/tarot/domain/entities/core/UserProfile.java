@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import tarot.domain.common.BaseEntity;
+import tarot.domain.enums.RelationshipStatus;
 import tarot.domain.enums.ZodiacSign;
 
 import java.util.UUID;
@@ -33,6 +34,10 @@ public class UserProfile extends BaseEntity {
     @Column(name = "\"CachedLastReadingId\"")
     private UUID cachedLastReadingId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "\"RelationshipStatus\"", length = 30)
+    private RelationshipStatus relationshipStatus;
+
     // --- DOMAIN FACTORY METHOD ---
 
     public static UserProfile createDefault(UUID userId, ZodiacSign zodiacSign) {
@@ -42,6 +47,7 @@ public class UserProfile extends BaseEntity {
         return UserProfile.builder()
                 .userId(userId)
                 .zodiacSign(zodiacSign)
+                .relationshipStatus(tarot.domain.enums.RelationshipStatus.SINGLE)
                 .build();
     }
 
@@ -53,17 +59,50 @@ public class UserProfile extends BaseEntity {
         }
     }
 
-    public void updatePreferences(ZodiacSign zodiacSign, UUID favoriteDeckId) {
+    public void updateRelationshipStatus(tarot.domain.enums.RelationshipStatus relationshipStatus) {
+        if (relationshipStatus != null && relationshipStatus != tarot.domain.enums.RelationshipStatus.UNKNOWN) {
+            this.relationshipStatus = relationshipStatus;
+        }
+    }
+
+    public void updatePreferences(ZodiacSign zodiacSign, UUID favoriteDeckId, tarot.domain.enums.RelationshipStatus relationshipStatus) {
         if (zodiacSign != null) {
             this.zodiacSign = zodiacSign;
         }
         if (favoriteDeckId != null) {
             this.favoriteDeckId = favoriteDeckId;
         }
+        if (relationshipStatus != null && relationshipStatus != tarot.domain.enums.RelationshipStatus.UNKNOWN) {
+            this.relationshipStatus = relationshipStatus;
+        }
+    }
+
+    public void updatePreferences(ZodiacSign zodiacSign, UUID favoriteDeckId) {
+        updatePreferences(zodiacSign, favoriteDeckId, null);
     }
 
     public void updateEnergyAdvice(String advice, UUID lastReadingId) {
         this.cachedEnergyAdvice = advice;
         this.cachedLastReadingId = lastReadingId;
+    }
+
+    public RelationshipStatus getRelationshipStatus() {
+        return relationshipStatus != null ? relationshipStatus : RelationshipStatus.SINGLE;
+    }
+
+    public ZodiacSign getZodiacSign() {
+        return zodiacSign;
+    }
+
+    public UUID getFavoriteDeckId() {
+        return favoriteDeckId;
+    }
+
+    public String getCachedEnergyAdvice() {
+        return cachedEnergyAdvice;
+    }
+
+    public UUID getCachedLastReadingId() {
+        return cachedLastReadingId;
     }
 }

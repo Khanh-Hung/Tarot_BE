@@ -13,6 +13,8 @@ import tarot.infrastructure.persistence.repositories.core.UserProfileRepository;
 import tarot.infrastructure.persistence.repositories.core.UserStreakRepository;
 import tarot.infrastructure.persistence.repositories.identity.UserRepository;
 
+import tarot.domain.enums.ZodiacSign;
+
 import java.util.UUID;
 
 @Service
@@ -30,17 +32,29 @@ public class UpdateMyProfileHandler {
             return Result.failure(new Error("USER_NOT_FOUND", "User not found with ID: " + userId));
         }
 
-        // 1. Cập nhật thông tin dùng chung vào bảng Users (chỉ đổi displayName, avatar chỉ cập nhật qua upload từ máy tính)
-        user.updateDisplayName(command.displayName());
+        // 1. Cập nhật thông tin dùng chung vào bảng Users (displayName, ngày sinh, giới tính)
+        if (command.displayName() != null && !command.displayName().isBlank()) {
+            user.updateDisplayName(command.displayName());
+        }
+        if (command.dateOfBirth() != null || command.gender() != null) {
+            user.updateDemographics(command.dateOfBirth(), command.gender());
+        }
         User savedUser = userRepository.save(user);
 
         // 2. Cập nhật cài đặt riêng vào bảng UserProfiles
         UserProfile profile = profileRepository.findByUserId(userId)
                 .orElseGet(() -> UserProfile.createDefault(userId, null));
 
+        ZodiacSign resolvedZodiac = (command.zodiacSign() != null && command.zodiacSign() != ZodiacSign.UNKNOWN)
+                ? command.zodiacSign()
+                : (command.dateOfBirth() != null
+                    ? ZodiacSign.fromLocalDate(command.dateOfBirth())
+                    : profile.getZodiacSign());
+
         profile.updatePreferences(
-                command.zodiacSign(),
-                command.favoriteDeckId()
+                resolvedZodiac,
+                command.favoriteDeckId(),
+                command.relationshipStatus()
         );
         UserProfile savedProfile = profileRepository.save(profile);
         UserStreak streak = streakRepository.findByUserId(userId).orElse(null);

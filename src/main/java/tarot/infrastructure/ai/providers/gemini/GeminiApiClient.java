@@ -81,15 +81,23 @@ public class GeminiApiClient implements AiModelClient {
 
     public record GeminiRequest(
             Instruction system_instruction,
-            List<Content> contents
+            List<Content> contents,
+            @com.fasterxml.jackson.annotation.JsonProperty("generationConfig")
+            GenerationConfig generationConfig
     ) {
         public static GeminiRequest of(String systemPrompt, String userPrompt) {
             return new GeminiRequest(
                     new Instruction(List.of(new Part(systemPrompt))),
-                    List.of(new Content("user", List.of(new Part(userPrompt))))
+                    List.of(new Content("user", List.of(new Part(userPrompt)))),
+                    new GenerationConfig(0.85, 0.95)
             );
         }
     }
+
+    public record GenerationConfig(
+            Double temperature,
+            Double topP
+    ) {}
 
     public record Instruction(List<Part> parts) {}
 

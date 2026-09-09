@@ -87,6 +87,9 @@ public class ReadingSanitizer {
         // 3.1. Chuẩn hóa biểu tượng mục 2 thành cuộn thư 📜 để tránh trùng lặp 🎴 với lá bài con
         text = text.replaceAll("(?m)^##\\s*🎴\\s*2\\.", "## 📜 2.");
 
+        // 3.2. Đảm bảo câu trả lời trực diện ở Mục 1 luôn được xuống dòng riêng biệt trước khi giải thích
+        text = ensureSectionOneLineBreak(text);
+
         // 4. Cá nhân hóa danh xưng bằng DisplayName sạch
         String displayName = "bạn";
         if (user != null) {
@@ -178,5 +181,41 @@ public class ReadingSanitizer {
             }
         }
         return upperFirstCount >= 2;
+    }
+
+    private String ensureSectionOneLineBreak(String text) {
+        Pattern p = Pattern.compile("(?m)^##\\s*⚡?\\s*1\\.[^\\n]*\\n+([^\\n]+)");
+        Matcher m = p.matcher(text);
+        if (m.find()) {
+            String firstLine = m.group(1).trim();
+            // Trường hợp 1: Có chứa cụm từ khoá dẫn dắt và có bold câu trả lời (phổ biến nhất)
+            Pattern pBold = Pattern.compile("^(\\*?\\*?(?:Câu trả lời|Phán quyết|Thông điệp|Lời đáp|Tiên đoán|Dòng chảy)[^:\\n]*?:?\\s*\\*\\*[^*]+\\*\\*\\.?)(?:\\s+|\\.\\s+)(.+)");
+            Matcher mb = pBold.matcher(firstLine);
+            if (mb.find()) {
+                String answer = mb.group(1).trim();
+                String rest = mb.group(2).trim();
+                if (!answer.endsWith(".")) {
+                    answer = answer + ".";
+                }
+                if (!rest.isEmpty() && Character.isLowerCase(rest.charAt(0))) {
+                    rest = Character.toUpperCase(rest.charAt(0)) + rest.substring(1);
+                }
+                String replacement = m.group(0).replace(firstLine, answer + "\n\n" + rest);
+                return text.substring(0, m.start()) + replacement + text.substring(m.end());
+            }
+            // Trường hợp 2: Không có bold nhưng kết thúc câu đầu tiên bằng dấu chấm
+            Pattern pPlain = Pattern.compile("^((?:Câu trả lời|Phán quyết|Thông điệp|Lời đáp|Tiên đoán|Dòng chảy)[^:\\n]*?:?\\s*[^.!?\\n]+[.!?])\\s+(.+)");
+            Matcher mp = pPlain.matcher(firstLine);
+            if (mp.find()) {
+                String answer = mp.group(1).trim();
+                String rest = mp.group(2).trim();
+                if (!rest.isEmpty() && Character.isLowerCase(rest.charAt(0))) {
+                    rest = Character.toUpperCase(rest.charAt(0)) + rest.substring(1);
+                }
+                String replacement = m.group(0).replace(firstLine, answer + "\n\n" + rest);
+                return text.substring(0, m.start()) + replacement + text.substring(m.end());
+            }
+        }
+        return text;
     }
 }

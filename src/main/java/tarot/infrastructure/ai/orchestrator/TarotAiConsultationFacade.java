@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import tarot.domain.entities.core.ChatMessage;
 import tarot.domain.entities.core.DrawnCard;
 import tarot.domain.entities.identity.User;
+import tarot.domain.enums.RelationshipStatus;
 import tarot.domain.enums.SpreadType;
 import tarot.domain.enums.Topic;
 import tarot.domain.enums.ZodiacSign;
@@ -33,6 +34,7 @@ public class TarotAiConsultationFacade implements AiConsultationService {
     public AiReadingResult generateInitialReading(
             User user,
             ZodiacSign zodiacSign,
+            RelationshipStatus relationshipStatus,
             String userQuestion,
             SpreadType spreadType,
             List<DrawnCard> drawnCards
@@ -42,7 +44,7 @@ public class TarotAiConsultationFacade implements AiConsultationService {
 
         // 2. Dựng Prompt chi tiết cho các lá bài
         String sysInstruction = initialPromptBuilder.buildSystemInstruction();
-        String userPrompt = initialPromptBuilder.buildUserPrompt(user, zodiacSign, userQuestion, detectedTopic, spreadType, drawnCards);
+        String userPrompt = initialPromptBuilder.buildUserPrompt(user, zodiacSign, relationshipStatus, userQuestion, detectedTopic, spreadType, drawnCards);
 
         // 3. AI sinh bản luận giải 4 phần
         String aiMarkdown = aiModelClient.generateContent(sysInstruction, userPrompt);

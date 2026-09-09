@@ -36,35 +36,49 @@ public class GetSuggestedQuestionsHandler {
     );
 
     private static final List<String> FALLBACK_QUESTIONS = List.of(
-            "Lời khuyên vũ trụ dành cho công việc và sự nghiệp sắp tới của tôi?",
-            "Mối quan hệ hiện tại đang cần tôi thấu hiểu và hoàn thiện điều gì?",
-            "Năng lượng và cơ hội mới nào đang chờ đón tôi trong thời gian này?",
-            "Tôi nên buông bỏ điều gì để đón nhận bình an và thịnh vượng?",
-            "Quyết định sắp tới của tôi có dẫn tới kết quả tích cực không?",
-            "Nút thắt tâm lý nào đang cản trở bước tiến của tôi?",
-            "Thông điệp chữa lành tâm hồn sâu sắc nhất lúc này dành cho tôi là gì?",
-            "Người ấy đang có cảm xúc và suy nghĩ gì về mối liên kết giữa hai người?",
-            "Lộ trình tài chính nào giúp tôi đạt được sự tự chủ và vững vàng?",
-            "Làm thế nào để tôi cân bằng giữa công việc bận rộn và bình yên nội tại?",
-            "Bài học lớn nhất mà giai đoạn này đang dạy cho tôi là gì?",
-            "Tôi nên chuẩn bị tinh thần ra sao trước bước ngoặt mới trong cuộc sống?",
-            "Xu hướng tình cảm của tôi trong thời gian tới sẽ biến chuyển thế nào?",
-            "Có ngả rẽ tiềm năng nào mà tôi chưa nhận ra hay chưa dám dấn bước?",
-            "Tôi cần làm gì để vượt qua cảm giác mông lung và tìm lại đam mê?",
-            "Làm sao để tôi giải tỏa những lo âu vô cớ và tìm lại sự tự tin vốn có?",
-            "Tôi nên lắng nghe trực giác hay lý trí trong tình huống hiện tại?"
+            "Công việc hiện tại của tôi sắp tới có cơ hội thăng tiến hay tăng lương không?",
+            "Tôi có nên chuyển việc hoặc tìm hướng đi mới vào thời điểm này không?",
+            "Người ấy có thực sự nghiêm túc và có tình cảm thật lòng với tôi không?",
+            "Mối quan hệ hiện tại giữa hai chúng tôi có tương lai đi đường dài không?",
+            "Tài chính và thu nhập của tôi trong vài tháng tới sẽ biến chuyển thế nào?",
+            "Tôi có nên đầu tư hoặc góp vốn làm ăn trong giai đoạn này không?",
+            "Tôi đang phân vân giữa hai lựa chọn, hướng đi nào sẽ mang lại kết quả tốt hơn cho tôi?",
+            "Tôi nên làm gì để giải tỏa áp lực công việc và lấy lại động lực phát triển?",
+            "Người yêu cũ có còn nghĩ về tôi không và tôi có nên liên lạc lại?",
+            "Dự án hoặc kế hoạch kinh doanh sắp tới của tôi có gặp trở ngại gì không?",
+            "Tôi cần thay đổi điều gì ở bản thân để công việc và tình duyên suôn sẻ hơn?",
+            "Mối quan hệ này tôi nên tiếp tục kiên nhẫn hay đã đến lúc buông tay?",
+            "Làm thế nào để tôi cải thiện tài chính và quản lý chi tiêu hiệu quả hơn?",
+            "Sắp tới tôi có gặp được quý nhân hoặc cơ hội hợp tác nào đáng giá không?",
+            "Bao giờ tôi mới gặp được người thực sự phù hợp để bắt đầu một mối quan hệ?"
+    );
+
+    private static final List<String> REALISTIC_TOPICS = List.of(
+            "công việc và sự nghiệp (cơ hội thăng tiến, chuyển việc, áp lực công sở, định hướng phát triển)",
+            "tình cảm và mối quan hệ (người ấy có thật lòng không, tương lai đi đường dài, có nên mở lời trước, buông tay hay tiếp tục)",
+            "tài chính và tiền bạc (thu nhập sắp tới, cơ hội đầu tư, chi tiêu, kinh doanh)",
+            "lựa chọn thực tế khi phân vân (nên ở lại hay rời đi, nên chọn phương án A hay B, nên bắt đầu hay chờ đợi)",
+            "tâm lý và bản thân (giải tỏa áp lực, cải thiện tâm trạng, tìm lại động lực, điều cần chú ý tuần này)"
+    );
+
+    private static final java.util.Map<String, String> SPREAD_DESC = java.util.Map.of(
+            "DAILY_ORACLE", "lời khuyên và điều cần lưu ý trong ngày",
+            "PAST_PRESENT_FUTURE", "diễn biến vấn đề từ quá khứ, hiện tại đến tương lai",
+            "TWO_PATHS_CHOICE", "so sánh giữa 2 lựa chọn khi đang phân vân"
     );
 
     public Result<List<String>> handle(GetSuggestedQuestionsQuery query) {
         String sysInstruction = """
-            Bạn là Nyxoris Tarot Master - một chiêm tinh gia và bậc thầy Tarot thấu thị nội tâm.
-            Nhiệm vụ: Hãy tạo ra ĐÚNG 3 câu hỏi bói bài Tarot mẫu bằng tiếng Việt thuần túy, thật tinh tế, ngắn gọn, sâu sắc và gợi mở.
-            Quy tắc bắt buộc:
-            - Câu hỏi phải đóng vai người hỏi xưng "tôi" (Ví dụ: "Tôi nên làm gì để...", "Năng lượng nào đang hỗ trợ tôi...", "Làm thế nào để tôi...").
-            - TUYỆT ĐỐI KHÔNG dùng tên tiếng Anh của cung hoàng đạo (như Gemini, Aries, Leo, Pisces...).
-            - TUYỆT ĐỐI KHÔNG gọi người hỏi là "Gemini" hay bất kỳ tên cung nào.
-            - Mỗi câu hỏi từ 10 đến 25 từ, có dấu hỏi cuối câu.
-            - Chỉ trả về định dạng JSON Array chứa ĐÚNG 3 chuỗi câu hỏi (không thêm markdown hay chữ thừa):
+            Bạn là trợ lý gợi ý câu hỏi Tarot thực tế cho người dùng đời thường.
+            Nhiệm vụ: Hãy tạo ra ĐÚNG 3 câu hỏi Tarot ngắn gọn, thực tế, gần gũi với đời sống hằng ngày.
+
+            Quy tắc BẮT BUỘC:
+            1. TÍNH THỰC TẾ & ĐỜI THƯỜNG: Câu hỏi phải nói về những trăn trở THỰC SỰ của một người bình thường (công việc, thăng tiến, chuyển việc, người ấy có thật lòng không, tương lai tình cảm, tài chính tiền bạc, phân vân lựa chọn phương án A hay B).
+            2. TUYỆT ĐỐI CẤM VĂN PHONG SẾN SẨM & VIỂN VÔNG: CẤM các từ ngữ hoa mỹ, tiểu thuyết diễm tình hay trừu tượng viển vông như: "tiếng gọi thầm kín", "nhịp đập xa lạ", "miền kỷ niệm cũ", "khát khao sục sôi", "năng lượng ẩn giấu", "vũ trụ đang gửi gắm", "ngã ba đường định mệnh", "ngã rẽ tâm hồn".
+            3. Ngôi thứ nhất: Câu hỏi xưng "tôi" (Ví dụ: "Công việc hiện tại của tôi có cơ hội thăng tiến không?", "Người ấy có thực sự nghiêm túc với tôi không?").
+            4. Độ dài: Mỗi câu từ 10 đến 20 từ, kết thúc bằng dấu hỏi chấm (?).
+            5. Không dùng tiếng Anh: Tuyệt đối không dùng tên tiếng Anh của cung hoàng đạo (Gemini, Aries...).
+            6. Định dạng trả về: Chỉ trả về JSON Array thuần túy chứa đúng 3 chuỗi câu hỏi (không markdown, không giải thích):
             ["Câu hỏi 1?", "Câu hỏi 2?", "Câu hỏi 3?"]
             """;
 
@@ -72,10 +86,18 @@ public class GetSuggestedQuestionsHandler {
                 ? ZODIAC_VI.getOrDefault(query.zodiac().toUpperCase(), query.zodiac())
                 : null;
 
-        String userPrompt = "Hãy gợi ý đúng 3 câu hỏi Tarot huyền thị sâu sắc "
-                + (zodiacVi != null ? "cho người thuộc cung " + zodiacVi : "cho người đang tìm định hướng")
-                + (query.topic() != null && !query.topic().isBlank() ? " liên quan đến chủ đề " + query.topic() : "")
-                + ". Các câu hỏi phải ở ngôi thứ nhất (xưng 'tôi'), tuyệt đối không dùng từ tiếng Anh.";
+        String randomTopic = REALISTIC_TOPICS.get(
+                java.util.concurrent.ThreadLocalRandom.current().nextInt(REALISTIC_TOPICS.size())
+        );
+        String spreadContext = (query.topic() != null && !query.topic().isBlank())
+                ? SPREAD_DESC.getOrDefault(query.topic().toUpperCase(), query.topic())
+                : null;
+
+        String userPrompt = "Hãy gợi ý đúng 3 câu hỏi Tarot cụ thể, thực tế và đời thường xoay quanh "
+                + randomTopic
+                + (spreadContext != null ? " (phù hợp với kiểu trải bài: " + spreadContext + ")" : "")
+                + (zodiacVi != null ? " dành cho người thuộc cung " + zodiacVi : "")
+                + ". Yêu cầu câu hỏi chân thực, đánh trúng tâm lý, không sáo rỗng hay viển vông.";
 
         try {
             String rawJson = aiModelClient.generateContent(sysInstruction, userPrompt);

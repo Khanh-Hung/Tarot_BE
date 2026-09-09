@@ -38,9 +38,12 @@ public class ReadingController {
             @RequestParam(required = false) String topic,
             @RequestParam(required = false) String zodiac
     ) {
-        return ActionResult.from(getSuggestedQuestionsHandler.handle(
+        var result = getSuggestedQuestionsHandler.handle(
                 new tarot.application.features.reading.queries.getsuggestedquestions.GetSuggestedQuestionsQuery(topic, zodiac)
-        ));
+        );
+        return org.springframework.http.ResponseEntity.ok()
+                .cacheControl(org.springframework.http.CacheControl.noCache().noStore().mustRevalidate())
+                .body(result.getDataOrNull());
     }
 
     @PostMapping

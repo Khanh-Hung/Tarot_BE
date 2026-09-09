@@ -12,6 +12,7 @@ import tarot.domain.entities.core.UserProfile;
 import tarot.domain.entities.core.UserQuota;
 import tarot.domain.entities.core.UserStreak;
 import tarot.domain.enums.DeckCode;
+import tarot.domain.enums.RelationshipStatus;
 import tarot.domain.enums.SpreadType;
 import tarot.domain.enums.ZodiacSign;
 import tarot.infrastructure.ai.AiConsultationService;
@@ -47,6 +48,12 @@ public class CreateReadingHandler {
             return Result.failure(new Error("USER_NOT_FOUND", "User not found with ID: " + command.userId()));
         }
 
+        // Cập nhật ngày sinh vào User nếu được gửi lên từ quẻ bói
+        if (command.dateOfBirth() != null) {
+            user.updateDemographics(command.dateOfBirth(), user.getGender());
+            user = userRepository.save(user);
+        }
+
         // 2. Kiểm tra Cung hoàng đạo
         UserProfile profile = profileRepository.findByUserId(user.getId()).orElse(null);
         LocalDate today = Clock.today();
@@ -56,12 +63,29 @@ public class CreateReadingHandler {
             profileRepository.save(profile);
         }
 
-        ZodiacSign zodiac = (profile.getZodiacSign() != null)
-                ? profile.getZodiacSign()
-                : command.zodiacSign();
+        ZodiacSign zodiac = (command.zodiacSign() != null && command.zodiacSign() != ZodiacSign.UNKNOWN)
+                ? command.zodiacSign()
+                : (profile.getZodiacSign() != null && profile.getZodiacSign() != ZodiacSign.UNKNOWN
+                    ? profile.getZodiacSign()
+                    : ZodiacSign.fromLocalDate(user.getDateOfBirth()));
 
-        if (zodiac == null) {
-            return Result.failure(new Error("ZODIAC_REQUIRED", "Please select your zodiac sign to enhance reading accuracy."));
+        if (zodiac == null || zodiac == ZodiacSign.UNKNOWN) {
+            return Result.failure(new Error("ZODIAC_REQUIRED", "Please select your zodiac sign or set your birth date to enhance reading accuracy."));
+        }
+
+        if (profile.getZodiacSign() == null || profile.getZodiacSign() == ZodiacSign.UNKNOWN) {
+            profile.updatePreferences(zodiac, profile.getFavoriteDeckId(), profile.getRelationshipStatus());
+            profileRepository.save(profile);
+        }
+
+        // Tình trạng mối quan hệ
+        RelationshipStatus relationship = (command.relationshipStatus() != null && command.relationshipStatus() != RelationshipStatus.UNKNOWN)
+                ? command.relationshipStatus()
+                : (profile.getRelationshipStatus() != null ? profile.getRelationshipStatus() : RelationshipStatus.UNKNOWN);
+
+        if (command.relationshipStatus() != null && command.relationshipStatus() != RelationshipStatus.UNKNOWN) {
+            profile.updateRelationshipStatus(command.relationshipStatus());
+            profileRepository.save(profile);
         }
 
         // 3. Kiểm tra và trừ Hạn mức lượt bói (UserQuota)
@@ -135,6 +159,7 @@ public class CreateReadingHandler {
         AiReadingResult aiResult = aiService.generateInitialReading(
             user,
             zodiac,
+            relationship,
             reading.getUserQuestion(),
             reading.getSpreadType(),
             reading.getDrawnCards()

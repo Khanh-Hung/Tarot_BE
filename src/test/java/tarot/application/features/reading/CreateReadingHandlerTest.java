@@ -141,4 +141,57 @@ class CreateReadingHandlerTest {
         assertThat(result.isFailure()).isTrue();
         assertThat(result.getErrorOrNone().code()).isEqualTo("USER_NOT_FOUND");
     }
+
+    @Test
+    @DisplayName("handle - Celtic Cross spread successfully draws 10 cards")
+    void handle_CelticCross_Draws10Cards() {
+        UUID userId = UUID.randomUUID();
+        AccountUserDto accountUser = new AccountUserDto(
+                userId, "seeker", "Seeker", null, "seeker@test.com",
+                LocalDate.of(1995, 8, 15), Gender.FEMALE, true
+        );
+
+        List<Card> tenCards = new java.util.ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            tenCards.add(Card.builder()
+                    .nameEn("Card " + i)
+                    .nameVi("Lá bài " + i)
+                    .deckCode(DeckCode.RIDER_WAITE_CLASSIC)
+                    .arcanaType(ArcanaType.MAJOR_ARCANA)
+                    .build());
+        }
+
+        CreateReadingCommand command = new CreateReadingCommand(
+                userId,
+                "Bói đại vận cuộc đời tôi?",
+                ZodiacSign.LEO,
+                null,
+                RelationshipStatus.SINGLE,
+                SpreadType.CELTIC_CROSS,
+                DeckCode.RIDER_WAITE_CLASSIC,
+                List.of(),
+                List.of()
+        );
+
+        UserQuota quota = UserQuota.createDefault(userId);
+        quota.addBonusReadings(1);
+        when(accountServiceClient.getUser(userId)).thenReturn(Optional.of(accountUser));
+        when(profileRepository.findByUserId(userId)).thenReturn(Optional.empty());
+        when(quotaRepository.findByUserId(userId)).thenReturn(Optional.of(quota));
+        when(streakRepository.findByUserId(userId)).thenReturn(Optional.of(UserStreak.createDefault(userId)));
+        when(cardRepository.findByDeckCode(DeckCode.RIDER_WAITE_CLASSIC)).thenReturn(tenCards);
+        when(aiService.generateInitialReading(any(), any(), any(), any(), any(), any()))
+                .thenReturn(new AiReadingResult(Topic.GENERAL_GUIDANCE, "# Celtic Cross Reading"));
+        when(readingRepository.save(any(Reading.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Result<CreateReadingResponse> result = handler.handle(command);
+
+        assertThat(result.isSuccess()).isTrue();
+        CreateReadingResponse response = result.getDataOrNull();
+        assertThat(response).isNotNull();
+        assertThat(response.spreadType()).isEqualTo("CELTIC_CROSS");
+        assertThat(response.drawnCards()).hasSize(10);
+        assertThat(response.drawnCards().get(0).positionName()).isEqualTo("Present Situation");
+        assertThat(response.drawnCards().get(9).positionName()).isEqualTo("Ultimate Outcome");
+    }
 }

@@ -84,8 +84,33 @@ public class Reading extends AggregateRoot {
         }
     }
 
+    public static String[] getPositionNames(SpreadType spreadType) {
+        if (spreadType == null) return new String[]{"Past & Foundations", "Present Situation", "Future & Destiny Trends"};
+        return switch (spreadType) {
+            case DAILY_ORACLE -> new String[]{"Daily Guidance"};
+            case TWO_PATHS_CHOICE -> new String[]{"Current Reality", "Path A Outcome", "Path B Outcome"};
+            case LOVE_RELATIONSHIP -> new String[]{"Your Energy", "Partner's Energy", "Relationship Connection"};
+            case MIND_BODY_SPIRIT -> new String[]{"Mind & Beliefs", "Body & Actions", "Spirit & Intuition"};
+            case SITUATION_OBSTACLE_ADVICE -> new String[]{"Current Situation", "Hidden Obstacle", "Actionable Advice"};
+            case HORSESHOE -> new String[]{"Past Influence", "Present Reality", "Hidden Dynamics", "Best Action", "Final Outcome"};
+            case CELTIC_CROSS -> new String[]{
+                    "Present Situation",
+                    "Immediate Challenge",
+                    "Distant Past / Foundation",
+                    "Recent Past",
+                    "Highest Potential",
+                    "Near Future",
+                    "Self Attitude",
+                    "Environment & Influences",
+                    "Hopes & Fears",
+                    "Ultimate Outcome"
+            };
+            case PAST_PRESENT_FUTURE -> new String[]{"Past & Foundations", "Present Situation", "Future & Destiny Trends"};
+        };
+    }
+
     public void drawCards(List<Card> availableCards) {
-        int requiredCards = (this.spreadType == SpreadType.DAILY_ORACLE) ? 1 : 3;
+        int requiredCards = (this.spreadType != null) ? this.spreadType.getCardCount() : 3;
         if (availableCards == null || availableCards.size() < requiredCards) {
             throw new IllegalStateException("At least " + requiredCards + " cards are required in the deck to perform this spread");
         }
@@ -94,16 +119,10 @@ public class Reading extends AggregateRoot {
         Random random = new Random();
         Collections.shuffle(deck, random);
 
-        if (this.spreadType == SpreadType.DAILY_ORACLE) {
-            this.addDrawnCard(deck.getFirst(), 1, "Daily Guidance", random.nextBoolean());
-        } else if (this.spreadType == SpreadType.TWO_PATHS_CHOICE) {
-            this.addDrawnCard(deck.get(0), 1, "Current Reality", random.nextBoolean());
-            this.addDrawnCard(deck.get(1), 2, "Path A Outcome", random.nextBoolean());
-            this.addDrawnCard(deck.get(2), 3, "Path B Outcome", random.nextBoolean());
-        } else {
-            this.addDrawnCard(deck.get(0), 1, "Past & Foundations", random.nextBoolean());
-            this.addDrawnCard(deck.get(1), 2, "Present Situation", random.nextBoolean());
-            this.addDrawnCard(deck.get(2), 3, "Future & Destiny Trends", random.nextBoolean());
+        String[] positionNames = getPositionNames(this.spreadType);
+        for (int i = 0; i < requiredCards; i++) {
+            String posName = (i < positionNames.length) ? positionNames[i] : "Position " + (i + 1);
+            this.addDrawnCard(deck.get(i), i + 1, posName, random.nextBoolean());
         }
     }
 
@@ -112,14 +131,7 @@ public class Reading extends AggregateRoot {
             throw new IllegalArgumentException("Selected cards cannot be empty");
         }
 
-        String[] positionNames;
-        if (this.spreadType == SpreadType.DAILY_ORACLE) {
-            positionNames = new String[]{"Daily Guidance"};
-        } else if (this.spreadType == SpreadType.TWO_PATHS_CHOICE) {
-            positionNames = new String[]{"Current Reality", "Path A Outcome", "Path B Outcome"};
-        } else {
-            positionNames = new String[]{"Past & Foundations", "Present Situation", "Future & Destiny Trends"};
-        }
+        String[] positionNames = getPositionNames(this.spreadType);
 
         Random random = new Random();
         for (int i = 0; i < selectedCards.size(); i++) {

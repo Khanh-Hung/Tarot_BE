@@ -215,10 +215,21 @@ public class InitialReadingPromptBuilder {
             sb.append("- Tình trạng mối quan hệ hiện tại: ").append(statusVi).append("\n");
         }
 
+        String spreadVi = switch (spreadType != null ? spreadType : SpreadType.PAST_PRESENT_FUTURE) {
+            case DAILY_ORACLE -> "Thông Điệp Ngày Mới (1 Lá)";
+            case TWO_PATHS_CHOICE -> "Thực Tại & Hai Ngả Rẽ (3 Lá)";
+            case LOVE_RELATIONSHIP -> "Tình Duyên & Mối Quan Hệ (3 Lá: Bạn - Đối Phương - Kết Nối)";
+            case MIND_BODY_SPIRIT -> "Thân - Tâm - Trí Chữa Lành (3 Lá: Trí Tuệ - Thể Chất - Tâm Hồn)";
+            case SITUATION_OBSTACLE_ADVICE -> "Thực Trạng & Giải Pháp Sự Nghiệp (3 Lá: Vấn Đề - Rào Cản - Lời Khuyên)";
+            case HORSESHOE -> "Móng Ngựa May Mắn (5 Lá: Quá Khứ - Hiện Tại - Ẩn Số - Lời Khuyên - Kết Quả)";
+            case CELTIC_CROSS -> "Thập Tự Celtic Toàn Cảnh (10 Lá Kinh Điển)";
+            default -> "Quá Khứ - Hiện Tại - Tương Lai (3 Lá)";
+        };
+
         sb.append("- Bộ bài Tarot: ").append(deckDescription).append("\n");
         sb.append("- Câu hỏi: ").append(userQuestion).append("\n");
         sb.append("- Chủ đề: ").append(topicVi).append("\n");
-        sb.append("- Kiểu trải bài: ").append(spreadType.name()).append("\n\n");
+        sb.append("- Kiểu trải bài: ").append(spreadVi).append("\n\n");
         sb.append("DANH SÁCH LÁ BÀI ĐÃ BỐC:\n");
 
         for (DrawnCard dc : drawnCards) {
@@ -231,10 +242,32 @@ public class InitialReadingPromptBuilder {
                 case "Daily Guidance" -> "Thông Điệp Ngày Mới";
                 case "Current Reality" -> "Thực Tại Hiện Nhiên";
                 case "Past & Foundations" -> "Quá Khứ & Nền Tảng";
-                case "Present Situation" -> "Hiện Tại & Thử Thách";
+                case "Present Situation" -> "Hiện Tại & Bối Cảnh";
                 case "Future & Destiny Trends" -> "Tương Lai & Xu Hướng";
                 case "Path A Outcome" -> "Ngả Rẽ A";
                 case "Path B Outcome" -> "Ngả Rẽ B";
+                case "Your Energy" -> "Năng Lượng Của Bạn";
+                case "Partner's Energy" -> "Tâm Ý Đối Phương";
+                case "Relationship Connection" -> "Sự Kết Nối & Xu Hướng";
+                case "Mind & Beliefs" -> "Tâm Trí & Niềm Tin";
+                case "Body & Actions" -> "Thể Chất & Hành Động";
+                case "Spirit & Intuition" -> "Tâm Hồn & Trực Giác";
+                case "Current Situation" -> "Thực Trạng Vấn Đề";
+                case "Hidden Obstacle" -> "Rào Cản & Thách Thức";
+                case "Actionable Advice" -> "Lời Khuyên Hành Động";
+                case "Past Influence" -> "Ảnh Hưởng Quá Khứ";
+                case "Hidden Dynamics" -> "Ẩn Số Tiềm Tàng";
+                case "Best Action" -> "Hành Động Tối Ưu";
+                case "Final Outcome" -> "Kết Quả Sau Cùng";
+                case "Immediate Challenge" -> "Thử Thách Trực Diện";
+                case "Distant Past / Foundation" -> "Nền Tảng Tiềm Thức";
+                case "Recent Past" -> "Quá Khứ Gần";
+                case "Highest Potential" -> "Đỉnh Cao Ý Thức & Tiềm Năng";
+                case "Near Future" -> "Tương Lai Gần";
+                case "Self Attitude" -> "Bản Ngã & Thái Độ Của Bạn";
+                case "Environment & Influences" -> "Tác Động Từ Môi Trường";
+                case "Hopes & Fears" -> "Hy Vọng & Nỗi Sợ Hãi";
+                case "Ultimate Outcome" -> "Kết Cục Tối Thượng";
                 default -> rawPos;
             };
 

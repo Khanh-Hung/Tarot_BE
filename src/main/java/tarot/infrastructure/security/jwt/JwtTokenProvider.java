@@ -6,7 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import tarot.domain.entities.identity.User;
+import tarot.application.dto.AccountUserDto;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -34,19 +34,24 @@ public class JwtTokenProvider {
         this.expirationMs = expirationMs;
     }
 
-    public String generateToken(User user) {
+    public String generateToken(UUID userId, String email, String username, String role) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expirationMs);
 
         return Jwts.builder()
-                .subject(user.getEmail())
-                .claim("userId", user.getId() != null ? user.getId().toString() : null)
-                .claim("username", user.getUsername())
-                .claim("role", user.getRole().name())
+                .subject(email)
+                .claim("userId", userId != null ? userId.toString() : null)
+                .claim("username", username)
+                .claim("role", role != null ? role : "USER")
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(key)
                 .compact();
+    }
+
+    public String generateToken(AccountUserDto user) {
+        if (user == null) return null;
+        return generateToken(user.userId(), user.email(), user.getUserName(), "USER");
     }
 
     public boolean validateToken(String token) {

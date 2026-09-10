@@ -5,43 +5,36 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tarot.application.common.result.Error;
 import tarot.application.common.result.Result;
+import tarot.application.dto.AccountUserDto;
 import tarot.application.features.profile.queries.getmyprofile.ProfileDto;
-import tarot.domain.entities.identity.User;
+import tarot.application.interfaces.AccountServiceClient;
 import tarot.domain.entities.core.UserProfile;
 import tarot.domain.entities.core.UserStreak;
+import tarot.domain.enums.ZodiacSign;
 import tarot.infrastructure.persistence.repositories.core.UserProfileRepository;
 import tarot.infrastructure.persistence.repositories.core.UserStreakRepository;
-import tarot.infrastructure.persistence.repositories.identity.UserRepository;
 
-import tarot.domain.enums.ZodiacSign;
-
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UpdateMyProfileHandler {
 
-    private final UserRepository userRepository;
+    private final AccountServiceClient accountServiceClient;
     private final UserProfileRepository profileRepository;
     private final UserStreakRepository streakRepository;
 
     @Transactional
     public Result<ProfileDto> handle(UUID userId, UpdateMyProfileCommand command) {
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {
+        Optional<AccountUserDto> userOpt = accountServiceClient.getUser(userId);
+        if (userOpt.isEmpty()) {
             return Result.failure(new Error("USER_NOT_FOUND", "User not found with ID: " + userId));
         }
 
-        // 1. Cập nhật thông tin dùng chung vào bảng Users (displayName, ngày sinh, giới tính)
-        if (command.displayName() != null && !command.displayName().isBlank()) {
-            user.updateDisplayName(command.displayName());
-        }
-        if (command.dateOfBirth() != null || command.gender() != null) {
-            user.updateDemographics(command.dateOfBirth(), command.gender());
-        }
-        User savedUser = userRepository.save(user);
+        AccountUserDto user = userOpt.get();
 
-        // 2. Cập nhật cài đặt riêng vào bảng UserProfiles
+        // Cập nhật cài đặt riêng Tarot vào bảng UserProfiles
         UserProfile profile = profileRepository.findByUserId(userId)
                 .orElseGet(() -> UserProfile.createDefault(userId, null));
 
@@ -49,7 +42,9 @@ public class UpdateMyProfileHandler {
                 ? command.zodiacSign()
                 : (command.dateOfBirth() != null
                     ? ZodiacSign.fromLocalDate(command.dateOfBirth())
-                    : profile.getZodiacSign());
+                    : (user.dateOfBirth() != null
+                        ? ZodiacSign.fromLocalDate(user.dateOfBirth())
+                        : profile.getZodiacSign()));
 
         profile.updatePreferences(
                 resolvedZodiac,
@@ -59,6 +54,6 @@ public class UpdateMyProfileHandler {
         UserProfile savedProfile = profileRepository.save(profile);
         UserStreak streak = streakRepository.findByUserId(userId).orElse(null);
 
-        return Result.success(ProfileDto.fromEntity(savedUser, savedProfile, streak));
+        return Result.success(ProfileDto.from(user, savedProfile, streak));
     }
 }

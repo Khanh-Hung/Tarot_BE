@@ -5,31 +5,32 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tarot.application.common.result.Error;
 import tarot.application.common.result.Result;
+import tarot.application.dto.AccountUserDto;
 import tarot.application.features.profile.dtos.UserQuotaDto;
+import tarot.application.interfaces.AccountServiceClient;
 import tarot.domain.entities.core.UserQuota;
 import tarot.domain.entities.core.UserStreak;
-import tarot.domain.entities.identity.User;
 import tarot.infrastructure.persistence.repositories.core.UserQuotaRepository;
 import tarot.infrastructure.persistence.repositories.core.UserStreakRepository;
-import tarot.infrastructure.persistence.repositories.identity.UserRepository;
 
 import tarot.domain.common.datetime.Clock;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class GetUserQuotaHandler {
 
-    private final UserRepository userRepository;
+    private final AccountServiceClient accountServiceClient;
     private final UserQuotaRepository quotaRepository;
     private final UserStreakRepository streakRepository;
 
     public GetUserQuotaHandler(
-            UserRepository userRepository,
+            AccountServiceClient accountServiceClient,
             UserQuotaRepository quotaRepository,
             UserStreakRepository streakRepository
     ) {
-        this.userRepository = userRepository;
+        this.accountServiceClient = accountServiceClient;
         this.quotaRepository = quotaRepository;
         this.streakRepository = streakRepository;
     }
@@ -40,8 +41,8 @@ public class GetUserQuotaHandler {
             return Result.failure(new Error("USER_REQUIRED", "User ID is required"));
         }
 
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {
+        Optional<AccountUserDto> userOpt = accountServiceClient.getUser(userId);
+        if (userOpt.isEmpty()) {
             return Result.failure(new Error("USER_NOT_FOUND", "User not found with ID: " + userId));
         }
 

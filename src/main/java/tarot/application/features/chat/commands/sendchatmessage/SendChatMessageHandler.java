@@ -5,16 +5,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tarot.application.common.result.Error;
 import tarot.application.common.result.Result;
+import tarot.application.dto.AccountUserDto;
+import tarot.application.interfaces.AccountServiceClient;
 import tarot.domain.entities.core.ChatMessage;
 import tarot.domain.entities.core.Reading;
-import tarot.domain.entities.identity.User;
 import tarot.domain.enums.MessageSender;
 import tarot.infrastructure.ai.AiConsultationService;
 import tarot.infrastructure.persistence.repositories.core.ChatMessageRepository;
 import tarot.infrastructure.persistence.repositories.core.ReadingRepository;
-import tarot.infrastructure.persistence.repositories.identity.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -23,7 +24,7 @@ public class SendChatMessageHandler {
 
     private final ReadingRepository readingRepository;
     private final ChatMessageRepository chatMessageRepository;
-    private final UserRepository userRepository;
+    private final AccountServiceClient accountServiceClient;
     private final AiConsultationService aiService;
 
     @Transactional
@@ -35,8 +36,8 @@ public class SendChatMessageHandler {
 
         // Enforce Email Verification requirement for AI Chat
         if (reading.getUserId() != null) {
-            User user = userRepository.findById(reading.getUserId()).orElse(null);
-            if (user != null && !user.isEmailVerified()) {
+            Optional<AccountUserDto> userOpt = accountServiceClient.getUser(reading.getUserId());
+            if (userOpt.isPresent() && !userOpt.get().isEmailVerified()) {
                 return Result.failure(new Error("EMAIL_NOT_VERIFIED", "Please verify your email address to unlock chat consultation with AI Reader."));
             }
         }

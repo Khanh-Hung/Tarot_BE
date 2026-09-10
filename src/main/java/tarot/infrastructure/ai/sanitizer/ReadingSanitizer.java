@@ -1,7 +1,7 @@
 package tarot.infrastructure.ai.sanitizer;
 
 import org.springframework.stereotype.Component;
-import tarot.domain.entities.identity.User;
+import tarot.application.dto.AccountUserDto;
 
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -56,7 +56,7 @@ public class ReadingSanitizer {
     private static final Pattern ENGLISH_PARENS_PATTERN = Pattern.compile("\\s*\\([A-Za-z\\s']+\\)");
     private static final Pattern BOLD_PATTERN = Pattern.compile("\\*\\*([^*]+)\\*\\*");
 
-    public String sanitize(String rawContent, User user) {
+    public String sanitize(String rawContent, AccountUserDto user) {
         if (rawContent == null || rawContent.isBlank()) {
             return rawContent;
         }

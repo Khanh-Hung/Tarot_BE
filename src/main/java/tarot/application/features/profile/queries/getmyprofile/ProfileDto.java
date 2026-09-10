@@ -1,9 +1,9 @@
 package tarot.application.features.profile.queries.getmyprofile;
 
+import tarot.application.dto.AccountUserDto;
 import tarot.application.features.profile.dtos.BirthCardDto;
 import tarot.domain.common.TarotBirthCardCalculator;
 import tarot.domain.common.datetime.Clock;
-import tarot.domain.entities.identity.User;
 import tarot.domain.entities.core.UserProfile;
 import tarot.domain.entities.core.UserStreak;
 import tarot.domain.enums.Gender;
@@ -30,24 +30,28 @@ public record ProfileDto(
         int longestStreak,
         boolean isStreakActiveToday
 ) {
-    public static ProfileDto fromEntity(User user, UserProfile profile, UserStreak streak) {
+    public static ProfileDto from(AccountUserDto user, UserProfile profile, UserStreak streak) {
         if (user == null) return null;
         LocalDate today = Clock.today();
-        BirthCardDto birthCard = (user.getDateOfBirth() != null)
-                ? TarotBirthCardCalculator.calculate(user.getDateOfBirth())
+        BirthCardDto birthCard = (user.dateOfBirth() != null)
+                ? TarotBirthCardCalculator.calculate(user.dateOfBirth())
                 : null;
 
+        ZodiacSign resolvedZodiac = (user.dateOfBirth() != null)
+                ? ZodiacSign.fromLocalDate(user.dateOfBirth())
+                : (profile != null ? profile.getZodiacSign() : null);
+
         return new ProfileDto(
-                user.getId(),
-                user.getEmail(),
+                user.userId(),
+                user.email(),
                 user.getUserName(),
                 user.getDisplayName(),
                 user.getAvatarUrl(),
                 user.isEmailVerified(),
-                user.getDateOfBirth(),
-                user.getGender(),
+                user.dateOfBirth(),
+                user.gender(),
                 profile != null ? profile.getRelationshipStatus() : RelationshipStatus.SINGLE,
-                profile != null ? profile.getZodiacSign() : null,
+                resolvedZodiac,
                 profile != null ? profile.getFavoriteDeckId() : null,
                 birthCard,
                 streak != null ? streak.getEffectiveCurrentStreak(today) : 0,

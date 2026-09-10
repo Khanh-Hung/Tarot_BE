@@ -7,9 +7,28 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import tarot.application.common.result.Error;
 
+import tarot.application.common.exceptions.AccountServiceException;
+import tarot.application.common.exceptions.AccountServiceUnavailableException;
+
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(AccountServiceUnavailableException.class)
+    public ResponseEntity<Error> handleAccountServiceUnavailable(AccountServiceUnavailableException e) {
+        log.error("Account service unavailable: {}", e.getMessage(), e);
+        Error error = new Error("ACCOUNT_SERVICE_UNAVAILABLE", e.getMessage());
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(error);
+    }
+
+    @ExceptionHandler(AccountServiceException.class)
+    public ResponseEntity<Error> handleAccountServiceException(AccountServiceException e) {
+        log.error("Account service error (status {}): {}", e.getStatusCode(), e.getMessage());
+        HttpStatus status = HttpStatus.resolve(e.getStatusCode());
+        if (status == null) status = HttpStatus.BAD_GATEWAY;
+        Error error = new Error("ACCOUNT_SERVICE_ERROR", e.getMessage());
+        return ResponseEntity.status(status).body(error);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Error> handleGenericException(Exception e) {

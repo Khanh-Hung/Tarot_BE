@@ -14,6 +14,11 @@ spring:
       hibernate:
         format_sql: true
 
+# Cấu hình kết nối Account Service (.NET)
+account-service:
+  base-url: http://localhost:5000
+  timeout-ms: 5000
+
 # Logging chi tiết khi debug local
 logging:
   level:

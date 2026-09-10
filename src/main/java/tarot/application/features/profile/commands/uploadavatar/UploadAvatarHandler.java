@@ -6,19 +6,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tarot.application.common.result.Error;
 import tarot.application.common.result.Result;
-import tarot.domain.entities.identity.User;
-import tarot.infrastructure.persistence.repositories.identity.UserRepository;
+import tarot.application.dto.AccountUserDto;
+import tarot.application.interfaces.AccountServiceClient;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UploadAvatarHandler {
 
-    private final UserRepository userRepository;
+    private final AccountServiceClient accountServiceClient;
     private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
     @Transactional
@@ -27,8 +28,8 @@ public class UploadAvatarHandler {
             return Result.failure(new Error("UNAUTHORIZED", "Please log in to update avatar"));
         }
 
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {
+        Optional<AccountUserDto> userOpt = accountServiceClient.getUser(userId);
+        if (userOpt.isEmpty()) {
             return Result.failure(new Error("USER_NOT_FOUND", "User not found with ID: " + userId));
         }
 
@@ -62,10 +63,6 @@ public class UploadAvatarHandler {
             file.transferTo(targetPath.toFile().getAbsoluteFile());
 
             String fullUrl = (baseUrl != null ? baseUrl : "") + "/uploads/avatars/" + filename;
-
-            // Directly update and persist avatar to database for User
-            user.updateAvatar(fullUrl);
-            userRepository.save(user);
 
             return Result.success(new AvatarUploadDto(fullUrl));
         } catch (Exception e) {

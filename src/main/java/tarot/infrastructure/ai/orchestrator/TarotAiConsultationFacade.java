@@ -3,9 +3,9 @@ package tarot.infrastructure.ai.orchestrator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import tarot.application.dto.AccountUserDto;
 import tarot.domain.entities.core.ChatMessage;
 import tarot.domain.entities.core.DrawnCard;
-import tarot.domain.entities.identity.User;
 import tarot.domain.enums.RelationshipStatus;
 import tarot.domain.enums.SpreadType;
 import tarot.domain.enums.Topic;
@@ -32,7 +32,7 @@ public class TarotAiConsultationFacade implements AiConsultationService {
 
     @Override
     public AiReadingResult generateInitialReading(
-            User user,
+            AccountUserDto user,
             ZodiacSign zodiacSign,
             RelationshipStatus relationshipStatus,
             String userQuestion,

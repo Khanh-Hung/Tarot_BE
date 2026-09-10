@@ -1,8 +1,8 @@
 package tarot.infrastructure.ai;
 
+import tarot.application.dto.AccountUserDto;
 import tarot.domain.entities.core.ChatMessage;
 import tarot.domain.entities.core.DrawnCard;
-import tarot.domain.entities.identity.User;
 import tarot.domain.enums.RelationshipStatus;
 import tarot.domain.enums.SpreadType;
 import tarot.domain.enums.ZodiacSign;
@@ -13,7 +13,7 @@ import java.util.List;
 public interface AiConsultationService {
 
     AiReadingResult generateInitialReading(
-        User user,
+        AccountUserDto user,
         ZodiacSign zodiacSign,
         RelationshipStatus relationshipStatus,
         String userQuestion,

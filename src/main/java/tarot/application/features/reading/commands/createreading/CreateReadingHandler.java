@@ -5,9 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tarot.application.common.result.Error;
 import tarot.application.common.result.Result;
+import tarot.application.dto.AccountUserDto;
+import tarot.application.interfaces.AccountServiceClient;
 import tarot.domain.entities.core.Card;
 import tarot.domain.entities.core.Reading;
-import tarot.domain.entities.identity.User;
 import tarot.domain.entities.core.UserProfile;
 import tarot.domain.entities.core.UserQuota;
 import tarot.domain.entities.core.UserStreak;
@@ -22,17 +23,17 @@ import tarot.infrastructure.persistence.repositories.core.ReadingRepository;
 import tarot.infrastructure.persistence.repositories.core.UserProfileRepository;
 import tarot.infrastructure.persistence.repositories.core.UserQuotaRepository;
 import tarot.infrastructure.persistence.repositories.core.UserStreakRepository;
-import tarot.infrastructure.persistence.repositories.identity.UserRepository;
 
 import tarot.domain.common.datetime.Clock;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CreateReadingHandler {
 
-    private final UserRepository userRepository;
+    private final AccountServiceClient accountServiceClient;
     private final UserProfileRepository profileRepository;
     private final UserQuotaRepository quotaRepository;
     private final UserStreakRepository streakRepository;
@@ -43,37 +44,47 @@ public class CreateReadingHandler {
     @Transactional
     public Result<CreateReadingResponse> handle(CreateReadingCommand command) {
         // 1. Query & Validate User
-        User user = userRepository.findById(command.userId()).orElse(null);
-        if (user == null) {
+        Optional<AccountUserDto> userOpt = accountServiceClient.getUser(command.userId());
+        if (userOpt.isEmpty()) {
             return Result.failure(new Error("USER_NOT_FOUND", "User not found with ID: " + command.userId()));
         }
 
-        // Cập nhật ngày sinh vào User nếu được gửi lên từ quẻ bói
+        AccountUserDto user = userOpt.get();
         if (command.dateOfBirth() != null) {
-            user.updateDemographics(command.dateOfBirth(), user.getGender());
-            user = userRepository.save(user);
+            user = new AccountUserDto(
+                    user.userId(),
+                    user.userName(),
+                    user.displayName(),
+                    user.avatarUrl(),
+                    user.email(),
+                    command.dateOfBirth(),
+                    user.gender(),
+                    user.isEmailVerified()
+            );
         }
 
         // 2. Kiểm tra Cung hoàng đạo
-        UserProfile profile = profileRepository.findByUserId(user.getId()).orElse(null);
+        UserProfile profile = profileRepository.findByUserId(user.userId()).orElse(null);
         LocalDate today = Clock.today();
 
         if (profile == null) {
-            profile = UserProfile.createDefault(user.getId(), command.zodiacSign());
+            profile = UserProfile.createDefault(user.userId(), command.zodiacSign());
             profileRepository.save(profile);
         }
 
         ZodiacSign zodiac = (command.zodiacSign() != null && command.zodiacSign() != ZodiacSign.UNKNOWN)
                 ? command.zodiacSign()
-                : (profile.getZodiacSign() != null && profile.getZodiacSign() != ZodiacSign.UNKNOWN
-                    ? profile.getZodiacSign()
-                    : ZodiacSign.fromLocalDate(user.getDateOfBirth()));
+                : (user.dateOfBirth() != null
+                    ? ZodiacSign.fromLocalDate(user.dateOfBirth())
+                    : (profile.getZodiacSign() != null && profile.getZodiacSign() != ZodiacSign.UNKNOWN
+                        ? profile.getZodiacSign()
+                        : ZodiacSign.UNKNOWN));
 
         if (zodiac == null || zodiac == ZodiacSign.UNKNOWN) {
             return Result.failure(new Error("ZODIAC_REQUIRED", "Please select your zodiac sign or set your birth date to enhance reading accuracy."));
         }
 
-        if (profile.getZodiacSign() == null || profile.getZodiacSign() == ZodiacSign.UNKNOWN) {
+        if (profile.getZodiacSign() == null || profile.getZodiacSign() == ZodiacSign.UNKNOWN || (user.dateOfBirth() != null && profile.getZodiacSign() != zodiac)) {
             profile.updatePreferences(zodiac, profile.getFavoriteDeckId(), profile.getRelationshipStatus());
             profileRepository.save(profile);
         }
@@ -89,9 +100,9 @@ public class CreateReadingHandler {
         }
 
         // 3. Kiểm tra và trừ Hạn mức lượt bói (UserQuota)
-        UserQuota quota = quotaRepository.findByUserId(user.getId()).orElse(null);
+        UserQuota quota = quotaRepository.findByUserId(user.userId()).orElse(null);
         if (quota == null) {
-            quota = UserQuota.createDefault(user.getId());
+            quota = UserQuota.createDefault(user.userId());
         } else {
             quota.checkAndResetDailyQuota(today);
         }
@@ -112,9 +123,9 @@ public class CreateReadingHandler {
         quota.consumeReading(today, command.spreadType());
 
         // 4. Ghi nhận chuỗi bốc bài hàng ngày (UserStreak)
-        UserStreak streak = streakRepository.findByUserId(user.getId()).orElse(null);
+        UserStreak streak = streakRepository.findByUserId(user.userId()).orElse(null);
         if (streak == null) {
-            streak = UserStreak.createDefault(user.getId());
+            streak = UserStreak.createDefault(user.userId());
         }
         int bonusAwarded = streak.recordDailyStreak(today);
         streakRepository.save(streak);
@@ -136,7 +147,7 @@ public class CreateReadingHandler {
         }
 
         // 4. Domain Logic: Create Aggregate Root & Draw Cards
-        Reading reading = Reading.create(user.getId(), command.userQuestion(), null, command.spreadType(), deckCode);
+        Reading reading = Reading.create(user.userId(), command.userQuestion(), null, command.spreadType(), deckCode);
 
         if (command.selectedCardIds() != null && !command.selectedCardIds().isEmpty()) {
             // Lấy đúng các lá bài mà người dùng đã tự tay bốc từ giao diện

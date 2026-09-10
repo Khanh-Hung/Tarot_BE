@@ -1,11 +1,11 @@
 package tarot.infrastructure.ai.prompts;
 
 import org.springframework.stereotype.Component;
+import tarot.application.dto.AccountUserDto;
 import tarot.application.features.profile.dtos.BirthCardDto;
 import tarot.domain.common.TarotBirthCardCalculator;
 import tarot.domain.entities.core.Card;
 import tarot.domain.entities.core.DrawnCard;
-import tarot.domain.entities.identity.User;
 import tarot.domain.enums.DeckCode;
 import tarot.domain.enums.Gender;
 import tarot.domain.enums.RelationshipStatus;
@@ -114,7 +114,7 @@ public class InitialReadingPromptBuilder {
             """;
     }
 
-    private String resolveCleanName(User user) {
+    private String resolveCleanName(AccountUserDto user) {
         if (user == null) return "bạn";
         String name = user.getDisplayName();
         if (name == null || name.isBlank()) {
@@ -131,7 +131,7 @@ public class InitialReadingPromptBuilder {
     }
 
     public String buildUserPrompt(
-            User user,
+            AccountUserDto user,
             ZodiacSign zodiacSign,
             RelationshipStatus relationshipStatus,
             String userQuestion,
